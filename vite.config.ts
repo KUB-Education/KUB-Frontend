@@ -4,12 +4,16 @@ import react from '@vitejs/plugin-react';
 // @ts-expect-error
 import eslint from 'vite-plugin-eslint';
 import svgrPlugin from 'vite-plugin-svgr';
+import viteTsconfigPaths from 'vite-tsconfig-paths';
+import checker from 'vite-plugin-checker';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+    checker({ typescript: true }),
     eslint(),
+    viteTsconfigPaths(),
     svgrPlugin({
       svgrOptions: {
         prettier: false,
