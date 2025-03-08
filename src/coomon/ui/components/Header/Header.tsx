@@ -1,15 +1,19 @@
-import { Root } from './styled.ts';
+import { AppBar } from './styled.ts';
 import Logo from '../Logo';
 
 export type HeaderProps = {
   className?: string;
+  children?: React.ReactNode;
+  prepend?: React.ReactNode;
 };
 
-const Header = ({ className }: HeaderProps) => {
+const Header = ({ className, children, prepend }: HeaderProps) => {
   return (
-    <Root className={className}>
+    <AppBar position="fixed" className={className}>
+      {prepend}
       <Logo />
-    </Root>
+      {children}
+    </AppBar>
   );
 };
 

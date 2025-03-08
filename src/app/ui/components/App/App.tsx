@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router';
-import { QueryProvider } from '../../coomon/queries/ui';
+import { QueryProvider } from '../../../../coomon/queries/ui';
 import Main from '../Main';
 
 const theme = createTheme();

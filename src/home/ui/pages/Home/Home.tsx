@@ -1,8 +1,10 @@
+import { Root } from './styles';
+
 const Home = () => {
   return (
-    <div>
+    <Root>
       <p>Home page</p>
-    </div>
+    </Root>
   );
 };
 
