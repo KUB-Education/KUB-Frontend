@@ -47,11 +47,6 @@ export default [
           argsIgnorePattern: '^_',
         },
       ],
-      'import/no-unresolved': [
-        'error',
-        { ignore: ['\\.svg\\?react$'], caseSensitive: true },
-      ],
-
       'react/react-in-jsx-scope': 'off',
     },
   },

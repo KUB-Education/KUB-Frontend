@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles';
 import UserAvatar from '../../../../app/ui/components/UserAvatar';
 import IconButton from '@mui/material/IconButton';
+import { Menu as MuiMenu, MenuItem as MuiMenuItem } from '@mui/material';
 
 export const Root = styled('div')({
   display: 'flex',
@@ -21,4 +22,39 @@ export const Avatar = styled(UserAvatar)({
 export const SettingButton = styled(IconButton)({
   color: '#050315',
   marginLeft: 10,
+});
+
+export const Menu = styled(MuiMenu)({
+  '& .MuiMenu-paper': {
+    borderRadius: '15px',
+    background: '#D1E8FF',
+    marginTop: '10px',
+    boxShadow: 'none',
+  },
+  '& .MuiMenu-list': {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+});
+
+export const MenuItem = styled(MuiMenuItem)({
+  display: 'flex',
+  alignItems: 'center',
+  color: '#001D36',
+  fontSize: '14px',
+  fontWeight: 500,
+  lineHeight: '20px',
+  height: '40px',
+});
+
+export const LogoutMenuItem = styled(MenuItem)({
+  justifyContent: 'flex-end',
+});
+
+export const MenuItemIcon = styled('div')({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  marginRight: 8,
 });
