@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import avatar from '../../../../coomon/assets/images/user_avatar.png';
+import avatar from '@/common/assets/images/user_avatar.png';
 
 export type UserAvatarProps = Omit<
   HTMLAttributes<HTMLImageElement>,

@@ -1,16 +1,15 @@
 import React from 'react';
-/* eslint-disable import/no-unresolved */
-import HomeIcon from '../../../assets/icons/home.svg?react';
-import StudentIcon from '../../../assets/icons/student.svg?react';
-import StudentGroupIcon from '../../../assets/icons/student_group.svg?react';
-import LecturesIcon from '../../../assets/icons/lecturer.svg?react';
-import SubjectsIcon from '../../../assets/icons/subject.svg?react';
-import AudiencesIcon from '../../../assets/icons/audience.svg?react';
-import EducationalProgramsIcon from '../../../assets/icons/educational_program.svg?react';
-import DepartmentsIcon from '../../../assets/icons/department.svg?react';
-import EducationalCoursesIcon from '../../../assets/icons/educational_course.svg?react';
-import TimetablesIcon from '../../../assets/icons/timetable.svg?react';
-import HelpIcon from '../../../assets/icons/help.svg?react';
+import HomeIcon from '@/common/assets/icons/home.svg?react';
+import StudentIcon from '@/common/assets/icons/student.svg?react';
+import StudentGroupIcon from '@/common/assets/icons/student_group.svg?react';
+import LecturesIcon from '@/common/assets/icons/lecturer.svg?react';
+import SubjectsIcon from '@/common/assets/icons/subject.svg?react';
+import AudiencesIcon from '@/common/assets/icons/audience.svg?react';
+import EducationalProgramsIcon from '@/common/assets/icons/educational_program.svg?react';
+import DepartmentsIcon from '@/common/assets/icons/department.svg?react';
+import EducationalCoursesIcon from '@/common/assets/icons/educational_course.svg?react';
+import TimetablesIcon from '@/common/assets/icons/timetable.svg?react';
+import HelpIcon from '@/common/assets/icons/help.svg?react';
 import {
   Content,
   Root,
@@ -22,7 +21,7 @@ import {
   HelpListItem,
 } from './styles';
 import { NavLink } from 'react-router';
-import { APP_ROUTES } from '../../../routes.ts';
+import { APP_ROUTES } from '@/common/routes.ts';
 
 const links = [
   {

@@ -1,7 +1,6 @@
-import React from 'react';
-// eslint-disable-next-line import/no-unresolved
-import MenuIcon from 'src/coomon/assets/icons/menu.svg?react';
-import Drawer from '../../../../coomon/ui/components/Drawer';
+import { useState } from 'react';
+import MenuIcon from '@/common/assets/icons/menu.svg?react';
+import Drawer from '@/common/ui/components/Drawer';
 import {
   Content,
   Root,
@@ -14,7 +13,7 @@ import {
 import { Outlet } from 'react-router';
 
 const AuthorizedLayout = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = () => {
     setOpen((val) => !val);

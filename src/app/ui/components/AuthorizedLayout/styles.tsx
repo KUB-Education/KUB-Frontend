@@ -1,8 +1,8 @@
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import CommonHeader from '../../../../coomon/ui/components/Header';
-import CommonHeaderToolbar from '../../../../coomon/ui/components/HeaderToolbar';
+import CommonHeader from '@/common/ui/components/Header';
+import CommonHeaderToolbar from '@/common/ui/components/HeaderToolbar';
 
 export const Root = styled(Box)({
   display: 'flex',

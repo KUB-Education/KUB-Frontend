@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router';
 import { Home } from '../../../../home/ui/pages';
 import AuthorizedLayout from '../AuthorizedLayout';
-import { APP_ROUTES } from '../../../../coomon/routes.ts';
+import { APP_ROUTES } from '@/common/routes.ts';
 import { Students } from '../../../../students/ui/pages';
 import { StudentGroups } from '../../../../student-groups/ui/pages';
 import { Lectures } from '../../../../lectures/ui/pages';

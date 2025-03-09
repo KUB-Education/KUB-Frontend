@@ -1,6 +1,4 @@
-// TODO update
-// eslint-disable-next-line import/no-unresolved
-import logo from 'src/coomon/assets/logo.svg';
+import logo from '@/common/assets/logo.svg';
 import { HTMLAttributes } from 'react';
 import { APP_ROUTES } from '../../../routes.ts';
 import { Link } from './styles.tsx';

@@ -1,6 +1,5 @@
 import { Root, UserName, Avatar, SettingButton } from './styles';
-// eslint-disable-next-line import/no-unresolved
-import SettingsIcon from '../../../assets/icons/settings.svg?react';
+import SettingsIcon from '@/common/assets/icons/settings.svg?react';
 
 export type HeaderToolbarProps = {
   className?: string;
