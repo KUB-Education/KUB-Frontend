@@ -10,4 +10,6 @@ export const APP_ROUTES = Object.freeze({
   EDUCATIONAL_COURSES: '/educational-courses',
   TIMETABLES: '/timetables',
   HELP: '/help',
+  LOGIN: '/login',
+  FORGOT_PASSWORD: '/forgot-password',
 });

@@ -1,0 +1,23 @@
+import { styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import CommonHeader from '@/common/ui/components/Header';
+
+export const Root = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
+  minHeight: '100vh',
+});
+
+export const Content = styled('main')({
+  flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const Header = styled(CommonHeader)({
+  padding: '20px',
+  height: '120px',
+  borderBottom: 'none',
+  backgroundColor: 'transparent',
+});

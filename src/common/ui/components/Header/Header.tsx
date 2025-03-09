@@ -1,17 +1,24 @@
 import { AppBar } from './styled.ts';
-import Logo from '../Logo';
+import Logo, { LogoProps } from '../Logo';
+import { ReactNode } from 'react';
 
-export type HeaderProps = {
-  className?: string;
-  children?: React.ReactNode;
-  prepend?: React.ReactNode;
-};
+export type HeaderProps = Partial<{
+  className: string;
+  children: ReactNode;
+  prepend: ReactNode;
+  logoProps: LogoProps;
+}>;
 
-const Header = ({ className, children, prepend }: HeaderProps) => {
+const Header = ({
+  className,
+  children,
+  prepend,
+  logoProps = {},
+}: HeaderProps) => {
   return (
     <AppBar position="fixed" className={className}>
       {prepend}
-      <Logo />
+      <Logo {...logoProps} />
       {children}
     </AppBar>
   );
