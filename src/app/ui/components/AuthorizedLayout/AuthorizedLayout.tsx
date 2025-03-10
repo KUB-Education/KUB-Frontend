@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MenuIcon from '@/common/assets/icons/menu.svg?react';
-import Drawer from '@/common/ui/components/Drawer';
+import { Drawer } from '@/common/ui/components';
 import {
   Content,
   Root,

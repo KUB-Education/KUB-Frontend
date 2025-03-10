@@ -1,19 +1,30 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router';
-import { QueryProvider } from '@/common/queries/ui';
 import Main from '../Main';
+import { useApp } from '@/app/hooks';
+import {
+  ConfigProvider,
+  QueryProvider,
+  ServicesProvider,
+} from '@/common/contexts';
 
 const theme = createTheme();
 
 function App() {
+  const { appServices, config } = useApp();
+
   return (
-    <QueryProvider>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Main />
-        </BrowserRouter>
-      </ThemeProvider>
-    </QueryProvider>
+    <ConfigProvider config={config}>
+      <ServicesProvider services={appServices}>
+        <QueryProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <Main />
+            </BrowserRouter>
+          </ThemeProvider>
+        </QueryProvider>
+      </ServicesProvider>
+    </ConfigProvider>
   );
 }
 

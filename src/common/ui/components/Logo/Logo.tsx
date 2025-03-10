@@ -1,9 +1,9 @@
 import logo from '@/common/assets/logo.svg';
-import { HTMLAttributes } from 'react';
+import { ImgHTMLAttributes } from 'react';
 import { APP_ROUTES } from '../../../routes.ts';
 import { Link } from './styles.tsx';
 
-export type LogoProps = HTMLAttributes<HTMLImageElement>;
+export type LogoProps = ImgHTMLAttributes<HTMLImageElement>;
 
 const Logo = (props: LogoProps) => {
   return (
