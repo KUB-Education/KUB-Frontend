@@ -3,10 +3,10 @@ import { LoginParams } from '@/auth/entities';
 import { useAppServices } from '@/app/hooks';
 import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
 
-type UseLoginParams = {
+type UseLoginParams = Partial<{
   onSuccess?: () => void;
   onError?: () => void;
-};
+}>;
 
 export function useLogin({ onSuccess, onError }: UseLoginParams = {}) {
   const { authService } = useAppServices();

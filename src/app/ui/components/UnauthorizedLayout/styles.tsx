@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
-import CommonHeader from '@/common/ui/components/Header';
+import { Header as CommonHeader } from '@/common/ui/components';
 
 export const Root = styled(Box)({
   display: 'flex',

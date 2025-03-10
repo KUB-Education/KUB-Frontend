@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
-import UserAvatar from '../../../../app/ui/components/UserAvatar';
 import IconButton from '@mui/material/IconButton';
 import { Menu as MuiMenu, MenuItem as MuiMenuItem } from '@mui/material';
+import UserAvatar from '../UserAvatar';
 
 export const Root = styled('div')({
   display: 'flex',

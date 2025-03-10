@@ -1,4 +1,4 @@
-import Modal from '@/common/ui/components/Modal';
+import { Modal } from '@/common/ui/components';
 import {
   Actions,
   Content,

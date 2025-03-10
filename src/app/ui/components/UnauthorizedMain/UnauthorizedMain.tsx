@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { ForgotPassword, Login } from '@/auth/ui/pages';
-import UnauthorizedLayout from '@/app/ui/components/UnauthorizedLayout';
+import UnauthorizedLayout from '../UnauthorizedLayout';
 
 const UnauthorizedMain = () => {
   return (

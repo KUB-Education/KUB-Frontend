@@ -12,7 +12,7 @@ import { InputLabel, OutlinedInput } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import ErrorModal from '@/auth/ui/components/ErrorModal';
+import { ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
 
 type Inputs = {
