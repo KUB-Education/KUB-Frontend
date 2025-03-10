@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginParams } from '@/auth/entities';
 import { useAppServices } from '@/app/hooks';
+import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
 
 type UseLoginParams = {
   onSuccess?: () => void;
@@ -10,6 +11,8 @@ type UseLoginParams = {
 export function useLogin({ onSuccess, onError }: UseLoginParams = {}) {
   const { authService } = useAppServices();
 
+  const queryClient = useQueryClient();
+
   const { mutate: login, ...otherProps } = useMutation<
     void,
     Error,
@@ -18,8 +21,14 @@ export function useLogin({ onSuccess, onError }: UseLoginParams = {}) {
     mutationFn: async (params) => {
       await authService.login(params);
     },
-    onSuccess,
-    onError,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [isAuthorizedQueryKey] });
+
+      if (onSuccess) onSuccess();
+    },
+    onError: () => {
+      if (onError) onError();
+    },
   });
 
   return {
