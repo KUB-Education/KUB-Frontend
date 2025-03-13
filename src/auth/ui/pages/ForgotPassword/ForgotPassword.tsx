@@ -14,6 +14,7 @@ import { InfoModal } from '@/auth/ui/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { APP_ROUTES } from '@/common/routes';
+import { EMAIL_REGEX } from '@/common/utils/email';
 
 type Inputs = {
   email: string;
@@ -49,7 +50,7 @@ const ForgotPassword = () => {
               {...register('email', 
                 { required: true,
                   pattern: {
-                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    value: EMAIL_REGEX,
                     message: "Please enter a valid email address"
                   },
                 },
@@ -82,7 +83,7 @@ const ForgotPassword = () => {
         </Form>
       </Content>
       <InfoModal
-        title={'Password recovery'}
+        title='Password recovery'
         open={isHelpModalVisible}
         onClose={() => setIsHelpModalVisible(false)}
         onContinue={() => setIsHelpModalVisible(false)}
@@ -90,7 +91,7 @@ const ForgotPassword = () => {
         To reset your password, enter the email address you wish to check. If an account is associated with the provided email, a temporary password will be sent.
       </InfoModal>
       <InfoModal
-        title={'Password recovery completed'}
+        title='Password recovery completed'
         open={isRecoveryCompletedModalVisible}
         onClose={() => navigate(APP_ROUTES.LOGIN)}
         onContinue={() => navigate(APP_ROUTES.LOGIN)}

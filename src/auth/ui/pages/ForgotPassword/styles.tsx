@@ -51,7 +51,7 @@ export const Button = styled(MuiButton)({
   marginRight: 12,
 });
 
-export const NeedHelp = styled('a')({
+export const NeedHelp = styled('span')({
   color: '#3BB3FF',
   lineHeight: '20px',
   fontSize: '14px',
