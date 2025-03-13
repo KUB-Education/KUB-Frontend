@@ -47,7 +47,7 @@ const Login = () => {
             </InputLabel>
             <OutlinedInput
               notched
-              label="Emal"
+              label="Email"
               {...register('email', { required: true })}
             />
           </FormControl>
