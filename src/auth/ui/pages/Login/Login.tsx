@@ -8,12 +8,13 @@ import {
   Button,
   Link,
 } from './styles';
-import { InputLabel, OutlinedInput } from '@mui/material';
+import { FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
+import { EMAIL_REGEX } from '@/common/utils/email.ts';
 
 type Inputs = {
   email: string;
@@ -22,7 +23,9 @@ type Inputs = {
 
 const Login = () => {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const { register, handleSubmit, formState } = useForm<Inputs>();
+  const { register, handleSubmit, formState } = useForm<Inputs>({
+    mode: 'onChange',
+  });
 
   const onLoginFailed = () => {
     setIsErrorModalVisible(true);
@@ -34,22 +37,34 @@ const Login = () => {
     login(data);
   };
 
-  const { isValid } = formState;
+  const { isValid, errors, touchedFields } = formState;
+
+  const emailError =
+    errors.email && touchedFields.email ? errors.email.message : '';
 
   return (
     <Root>
       <Content>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Title>Login</Title>
-          <FormControl>
+          <FormControl error={!!emailError}>
             <InputLabel shrink htmlFor="email">
               Email
             </InputLabel>
             <OutlinedInput
               notched
+              autoComplete="off"
               label="Email"
-              {...register('email', { required: true })}
+              type="email"
+              {...register('email', {
+                required: true,
+                pattern: {
+                  value: EMAIL_REGEX,
+                  message: 'Please enter a valid email address',
+                },
+              })}
             />
+            {emailError && <FormHelperText>{emailError}</FormHelperText>}
           </FormControl>
           <FormControl>
             <InputLabel shrink htmlFor="password">
@@ -59,6 +74,7 @@ const Login = () => {
               notched
               id="password"
               label="Password"
+              type="password"
               {...register('password', { required: true })}
             />
           </FormControl>
