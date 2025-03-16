@@ -6,7 +6,7 @@ export const Root = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
-  minHeight: '100vh',
+  height: '100vh',
 });
 
 export const Content = styled('main')({

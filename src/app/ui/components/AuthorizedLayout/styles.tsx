@@ -1,18 +1,20 @@
 import { styled } from '@mui/material';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import {
   Header as CommonHeader,
   HeaderToolbar as CommonHeaderToolbar,
 } from '@/common/ui/components';
 
-export const Root = styled(Box)({
+export const Root = styled('div')({
   display: 'flex',
   paddingTop: 85,
+  height: '100vh',
 });
 
 export const Content = styled('main')({
   flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
 });
 
 export const MenuButton = styled(IconButton, {
@@ -35,7 +37,7 @@ export const HeaderContent = styled('div')({
 export const HeaderLabel = styled('h3')({
   fontSize: 24,
   fontWeight: 400,
-  lineHeight: 40,
+  lineHeight: '40px',
 });
 
 export const HeaderToolbar = styled(CommonHeaderToolbar)({

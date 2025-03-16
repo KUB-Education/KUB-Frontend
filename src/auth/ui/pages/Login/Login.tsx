@@ -8,12 +8,17 @@ import {
   Button,
   Link,
 } from './styles';
-import { InputLabel, OutlinedInput } from '@mui/material';
+import { FormHelperText, InputLabel } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
+import { FormTextField } from '@/common/ui/components';
+import {
+  emailValidator,
+  requiredValidator,
+} from '@/common/utils/validators.ts';
 
 type Inputs = {
   email: string;
@@ -22,7 +27,9 @@ type Inputs = {
 
 const Login = () => {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const { register, handleSubmit, formState } = useForm<Inputs>();
+  const { register, handleSubmit, formState } = useForm<Inputs>({
+    mode: 'onChange',
+  });
 
   const onLoginFailed = () => {
     setIsErrorModalVisible(true);
@@ -34,32 +41,39 @@ const Login = () => {
     login(data);
   };
 
-  const { isValid } = formState;
+  const { isValid, errors, touchedFields } = formState;
+
+  const emailError =
+    errors.email && touchedFields.email ? errors.email.message : '';
 
   return (
     <Root>
       <Content>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Title>Login</Title>
-          <FormControl>
+          <FormControl error={!!emailError}>
             <InputLabel shrink htmlFor="email">
               Email
             </InputLabel>
-            <OutlinedInput
-              notched
+            <FormTextField
               label="Email"
-              {...register('email', { required: true })}
+              type="email"
+              {...register('email', {
+                ...requiredValidator(),
+                ...emailValidator(),
+              })}
             />
+            {emailError && <FormHelperText>{emailError}</FormHelperText>}
           </FormControl>
           <FormControl>
             <InputLabel shrink htmlFor="password">
               Password
             </InputLabel>
-            <OutlinedInput
-              notched
+            <FormTextField
               id="password"
               label="Password"
-              {...register('password', { required: true })}
+              type="password"
+              {...register('password', { ...requiredValidator() })}
             />
           </FormControl>
           <Actions>

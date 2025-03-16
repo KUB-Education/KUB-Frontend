@@ -13,7 +13,7 @@ import {
 import { Outlet } from 'react-router';
 
 const AuthorizedLayout = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const toggleDrawer = () => {
     setOpen((val) => !val);

@@ -20,7 +20,7 @@ export const Content = styled('div')({
 });
 
 export const Form = styled('form')({
-  padding: '22px 20px',
+  padding: '32px  40px',
 });
 
 export const Title = styled('h1')({
