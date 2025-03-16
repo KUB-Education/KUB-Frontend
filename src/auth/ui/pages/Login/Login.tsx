@@ -8,13 +8,17 @@ import {
   Button,
   Link,
 } from './styles';
-import { FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
+import { FormHelperText, InputLabel } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
-import { EMAIL_REGEX } from '@/common/utils/email.ts';
+import { FormTextField } from '@/common/ui/components';
+import {
+  emailValidator,
+  requiredValidator,
+} from '@/common/utils/validators.ts';
 
 type Inputs = {
   email: string;
@@ -51,17 +55,12 @@ const Login = () => {
             <InputLabel shrink htmlFor="email">
               Email
             </InputLabel>
-            <OutlinedInput
-              notched
-              autoComplete="off"
+            <FormTextField
               label="Email"
               type="email"
               {...register('email', {
-                required: true,
-                pattern: {
-                  value: EMAIL_REGEX,
-                  message: 'Please enter a valid email address',
-                },
+                ...requiredValidator(),
+                ...emailValidator(),
               })}
             />
             {emailError && <FormHelperText>{emailError}</FormHelperText>}
@@ -70,12 +69,11 @@ const Login = () => {
             <InputLabel shrink htmlFor="password">
               Password
             </InputLabel>
-            <OutlinedInput
-              notched
+            <FormTextField
               id="password"
               label="Password"
               type="password"
-              {...register('password', { required: true })}
+              {...register('password', { ...requiredValidator() })}
             />
           </FormControl>
           <Actions>

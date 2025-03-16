@@ -2,7 +2,7 @@ export const APP_ROUTES = Object.freeze({
   HOME: '/home',
   STUDENTS: '/students',
   STUDENT_GROUPS: '/student-groups',
-  LECTURES: '/lectures',
+  LECTURERS: '/lecturers',
   SUBJECTS: '/subjects',
   ROOMS: '/rooms',
   EDUCATIONAL_PROGRAMS: '/educational-programs',

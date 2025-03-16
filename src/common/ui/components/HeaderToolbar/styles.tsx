@@ -12,7 +12,7 @@ export const UserName = styled('h5')({
   color: '#050315',
   fontSize: 16,
   fontWeight: 400,
-  lineHeight: 40,
+  lineHeight: '40px',
 });
 
 export const Avatar = styled(UserAvatar)({
