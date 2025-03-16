@@ -20,8 +20,8 @@ export default [
       'plugin:react-hooks/recommended',
       'plugin:import/recommended',
       'plugin:jsx-a11y/recommended',
-      'plugin:@typescript-eslint/recommended',
       'eslint-config-prettier',
+      'plugin:@typescript-eslint/recommended',
     ),
   ),
   {
@@ -38,15 +38,6 @@ export default [
     },
 
     rules: {
-      'no-unused-vars': [
-        'error',
-        {
-          vars: 'all',
-          args: 'after-used',
-          ignoreRestSiblings: true,
-          argsIgnorePattern: '^_',
-        },
-      ],
       'react/react-in-jsx-scope': 'off',
     },
   },

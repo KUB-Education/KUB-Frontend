@@ -20,13 +20,14 @@ export const Content = styled('div')({
 });
 
 export const Form = styled('form')({
-  padding: '22px 20px',
+  padding: '32px  40px',
 });
 
 export const Title = styled('h1')({
   color: '#001D36',
   fontWeight: 400,
   lineHeight: '32px',
+  fontSize: '24px',
   marginBottom: '18px',
 });
 

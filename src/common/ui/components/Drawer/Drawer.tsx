@@ -40,9 +40,9 @@ const links = [
     text: 'Student Groups',
   },
   {
-    to: APP_ROUTES.LECTURES,
+    to: APP_ROUTES.LECTURERS,
     icon: LecturesIcon,
-    text: 'Lectures',
+    text: 'Lecturers',
   },
   {
     to: APP_ROUTES.SUBJECTS,
