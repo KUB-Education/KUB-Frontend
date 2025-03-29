@@ -1,4 +1,33 @@
 body, html {
   height: 100%;
   width: 100%;
+  font-family: 'E-Ukraine', Roboto, sans-serif !important;
 }
+
+@font-face {
+  font-family: 'E-Ukraine';
+  src: url('/fonts/e-ukraine/e-ukraine-regular.woff2') format('woff2'),
+  url('/fonts/e-ukraine/e-ukraine-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'E-Ukraine';
+  src: url('/fonts/e-ukraine/e-ukraine-medium.woff2') format('woff2'),
+  url('/fonts/e-ukraine/e-ukraine-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'E-Ukraine';
+  src: url('/fonts/e-ukraine/e-ukraine-bold.woff2') format('woff2'),
+  url('/fonts/e-ukraine/e-ukraine-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+

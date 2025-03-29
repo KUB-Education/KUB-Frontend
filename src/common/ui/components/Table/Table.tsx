@@ -27,6 +27,7 @@ export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   spacing: 5,
   wrapperBorder: false,
   wrapperBorderRadius: 0,
+  fontFamily: ['E-Ukraine', 'sans-serif'],
 });
 
 export type TableProps = AgGridReactProps;
