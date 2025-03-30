@@ -16,17 +16,18 @@ export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   borderColor: '#8C8C96',
   borderRadius: 6,
   browserColorScheme: 'light',
-  fontSize: 12,
+  fontSize: '0.85rem',
   footerRowBorder: false,
   foregroundColor: '#050315',
   headerBackgroundColor: '#E9E9ED',
-  headerFontSize: 14,
+  headerFontSize: '0.9rem',
   headerRowBorder: true,
   oddRowBackgroundColor: '#D1E8FF',
   rowBorder: true,
   spacing: 5,
   wrapperBorder: false,
   wrapperBorderRadius: 0,
+  fontFamily: ['E-Ukraine', 'sans-serif'],
 });
 
 export type TableProps = AgGridReactProps;

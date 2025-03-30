@@ -4,26 +4,52 @@ import {
   BackButton,
   FormTextField,
 } from '@/common/ui/components';
-import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
-import { useForm } from 'react-hook-form';
-import { AddLecturerParams } from '@/lecturers/entities';
-import { InputLabel } from '@mui/material';
+import {
+  Content,
+  Title,
+  Actions,
+  Form,
+  FormControl,
+  Col,
+  Row,
+} from './styles.tsx';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  academicTitles,
+  AddLecturerParams,
+  lecturerPositions,
+  lecturerStatuses,
+} from '@/lecturers/entities';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import {
   emailValidator,
   requiredValidator,
 } from '@/common/utils/validators.ts';
 import { useAddLecturer } from '@/lecturers/hooks';
+import { Department } from '@/departments/entities';
+import {
+  AcademicTitle,
+  LecturerPosition,
+  LecturerStatus,
+} from '@/lecturers/ui/components';
 
 export type AddLecturerModalProps = {
   open: boolean;
+  // TODO wait departments loading
+  departments: Department[];
   onClose: () => void;
 };
 
-const AddLecturerModal = ({ open, onClose }: AddLecturerModalProps) => {
+const AddLecturerModal = ({
+  open,
+  departments,
+  onClose,
+}: AddLecturerModalProps) => {
   const { addLecturer, isPending } = useAddLecturer({ onSuccess: onClose });
-  const { register, handleSubmit, formState } = useForm<AddLecturerParams>({
-    mode: 'onChange',
-  });
+  const { register, handleSubmit, formState, control } =
+    useForm<AddLecturerParams>({
+      mode: 'onChange',
+    });
 
   const onSubmit = async (values: AddLecturerParams) => {
     return addLecturer(values);
@@ -36,82 +62,146 @@ const AddLecturerModal = ({ open, onClose }: AddLecturerModalProps) => {
       <Content>
         <Title>Add new lecturer</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl>
-            <InputLabel shrink htmlFor="lastName">
-              Last Name
-            </InputLabel>
-            <FormTextField
-              label="lastName"
-              {...register('lastName', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="firstName">
-              First Name
-            </InputLabel>
-            <FormTextField
-              label="firstName"
-              {...register('firstName', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="middleName">
-              Middle Name
-            </InputLabel>
-            <FormTextField
-              label="middleName"
-              {...register('middleName', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="email">
-              Email
-            </InputLabel>
-            <FormTextField
-              label="Email"
-              type="email"
-              {...register('email', {
-                ...requiredValidator(),
-                ...emailValidator(),
-              })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="department">
-              Department
-            </InputLabel>
-            <FormTextField
-              label="department"
-              {...register('department', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="academicTitle">
-              Academic title
-            </InputLabel>
-            <FormTextField
-              label="academicTitle"
-              {...register('academicTitle', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="position">
-              Position
-            </InputLabel>
-            <FormTextField
-              label="position"
-              {...register('position', { ...requiredValidator() })}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel shrink htmlFor="status">
-              Status
-            </InputLabel>
-            <FormTextField
-              label="status"
-              {...register('status', { ...requiredValidator() })}
-            />
-          </FormControl>
+          <Row>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="lastName">
+                  Last Name
+                </InputLabel>
+                <FormTextField
+                  label="lastName"
+                  {...register('lastName', { ...requiredValidator() })}
+                />
+              </FormControl>
+            </Col>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="departmentId">
+                  Department
+                </InputLabel>
+                <Controller
+                  name="departmentId"
+                  control={control}
+                  rules={{ ...requiredValidator() }}
+                  render={({ field }) => (
+                    <Select notched label="departmentId" {...field}>
+                      {departments.map((department) => (
+                        <MenuItem key={department.id} value={department.id}>
+                          {department.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="firstName">
+                  First Name
+                </InputLabel>
+                <FormTextField
+                  label="firstName"
+                  {...register('firstName', { ...requiredValidator() })}
+                />
+              </FormControl>
+            </Col>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="academicTitle">
+                  Academic title
+                </InputLabel>
+                <Controller
+                  name="academicTitle"
+                  control={control}
+                  rules={{ ...requiredValidator() }}
+                  render={({ field }) => (
+                    <Select notched label="academicTitle" {...field}>
+                      {academicTitles.map((title) => (
+                        <MenuItem key={title} value={title}>
+                          <AcademicTitle value={title} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="middleName">
+                  Middle Name
+                </InputLabel>
+                <FormTextField
+                  label="middleName"
+                  {...register('middleName', { ...requiredValidator() })}
+                />
+              </FormControl>
+            </Col>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="position">
+                  Position
+                </InputLabel>
+                <Controller
+                  name="position"
+                  control={control}
+                  rules={{ ...requiredValidator() }}
+                  render={({ field }) => (
+                    <Select notched label="position" {...field}>
+                      {lecturerPositions.map((title) => (
+                        <MenuItem key={title} value={title}>
+                          <LecturerPosition value={title} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="email">
+                  Email
+                </InputLabel>
+                <FormTextField
+                  label="Email"
+                  type="email"
+                  {...register('email', {
+                    ...requiredValidator(),
+                    ...emailValidator(),
+                  })}
+                />
+              </FormControl>
+            </Col>
+            <Col>
+              <FormControl>
+                <InputLabel shrink htmlFor="status">
+                  Status
+                </InputLabel>
+                <Controller
+                  name="status"
+                  control={control}
+                  rules={{ ...requiredValidator() }}
+                  render={({ field }) => (
+                    <Select notched label="status" {...field}>
+                      {lecturerStatuses.map((status) => (
+                        <MenuItem key={status} value={status}>
+                          <LecturerStatus value={status} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Col>
+          </Row>
           <Actions>
             <BackButton onClick={onClose} />
             <AddButton loading={isPending} disabled={!isValid} type="submit" />

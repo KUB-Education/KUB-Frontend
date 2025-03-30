@@ -4,7 +4,7 @@ import MuiListItemIcon from '@mui/material/ListItemIcon';
 import MuiDrawer from '@mui/material/Drawer';
 import type { CSSObject, Theme } from '@mui/material/styles';
 
-const drawerWidth = 240;
+const drawerWidth = 275;
 
 export const Content = styled('div')(({ theme }) => ({
   flexGrow: 1,
@@ -100,6 +100,6 @@ export const ListItemText = styled('span', {
   flex: '1 1 auto',
   minWidth: 0,
   lineHeight: '20px',
-  fontSize: 14,
+  fontSize: '1rem',
   color: '#050315',
 }));

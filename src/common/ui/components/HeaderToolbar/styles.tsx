@@ -10,7 +10,7 @@ export const Root = styled('div')({
 
 export const UserName = styled('h5')({
   color: '#050315',
-  fontSize: 16,
+  fontSize: '1rem',
   fontWeight: 400,
   lineHeight: '40px',
 });
@@ -41,7 +41,7 @@ export const MenuItem = styled(MuiMenuItem)({
   display: 'flex',
   alignItems: 'center',
   color: '#001D36',
-  fontSize: '14px',
+  fontSize: '0.875rem',
   fontWeight: 500,
   lineHeight: '20px',
   height: '40px',
