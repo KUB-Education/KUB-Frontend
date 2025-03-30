@@ -7,9 +7,11 @@ import {
 } from '@/lecturers/hooks';
 import { useMemo, useState } from 'react';
 import { AddLecturerModal, EditLecturerModal } from '@/lecturers/ui/components';
+import { useDepartmentsQuery } from '@/departments/hooks';
 
 const Lecturers = () => {
   const { lecturers } = useLecturersQuery();
+  const { departments } = useDepartmentsQuery();
   const { deleteLecturers } = useDeleteLecturers();
   const { resendLecturersInvites } = useResendLecturersInvites();
 
@@ -50,11 +52,13 @@ const Lecturers = () => {
 
       <AddLecturerModal
         open={isAddModalVisible}
+        departments={departments}
         onClose={() => setIsAddModalVisible(false)}
       />
       <EditLecturerModal
         open={isEditModalVisible}
         lecturer={selectedLecturers[0]}
+        departments={departments}
         onClose={() => setIsEditModalVisible(false)}
       />
     </Root>

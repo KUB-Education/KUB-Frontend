@@ -10,7 +10,7 @@ export const Content = styled('div')({
 
 export const Title = styled('h3')({
   color: '#050315',
-  fontSize: '24px',
+  fontSize: '1.5rem',
   fontWeight: 400,
   lineHeight: '32px',
   marginBottom: '16px',
@@ -29,6 +29,6 @@ export const ContinueButton = styled(Button)({
 
 export const DescriptionWrapper = styled('div')({
   color: '#49454F',
-  fontSize: '14px',
+  fontSize: '1rem',
   lineHeight: '20px',
 });

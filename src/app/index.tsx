@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import CssBaseline from '@mui/material/CssBaseline';
 import '@/common/assets/reset.scss';
+import './index.scss';
 import App from './ui/components/App';
 
 // Register all Community features

@@ -3,10 +3,10 @@ import { Button as MuiButton, styled } from '@mui/material';
 export const Button = styled(MuiButton)({
   textTransform: 'none',
   borderRadius: '100px',
-  border: '1px solid #79747E',
+  background: '#3BB3FF',
   fontWeight: 500,
   height: '40px',
-  color: '#79747E',
+  color: '#FFF',
   paddingLeft: '24px',
   paddingRight: '24px',
 });

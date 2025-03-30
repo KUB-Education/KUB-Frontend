@@ -1,6 +1,6 @@
 import { Button } from './styles';
 import { ButtonProps } from '@mui/material';
-import EditIcon from '@/common/assets/icons/edit.svg?react';
+import EditIcon from '@/common/assets/icons/edit-solid.svg?react';
 
 export type EditButtonProps = ButtonProps;
 
