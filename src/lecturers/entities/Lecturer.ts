@@ -1,3 +1,9 @@
+import { AcademicTitle } from './AcademicTitle.ts';
+import { LecturerPosition } from './LecturerPosition.ts';
+import { Department } from '@/departments/entities';
+import { UserStatus } from '@/users/entities';
+import { LecturerStatus } from './LecturerStatus.ts';
+
 export type LecturerId = number;
 
 export type Lecturer = {
@@ -6,9 +12,9 @@ export type Lecturer = {
   lastName: string;
   middleName: string;
   email: string;
-  userStatus: string;
-  department: string;
-  academicTitle: string;
-  position: string;
-  status: string;
+  userStatus: UserStatus;
+  department: Department;
+  academicTitle: AcademicTitle;
+  position: LecturerPosition;
+  status: LecturerStatus;
 };

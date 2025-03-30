@@ -1,45 +1,65 @@
 import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
 import {
+  academicTitles,
   AddLecturerParams,
   EditLecturerParams,
   Lecturer,
   LecturerId,
+  lecturerPositions,
+  lecturerStatuses,
 } from '@/lecturers/entities';
 import { delay, SECOND } from '@/common/utils';
+import { DepartmentsService } from '@/departments/services';
+import { Department } from '@/departments/entities';
+import { UserStatus, userStatuses } from '@/users/entities';
 
 export class LecturersService extends BaseService {
   private lecturers: Lecturer[] = [];
 
-  constructor() {
+  constructor(private readonly departmentsService: DepartmentsService) {
     super();
-
-    const array = new Array(5).fill(null);
-
-    this.lecturers = array.map(() => ({
-      id: faker.number.int(),
-      academicTitle: faker.person.jobType(),
-      department: faker.person.jobArea(),
-      email: faker.internet.email(),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      middleName: faker.person.middleName(),
-      position: faker.person.jobTitle(),
-      status: faker.string.sample(),
-      userStatus: faker.string.sample(),
-    }));
   }
 
   async getLecturers(): Promise<Lecturer[]> {
+    const array = new Array(5).fill(null);
+
+    if (this.lecturers.length) return this.lecturers;
+
+    this.lecturers = await Promise.all(
+      array.map(async () => ({
+        id: faker.number.int(),
+        academicTitle: faker.helpers.arrayElement(academicTitles),
+        department: (await this.departmentsService.getDepartment(
+          faker.number.int({ min: 0, max: 9 }),
+        )) as Department,
+        email: faker.internet.email(),
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        middleName: faker.person.middleName(),
+        position: faker.helpers.arrayElement(lecturerPositions),
+        status: faker.helpers.arrayElement(lecturerStatuses),
+        userStatus: faker.helpers.arrayElement(userStatuses),
+      })),
+    );
+
     return this.lecturers;
   }
 
   async addLecturer(params: AddLecturerParams) {
     await delay(5 * SECOND);
+
+    const department = await this.departmentsService.getDepartment(
+      params.departmentId,
+    );
+
+    if (!department) return;
+
     this.lecturers.push({
       ...params,
+      department,
       id: faker.number.int(),
-      userStatus: faker.string.sample(),
+      userStatus: faker.helpers.arrayElement(userStatuses),
     });
   }
 
@@ -54,7 +74,7 @@ export class LecturersService extends BaseService {
     await delay(2 * SECOND);
     this.lecturers = this.lecturers.map((lecturer) => {
       if (ids.includes(lecturer.id)) {
-        return { ...lecturer, userStatus: faker.string.sample() };
+        return { ...lecturer, userStatus: UserStatus.ACTIVATION_PENDING };
       }
 
       return lecturer;
@@ -63,10 +83,19 @@ export class LecturersService extends BaseService {
 
   async editLecturer(params: EditLecturerParams) {
     await delay(5 * SECOND);
+
+    const updatedDepartment = params.departmentId
+      ? await this.departmentsService.getDepartment(params.departmentId)
+      : null;
+
     this.lecturers = this.lecturers.map((lecturer) => {
       if (lecturer.id !== params.id) return lecturer;
 
-      return { ...lecturer, ...params };
+      return {
+        ...lecturer,
+        ...params,
+        department: updatedDepartment ? updatedDepartment : lecturer.department,
+      };
     });
   }
 }

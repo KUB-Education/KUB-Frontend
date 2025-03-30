@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router';
 import Main from '../Main';
 import { useApp } from '@/app/hooks';
@@ -7,8 +6,7 @@ import {
   QueryProvider,
   ServicesProvider,
 } from '@/common/contexts';
-
-const theme = createTheme();
+import { ThemeProvider } from '@/app/contexts';
 
 function App() {
   const { appServices, config } = useApp();
@@ -17,7 +15,7 @@ function App() {
     <ConfigProvider config={config}>
       <ServicesProvider services={appServices}>
         <QueryProvider>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider>
             <BrowserRouter>
               <Main />
             </BrowserRouter>
