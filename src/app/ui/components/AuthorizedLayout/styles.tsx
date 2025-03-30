@@ -35,7 +35,7 @@ export const HeaderContent = styled('div')({
 });
 
 export const HeaderLabel = styled('h3')({
-  fontSize: 24,
+  fontSize: '1.5rem',
   fontWeight: 400,
   lineHeight: '40px',
 });

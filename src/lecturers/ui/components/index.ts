@@ -1,3 +1,9 @@
+export { default as AcademicTitle } from './AcademicTitle';
+export * from './AcademicTitle';
+export { default as LecturerPosition } from './LecturerPosition';
+export * from './LecturerPosition';
+export { default as LecturerStatus } from './LecturerStatus';
+export * from './LecturerStatus';
 export { default as AddLecturerModal } from './AddLecturerModal';
 export * from './AddLecturerModal';
 export { default as EditLecturerModal } from './EditLecturerModal';

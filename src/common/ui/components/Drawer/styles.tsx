@@ -100,6 +100,6 @@ export const ListItemText = styled('span', {
   flex: '1 1 auto',
   minWidth: 0,
   lineHeight: '20px',
-  fontSize: 14,
+  fontSize: '1rem',
   color: '#050315',
 }));

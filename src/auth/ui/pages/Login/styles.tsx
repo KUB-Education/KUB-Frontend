@@ -27,7 +27,7 @@ export const Title = styled('h1')({
   color: '#001D36',
   fontWeight: 400,
   lineHeight: '32px',
-  fontSize: '24px',
+  fontSize: '1.5rem',
   marginBottom: '18px',
 });
 
@@ -54,5 +54,5 @@ export const Button = styled(MuiButton)({
 export const Link = styled(RouterLink)({
   color: '#3BB3FF',
   lineHeight: '20px',
-  fontSize: '14px',
+  fontSize: '1rem',
 });
