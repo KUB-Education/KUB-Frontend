@@ -12,7 +12,6 @@ const ResendButton = ({
     <Button
       variant="contained"
       startIcon={<ResendIcon width={18} height={18} />}
-      color="primary"
       {...otherProps}
     >
       {children}
