@@ -61,7 +61,7 @@ const EditRoomModal = ({
               type="number"
               {...register('capacity', { 
                 ...requiredValidator(), 
-                validate: (value) => value >= 1 || 'Capacity must be at least 1',
+                validate: (value) => Number(value) >= 1 ? true : 'Capacity must be at least 1',
                 setValueAs: (value) => Number(value)
               })}
             />
