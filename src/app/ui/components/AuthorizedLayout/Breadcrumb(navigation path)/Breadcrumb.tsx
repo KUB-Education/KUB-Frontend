@@ -12,13 +12,15 @@ const Breadcrumb = () => {
     '/subjects': 'Subjects',
     '/rooms': 'Rooms',
     '/educational-programs': 'Educational Programs',
+    '/educational-programs/subjects': 'Educational Programs    >   Subjects',
+    '/educational-program': 'Educational Programs    >   Subjects',
     '/departments': 'Departments',
     '/educational-courses': 'Educational Courses',
     '/timetables': 'Timetables',
     '/help': 'Help',
   };
   useEffect(() => {
-    const currentPath = location.pathname;
+    const currentPath = location.pathname.split('/').slice(0, 2).join('/');
     if (pathToKeyMap[currentPath]) {
       setBreadcrumbKey(pathToKeyMap[currentPath]);
     } else {
