@@ -17,7 +17,7 @@ const DepartmentsTable = ({
   const gridRef = useRef<AgGridReact<Department>>(null);
 
   const [colDefs] = useState<ColDef<Department>[]>([
-    { 
+    {
       headerName: '',
       checkboxSelection: true,
       headerCheckboxSelection: true,
@@ -27,8 +27,8 @@ const DepartmentsTable = ({
       suppressMovable: true,
       lockPosition: true,
     },
-    { field: 'id', headerName: 'ID',suppressSizeToFit: true, },
-    { field: 'name', headerName: 'Name',},
+    { field: 'id', headerName: 'ID', suppressSizeToFit: true },
+    { field: 'name', headerName: 'Name' },
   ]);
 
   const onSelectionChanged = useCallback(() => {
@@ -52,7 +52,6 @@ const DepartmentsTable = ({
         getRowId={getRowId}
         rowSelection="multiple"
         suppressRowClickSelection
-        suppressDragLeaveHidesColumns // Prevents columns from delete when dragging
       />
     </Root>
   );

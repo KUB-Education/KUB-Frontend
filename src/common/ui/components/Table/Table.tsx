@@ -67,6 +67,7 @@ const Table = forwardRef<AgGridReact, TableProps>((props: TableProps, ref) => {
       autoSizeStrategy={autoSizeStrategy}
       paginationPageSize={50}
       paginationPageSizeSelector={[50, 100, 200]}
+      suppressDragLeaveHidesColumns // Prevents columns from delete when dragging
       {...props}
     />
   );
