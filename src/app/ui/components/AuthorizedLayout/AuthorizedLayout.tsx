@@ -11,7 +11,7 @@ import {
   HeaderToolbar,
 } from './styles.tsx';
 import { Outlet } from 'react-router';
-import Breadcrumb from './Breadcrumb(navigation path)/Breadcrumb.tsx';
+import Breadcrumb from './Breadcrumb/Breadcrumb.tsx';
 
 const AuthorizedLayout = () => {
   const [open, setOpen] = useState(true);
