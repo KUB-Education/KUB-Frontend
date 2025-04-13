@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
-import EPToolbar from '@/educational-programs/ui/components/EPToolbar';
-import EPTable from '@/educational-programs/ui/components/EPTable';
+import EducationalProgramToolbar from '@/educational-programs/ui/components/EducationalProgramToolbar';
+import EducationalProgramTable from '@/educational-programs/ui/components/EducationalProgramTable';
 
 export const Root = styled('div')({
   flexGrow: 1,
@@ -9,8 +9,8 @@ export const Root = styled('div')({
   padding: '10px',
 });
 
-export const Toolbar = styled(EPToolbar)({
+export const Toolbar = styled(EducationalProgramToolbar)({
   marginBottom: '10px',
 });
 
-export const Table = styled(EPTable)({});
+export const Table = styled(EducationalProgramTable)({});

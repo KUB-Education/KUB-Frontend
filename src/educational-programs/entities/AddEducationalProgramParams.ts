@@ -1,4 +1,4 @@
-export type AddEPParams = {
+export type AddEducationalProgramParams = {
   studyField: {
     code: string;
     name: string;

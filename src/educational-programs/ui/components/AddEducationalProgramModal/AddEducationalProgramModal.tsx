@@ -1,41 +1,31 @@
 import {
   Modal,
+  AddButton,
   BackButton,
   FormTextField,
-  SaveButton,
 } from '@/common/ui/components';
-import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
+import { Content, Title, Actions, Form, FormControl, SubTitle } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { EditEPParams, EducationalProgram } from '@/educational-programs/entities';
+import { AddEducationalProgramParams } from '@/educational-programs/entities';
 import { InputLabel } from '@mui/material';
 import {
   requiredValidator,
 } from '@/common/utils/validators.ts';
-import { useEditEP } from '@/educational-programs/hooks';
-import { SubTitle } from '../AddEPModal/styles.tsx';
+import { useAddEducationalProgram } from '@/educational-programs/hooks';
 
-export type EditEPModalProps = {
+export type AddEducationalProgramModalProps = {
   open: boolean;
-  educationalProgram: EducationalProgram;
   onClose: () => void;
 };
 
-type Inputs = Omit<EditEPParams, 'id'>;
-
-const EditEPModal = ({
-  open,
-  onClose,
-  educationalProgram,
-}: EditEPModalProps) => {
-  const { editEducationalProgram, isPending } = useEditEP({ onSuccess: onClose });
-
-  const { register, handleSubmit, formState } = useForm<Inputs>({
+const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModalProps) => {
+  const { addEducationalProgram, isPending } = useAddEducationalProgram({ onSuccess: onClose });
+  const { register, handleSubmit, formState } = useForm<AddEducationalProgramParams>({
     mode: 'onChange',
-    values: {...educationalProgram},
   });
 
-  const onSubmit = async (values: Inputs) => {
-    return editEducationalProgram({ ...values, id: educationalProgram.id });
+  const onSubmit = async (values: AddEducationalProgramParams) => {
+    return addEducationalProgram(values);
   };
 
   const { isValid } = formState;
@@ -43,8 +33,8 @@ const EditEPModal = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Content>
-        <Title>Room information</Title>
-
+        <Title>Add new educational program</Title>
+        
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SubTitle>Study Field</SubTitle>
           <FormControl>
@@ -116,7 +106,7 @@ const EditEPModal = ({
           </FormControl>
           <Actions>
             <BackButton onClick={onClose} />
-            <SaveButton loading={isPending} disabled={!isValid} type="submit" />
+            <AddButton loading={isPending} disabled={!isValid} type="submit" />
           </Actions>
         </Form>
       </Content>
@@ -124,4 +114,4 @@ const EditEPModal = ({
   );
 };
 
-export default EditEPModal;
+export default AddEducationalProgramModal;

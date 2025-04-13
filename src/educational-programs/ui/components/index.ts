@@ -1,8 +1,8 @@
-export { default as AddEPModal } from './AddEPModal';
-export * from './AddEPModal';
-export { default as EditEPModal } from './EditEPModal';
-export * from './EditEPModal';
-export { default as EPTable } from './EPTable';
-export * from './EPTable';
-export { default as EPToolbar } from './EPToolbar';
-export * from './EPToolbar';
+export { default as AddEducationalProgramModal } from './AddEducationalProgramModal';
+export * from './AddEducationalProgramModal';
+export { default as EditEducationalProgramModal } from './EditEducationalProgramModal';
+export * from './EditEducationalProgramModal';
+export { default as EducationalProgramTable } from './EducationalProgramTable';
+export * from './EducationalProgramTable';
+export { default as EducationalProgramToolbar } from './EducationalProgramToolbar';
+export * from './EducationalProgramToolbar';

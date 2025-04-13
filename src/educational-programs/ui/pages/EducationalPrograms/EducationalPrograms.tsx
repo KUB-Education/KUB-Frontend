@@ -1,28 +1,28 @@
-import { EducationalProgram, EPId, } from '@/educational-programs/entities';
+import { EducationalProgram, EducationalProgramId, } from '@/educational-programs/entities';
 import { Root, Toolbar, Table } from './styles';
 import {
-  useDeleteEPs,
-  useEPsQuery,
+  useDeleteEducationalPrograms,
+  useEducationalProgramsQuery,
 } from '@/educational-programs/hooks';
 import { useMemo, useState } from 'react';
-import { AddEPModal, EditEPModal } from '@/educational-programs/ui/components';
+import { AddEducationalProgramModal, EditEducationalProgramModal } from '@/educational-programs/ui/components';
 
 const EducationalPrograms = () => {
-  const { educationalPrograms } = useEPsQuery();
-  const { deleteEducationalPrograms } = useDeleteEPs();
+  const { educationalPrograms } = useEducationalProgramsQuery();
+  const { deleteEducationalPrograms } = useDeleteEducationalPrograms();
   
-  const [selectedEPs, setEPs] = useState<EducationalProgram[]>([]);
+  const [selectedEducationalPrograms, setEducationalPrograms] = useState<EducationalProgram[]>([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
-  const selectedEPIds = useMemo<EPId[]>(() => {
-      return selectedEPs.map((ep) => ep.id);
-    }, [selectedEPs]);
+  const selectedEducationalProgramIds = useMemo<EducationalProgramId[]>(() => {
+      return selectedEducationalPrograms.map((ep) => ep.id);
+    }, [selectedEducationalPrograms]);
 
   const onDelete = () => {
-    if (!selectedEPIds.length) return;
+    if (!selectedEducationalProgramIds.length) return;
 
-    deleteEducationalPrograms(selectedEPIds);
+    deleteEducationalPrograms(selectedEducationalProgramIds);
   };
 
   const onEdit = () => {
@@ -34,20 +34,20 @@ const EducationalPrograms = () => {
     <Root>
       <p>Educational Programs</p>
       <Toolbar
-        selectedRooms={selectedEPs}
+        selectedRooms={selectedEducationalPrograms}
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Table data={educationalPrograms} onEPsSelected={setEPs} />
+      <Table data={educationalPrograms} onEducationalProgramsSelected={setEducationalPrograms} />
 
-      <AddEPModal
+      <AddEducationalProgramModal
         open={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
       />
-      <EditEPModal
+      <EditEducationalProgramModal
         open={isEditModalVisible}
-        educationalProgram={selectedEPs[0]}
+        educationalProgram={selectedEducationalPrograms[0]}
         onClose={() => setIsEditModalVisible(false)}/>
     </Root>
   );

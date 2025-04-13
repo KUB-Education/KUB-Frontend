@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
 import {
   EducationalProgram,
-  AddEPParams,
-  EditEPParams,
-  EPId,
+  AddEducationalProgramParams,
+  EditEducationalProgramParams,
+  EducationalProgramId,
 } from '@/educational-programs/entities';
 import { delay, SECOND } from '@/common/utils';
 
@@ -52,7 +52,7 @@ export class EducationalProgramsService extends BaseService {
     return this.educationalPrograms;
   }
 
-  async addEducationalProgram(params: AddEPParams) {
+  async addEducationalProgram(params: AddEducationalProgramParams) {
       await delay(1 * SECOND);
       this.educationalPrograms.push({
         id: faker.number.int(),
@@ -71,14 +71,14 @@ export class EducationalProgramsService extends BaseService {
       });
     }
   
-    async deleteEducationalPrograms(ids: Array<EPId>) {
+    async deleteEducationalPrograms(ids: Array<EducationalProgramId>) {
       await delay(1 * SECOND);
       this.educationalPrograms = this.educationalPrograms.filter(
         (ep) => !ids.includes(ep.id),
       );
     }
   
-    async editEducationalProgram(params: EditEPParams) {
+    async editEducationalProgram(params: EditEducationalProgramParams) {
       await delay(1 * SECOND);
       this.educationalPrograms = this.educationalPrograms.map((ep) => {
         if (ep.id !== params.id) return ep;

@@ -8,7 +8,7 @@ import {
   ActionsList,
 } from './styles.tsx';
 
-export type EPToolbarProps = {
+export type EducationalProgramToolbarProps = {
   selectedRooms: EducationalProgram[];
   className?: string;
   onAdd: () => void;
@@ -16,13 +16,13 @@ export type EPToolbarProps = {
   onEdit: () => void;
 };
 
-const EPToolbar = ({
+const EducationalProgramToolbar = ({
   selectedRooms,
   className,
   onAdd,
   onDelete,
   onEdit,
-}: EPToolbarProps) => {
+}: EducationalProgramToolbarProps) => {
   if (selectedRooms.length) {
     return (
       <Root className={className}>
@@ -51,4 +51,4 @@ const EPToolbar = ({
   );
 };
 
-export default EPToolbar;
+export default EducationalProgramToolbar;

@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { epQueryKey } from './useEPsQuery.ts';
-import { AddEPParams } from '@/educational-programs/entities';
+import { epQueryKey } from './useEducationalProgramsQuery.ts';
+import { EducationalProgramId } from '@/educational-programs/entities';
 
-type UseAddEPParams = Partial<{
+type UseDeleteEducationalProgramParams = Partial<{
   onSuccess?: () => void;
   onError?: () => void;
 }>;
 
-export function useAddEP({
+export function useDeleteEducationalPrograms({
   onSuccess,
   onError,
-}: UseAddEPParams = {}) {
+}: UseDeleteEducationalProgramParams = {}) {
   const { educationalProgramsService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: addEducationalProgram, ...otherProps } = useMutation<
+  const { mutate: deleteEducationalPrograms, ...otherProps } = useMutation<
     void,
     Error,
-    AddEPParams
+    Array<EducationalProgramId>
   >({
     mutationFn: async (params) => {
-      await educationalProgramsService.addEducationalProgram(params);
+      await educationalProgramsService.deleteEducationalPrograms(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [epQueryKey] });
@@ -35,7 +35,7 @@ export function useAddEP({
   });
 
   return {
-    addEducationalProgram,
+    deleteEducationalPrograms,
     ...otherProps,
   };
 }

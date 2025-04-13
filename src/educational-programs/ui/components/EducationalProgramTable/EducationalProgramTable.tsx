@@ -19,9 +19,9 @@ type FlatEducationalProgram = {
   studyFormat: string;
 }
 
-export type EPTableProps = {
+export type EducationalProgramTableProps = {
   data: Array<EducationalProgram>;
-  onEPsSelected: (data: Array<EducationalProgram>) => void;
+  onEducationalProgramsSelected: (data: Array<EducationalProgram>) => void;
 };
 
 
@@ -93,7 +93,7 @@ function groupEducationalPrograms(data: EducationalProgram[]) {
   return result;
 }
 
-const EPTable = ({ data, onEPsSelected }: EPTableProps) => {
+const EducationalProgramTable = ({ data, onEducationalProgramsSelected }: EducationalProgramTableProps) => {
   const gridRef = useRef<AgGridReact<FlatEducationalProgram>>(null);
 
   const flatData = groupEducationalPrograms(data);
@@ -129,8 +129,8 @@ const EPTable = ({ data, onEPsSelected }: EPTableProps) => {
     if (!gridRef.current) return;
 
     const selected = gridRef.current.api.getSelectedRows();
-    onEPsSelected(selected.map(s => data.find(d => d.id === s.id) as EducationalProgram));
-  }, [onEPsSelected, data]);
+    onEducationalProgramsSelected(selected.map(s => data.find(d => d.id === s.id) as EducationalProgram));
+  }, [onEducationalProgramsSelected, data]);
 
   const getRowId = (row: GetRowIdParams<EducationalProgram>) => {
     return String(row.data.id);
@@ -149,4 +149,4 @@ const EPTable = ({ data, onEPsSelected }: EPTableProps) => {
   );
 };
 
-export default EPTable;
+export default EducationalProgramTable;

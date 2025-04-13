@@ -1,1 +1,1 @@
-export * from './EPService.ts';
+export * from './EducationalProgramService.ts';

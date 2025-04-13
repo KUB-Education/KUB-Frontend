@@ -1,3 +1,3 @@
 export * from './EducationalProgram.ts';
-export * from './AddEPParams.ts';
-export * from './EditEPParams.ts';
+export * from './AddEducationalProgramParams.ts';
+export * from './EditEducationalProgramParams.ts';

@@ -1,8 +1,8 @@
-export type EPId = number;
+export type EducationalProgramId = number;
 export type SubjectId = number;
 
 export type EducationalProgram = {
-  id: EPId;
+  id: EducationalProgramId;
   studyField: {
     id: number;
     code: string;

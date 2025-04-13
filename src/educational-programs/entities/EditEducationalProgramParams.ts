@@ -1,7 +1,7 @@
-import { EPId } from './EducationalProgram.ts';
+import { EducationalProgramId } from './EducationalProgram.ts';
 
-export type EditEPParams = {
-  id: EPId;
+export type EditEducationalProgramParams = {
+  id: EducationalProgramId;
   studyField: {
     id: number;
     code?: string;
