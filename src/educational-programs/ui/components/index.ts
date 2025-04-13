@@ -6,3 +6,7 @@ export { default as EducationalProgramTable } from './EducationalProgramTable';
 export * from './EducationalProgramTable';
 export { default as EducationalProgramToolbar } from './EducationalProgramToolbar';
 export * from './EducationalProgramToolbar';
+export { default as AcademicDegree } from './AcademicDegree';
+export * from './AcademicDegree';
+export { default as StudyFormat } from './StudyFormat';
+export * from './StudyFormat';

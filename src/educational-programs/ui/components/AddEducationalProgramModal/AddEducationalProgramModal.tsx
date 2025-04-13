@@ -5,13 +5,17 @@ import {
   FormTextField,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl, SubTitle } from './styles.tsx';
-import { useForm } from 'react-hook-form';
-import { AddEducationalProgramParams } from '@/educational-programs/entities';
-import { InputLabel } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+import { AddEducationalProgramParams, academicDegrees, studyFormats } from '@/educational-programs/entities';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import {
   requiredValidator,
 } from '@/common/utils/validators.ts';
 import { useAddEducationalProgram } from '@/educational-programs/hooks';
+import {
+  AcademicDegree,
+  StudyFormat,
+} from '@/educational-programs/ui/components';
 
 export type AddEducationalProgramModalProps = {
   open: boolean;
@@ -20,7 +24,7 @@ export type AddEducationalProgramModalProps = {
 
 const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModalProps) => {
   const { addEducationalProgram, isPending } = useAddEducationalProgram({ onSuccess: onClose });
-  const { register, handleSubmit, formState } = useForm<AddEducationalProgramParams>({
+  const { register, handleSubmit, formState, control } = useForm<AddEducationalProgramParams>({
     mode: 'onChange',
   });
 
@@ -34,7 +38,7 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
     <Modal open={open} onClose={onClose}>
       <Content>
         <Title>Add new educational program</Title>
-        
+
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SubTitle>Study Field</SubTitle>
           <FormControl>
@@ -90,18 +94,38 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
             <InputLabel shrink htmlFor="educational-program-degree-type">
               Degree Type
             </InputLabel>
-            <FormTextField
-              label="degree-type"
-              {...register('educationalProgram.degreeType', { ...requiredValidator() })}
+            <Controller
+              name="educationalProgram.degreeType"
+              control={control}
+              rules={{ ...requiredValidator() }}
+              render={({ field }) => (
+                <Select notched label="degree-type" {...field}>
+                  {academicDegrees.map((degree) => (
+                    <MenuItem key={degree} value={degree}>
+                      <AcademicDegree value={degree} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             />
           </FormControl>
           <FormControl>
             <InputLabel shrink htmlFor="educational-program-study-format">
               Study Format
             </InputLabel>
-            <FormTextField
-              label="study-format"
-              {...register('educationalProgram.studyFormat', { ...requiredValidator() })}
+            <Controller
+              name="educationalProgram.studyFormat"
+              control={control}
+              rules={{ ...requiredValidator() }}
+              render={({ field }) => (
+                <Select notched label="study-format" {...field}>
+                  {studyFormats.map((format) => (
+                    <MenuItem key={format} value={format}>
+                      <StudyFormat value={format} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             />
           </FormControl>
           <Actions>

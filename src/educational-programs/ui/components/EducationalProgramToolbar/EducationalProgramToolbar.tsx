@@ -44,7 +44,7 @@ const EducationalProgramToolbar = ({
     <Root className={className}>
       <ActionsList>
         <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new room</AddButton>
+          <AddButton onClick={onAdd}>Add new educational program</AddButton>
         </ActionsListItem>
       </ActionsList>
     </Root>

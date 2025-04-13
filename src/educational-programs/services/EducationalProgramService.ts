@@ -5,6 +5,8 @@ import {
   AddEducationalProgramParams,
   EditEducationalProgramParams,
   EducationalProgramId,
+  academicDegrees,
+  studyFormats,
 } from '@/educational-programs/entities';
 import { delay, SECOND } from '@/common/utils';
 
@@ -32,8 +34,8 @@ export class EducationalProgramsService extends BaseService {
           const educationalProgram = {
             id: faker.number.int({ min: 1, max: 100 }),
             name: faker.word.words({ count: 3 }),
-            degreeType: faker.helpers.arrayElement(['Bachelor', 'Master', 'PhD']),
-            studyFormat: faker.helpers.arrayElement(['Full-time', 'Part-time', 'Online']),
+            degreeType: faker.helpers.arrayElement(academicDegrees),
+            studyFormat: faker.helpers.arrayElement(studyFormats),
           };
           
           this.educationalPrograms.push({

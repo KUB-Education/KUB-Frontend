@@ -1,18 +1,27 @@
 import { Root } from './styles.tsx';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, ColGroupDef, GetRowIdParams } from 'ag-grid-community';
 import { EducationalProgram } from '@/educational-programs/entities';
 import { Table } from '@/common/ui/components';
+import { AcademicDegree, StudyFormat } from '@/educational-programs/ui/components';
+
+type GrouppedEducationalProgram = {
+  studyField: EducationalProgram["studyField"];
+  specialties: Array<{
+    specialty: EducationalProgram["specialty"];
+    programs: (EducationalProgram["educationalProgram"] & { rowId: number })[];
+  }>;
+};
 
 type FlatEducationalProgram = {
   id: number;
-  studyFieldId: number;
-  studyFieldCode: string;
-  studyFieldName: string;
-  specialtyId: number;
-  specialtyCode: string;
-  specialtyName: string;
+  studyFieldId?: number;
+  studyFieldCode?: string;
+  studyFieldName?: string;
+  specialtyId?: number;
+  specialtyCode?: string;
+  specialtyName?: string;
   educationalProgramId: number;
   educationalProgramName: string;
   degreeType: string;
@@ -24,25 +33,22 @@ export type EducationalProgramTableProps = {
   onEducationalProgramsSelected: (data: Array<EducationalProgram>) => void;
 };
 
-
-
 function groupEducationalPrograms(data: EducationalProgram[]) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const studyFieldMap = new Map<number, any>();
+  const grouppedResult = new Map<number, GrouppedEducationalProgram>();
 
   for (const item of data) {
     const { studyField, specialty, educationalProgram } = item;
 
-    if (!studyFieldMap.has(studyField.id)) {
-      studyFieldMap.set(studyField.id, {
+    if (!grouppedResult.has(studyField.id)) {
+      grouppedResult.set(studyField.id, {
         studyField,
         specialties: [],
       });
     }
 
-    const group = studyFieldMap.get(studyField.id)!;
+    const group = grouppedResult.get(studyField.id)!;
 
-    let specialtyGroup = group.specialties.find((s: EducationalProgram) => s.specialty.id === specialty.id);
+    let specialtyGroup = group.specialties.find(s => s.specialty.id === specialty.id);
 
     if (!specialtyGroup) {
       specialtyGroup = {
@@ -52,17 +58,19 @@ function groupEducationalPrograms(data: EducationalProgram[]) {
       group.specialties.push(specialtyGroup);
     }
 
-
-
     specialtyGroup.programs.push({ rowId: item.id, ...educationalProgram });
   }
 
+  return grouppedResult;
+}
+
+function flatEducationalPrograms(grouppedData: Map<number, GrouppedEducationalProgram>) {
   const result: FlatEducationalProgram[] = [];
 
   const seenStudyFieldIds = new Set<number>();
   const seenSpecialtyIds = new Set<number>();
 
-  for (const sf of studyFieldMap.values()) {
+  for (const sf of grouppedData.values()) {
     for (const sp of sf.specialties) {
       for (const pr of sp.programs) {
         const isFirstStudyField = !seenStudyFieldIds.has(sf.studyField.id);
@@ -96,7 +104,12 @@ function groupEducationalPrograms(data: EducationalProgram[]) {
 const EducationalProgramTable = ({ data, onEducationalProgramsSelected }: EducationalProgramTableProps) => {
   const gridRef = useRef<AgGridReact<FlatEducationalProgram>>(null);
 
-  const flatData = groupEducationalPrograms(data);
+  const flatData = useMemo(() => {
+    const grouppedData = groupEducationalPrograms(data);
+    const flatData = flatEducationalPrograms(grouppedData);
+
+    return flatData;
+  }, [data]);
 
   const [colDefs] = useState<(ColDef | ColGroupDef)[]>([
     {
@@ -120,8 +133,16 @@ const EducationalProgramTable = ({ data, onEducationalProgramsSelected }: Educat
       children: [
         { field: "educationalProgramId", headerName: "ID" },
         { field: "educationalProgramName", headerName: "Name" },
-        { field: "degreeType", headerName: "Degree Type" },
-        { field: "studyFormat", headerName: "Study Format" }
+        {
+          field: "degreeType",
+          headerName: "Degree Type",
+          cellRenderer: AcademicDegree,
+        },
+        {
+          field: "studyFormat",
+          headerName: "Study Format",
+          cellRenderer: StudyFormat,
+        }
       ]
     }]);
 
