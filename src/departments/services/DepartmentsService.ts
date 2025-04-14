@@ -1,9 +1,10 @@
 import { BaseService } from '@/common/services';
-import { Department, DepartmentId } from '@/departments/entities';
+import { Department, DepartmentId, AddDepartmentParams, EditDepartmentParams } from '@/departments/entities';
 import { faker } from '@faker-js/faker';
+import { delay, SECOND } from '@/common/utils';
 
 export class DepartmentsService extends BaseService {
-  private readonly departments: Department[];
+  private  departments: Department[];
 
   constructor() {
     super();
@@ -22,4 +23,29 @@ export class DepartmentsService extends BaseService {
 
     return foundDepartment || null;
   }
+
+  async addDepartment(params: AddDepartmentParams) {
+    await delay(5 * SECOND);
+    this.departments.push({
+      ...params,
+      id: faker.number.int(),
+    });
+  }
+
+  async deleteDepartments(ids: Array<DepartmentId>) {
+    await delay(2 * SECOND);
+    this.departments = this.departments.filter(
+      (department) => !ids.includes(department.id),
+    );
+  }
+
+  async editDepartment(params: EditDepartmentParams) {
+    await delay(5 * SECOND);
+    this.departments = this.departments.map((department) => {
+      if (department.id !== params.id) return department;
+
+      return { ...department, ...params };
+    });
+  }
+
 }
