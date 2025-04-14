@@ -1,39 +1,33 @@
-import { Lecturer } from '@/lecturers/entities';
+import { Department } from '@/departments/entities';
 import {
   Root,
   AddButton,
   DeleteButton,
-  ResendButton,
   EditButton,
   ActionsListItem,
   ActionsList,
 } from './styles.tsx';
 
-export type LecturesToolbarProps = {
-  selectedLecturers: Lecturer[];
+export type DepartmentsToolbarProps = {
+  selectedDepartments: Department[];
   className?: string;
   onAdd: () => void;
   onDelete: () => void;
-  onResend: () => void;
   onEdit: () => void;
 };
 
-const LecturersToolbar = ({
-  selectedLecturers,
+const DepartmentsToolbar = ({
+  selectedDepartments,
   className,
   onAdd,
   onDelete,
-  onResend,
   onEdit,
-}: LecturesToolbarProps) => {
-  if (selectedLecturers.length) {
+}: DepartmentsToolbarProps) => {
+  if (selectedDepartments.length) {
     return (
       <Root className={className}>
         <ActionsList>
-          <ActionsListItem>
-            <ResendButton onClick={onResend} />
-          </ActionsListItem>
-          {selectedLecturers.length === 1 && (
+          {selectedDepartments.length === 1 && (
             <ActionsListItem>
               <EditButton onClick={onEdit} />
             </ActionsListItem>
@@ -50,11 +44,11 @@ const LecturersToolbar = ({
     <Root className={className}>
       <ActionsList>
         <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new lecturer</AddButton>
+          <AddButton onClick={onAdd}>Add new department</AddButton>
         </ActionsListItem>
       </ActionsList>
     </Root>
   );
 };
 
-export default LecturersToolbar;
+export default DepartmentsToolbar;

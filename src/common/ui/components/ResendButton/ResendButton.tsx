@@ -1,5 +1,4 @@
-import ResendIcon from '@/common/assets/icons/refresh.svg?react';
-import { Button } from './styles';
+import { Button, Icon } from './styles';
 import { ButtonProps } from '@mui/material';
 
 export type ResendButtonProps = ButtonProps;
@@ -11,7 +10,7 @@ const ResendButton = ({
   return (
     <Button
       variant="contained"
-      startIcon={<ResendIcon width={18} height={18} />}
+      startIcon={<Icon width={18} height={18} />}
       {...otherProps}
     >
       {children}

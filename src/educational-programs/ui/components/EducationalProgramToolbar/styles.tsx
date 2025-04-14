@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import {
   AddButton as CommonAddButton,
   DeleteButton as CommonDeleteButton,
+  ResendButton as CommonResendButton,
   EditButton as CommonEditButton,
 } from '@/common/ui/components';
 
@@ -17,6 +18,10 @@ export const AddButton = styled(CommonAddButton)({
 });
 
 export const DeleteButton = styled(CommonDeleteButton)({
+  height: '34px',
+});
+
+export const ResendButton = styled(CommonResendButton)({
   height: '34px',
 });
 
