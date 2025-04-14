@@ -5,6 +5,7 @@ import { AppServices } from '../entites';
 import { LecturersService } from '@/lecturers/services';
 import { RoomsService } from '@/rooms/services';
 import { DepartmentsService } from '@/departments/services';
+import { EducationalProgramsService } from '@/educational-programs/services';
 import {
   AxiosHttpClient,
   HttpClientWithSessionRefresh,
@@ -18,12 +19,14 @@ function initServices(): AppServices {
   const departmentsService = new DepartmentsService(httpClient);
   const lecturesService = new LecturersService(httpClient, departmentsService);
   const roomsService = new RoomsService(httpClient);
+  const educationalProgramsService = new EducationalProgramsService(httpClient);
 
   return {
     authService,
     departmentsService,
     lecturesService,
     roomsService,
+    educationalProgramsService,
   };
 }
 
