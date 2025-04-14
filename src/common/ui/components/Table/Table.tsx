@@ -1,14 +1,16 @@
 /* eslint-disable react/display-name */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { AgGridReactProps } from 'ag-grid-react';
 import { themeQuartz, iconSetMaterial } from 'ag-grid-community';
 import type {
   ColDef,
+  GridApi,
   SizeColumnsToContentStrategy,
   SizeColumnsToFitGridStrategy,
   SizeColumnsToFitProvidedWidthStrategy,
 } from 'ag-grid-community';
+import { useDebouncedCallback } from 'use-debounce';
 
 export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   accentColor: '#008CFF',
@@ -29,6 +31,10 @@ export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   wrapperBorderRadius: 0,
   fontFamily: ['E-Ukraine', 'sans-serif'],
 });
+
+function resizeColumns(api: GridApi | undefined) {
+  api?.sizeColumnsToFit();
+}
 
 export type TableProps = AgGridReactProps;
 // TODO add generic for proper types
@@ -57,6 +63,15 @@ const Table = forwardRef<AgGridReact, TableProps>((props: TableProps, ref) => {
     };
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const debouncedHandleResize = useDebouncedCallback(() => resizeColumns((ref as any)?.current?.api), 100);
+
+  useEffect(() => {
+    window.addEventListener('resize', debouncedHandleResize);
+
+    return () => window.removeEventListener('resize', debouncedHandleResize);
+  }, []);
+
   return (
     <AgGridReact
       ref={ref}
@@ -67,6 +82,7 @@ const Table = forwardRef<AgGridReact, TableProps>((props: TableProps, ref) => {
       autoSizeStrategy={autoSizeStrategy}
       paginationPageSize={50}
       paginationPageSizeSelector={[50, 100, 200]}
+      suppressDragLeaveHidesColumns // Prevents columns from delete when dragging
       {...props}
     />
   );
