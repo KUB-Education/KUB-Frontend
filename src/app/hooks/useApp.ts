@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AuthService } from '@/auth/services';
+import { AuthService, AuthTokensStorage } from '@/auth/services';
 import { config } from '../config';
 import { AppServices } from '../entites';
 import { LecturersService } from '@/lecturers/services';
@@ -10,12 +10,21 @@ import {
   AxiosHttpClient,
   HttpClientWithSessionRefresh,
 } from '@/common/http-client';
+import { PersistentStorage } from '@/common/persistent-storage';
+import { UserService } from '@/users/services';
 
 function initServices(): AppServices {
-  const axiosHttpClient = new AxiosHttpClient(config.apiUrl);
-  const httpClient = new HttpClientWithSessionRefresh(axiosHttpClient);
+  const persistentStorage = new PersistentStorage();
+  const authTokensStorage = new AuthTokensStorage(persistentStorage);
 
-  const authService = new AuthService(httpClient);
+  const axiosHttpClient = new AxiosHttpClient(config.apiUrl);
+  const httpClient = new HttpClientWithSessionRefresh(
+    axiosHttpClient,
+    authTokensStorage,
+  );
+
+  const authService = new AuthService(httpClient, authTokensStorage);
+  const userService = new UserService(httpClient);
   const departmentsService = new DepartmentsService(httpClient);
   const lecturesService = new LecturersService(httpClient, departmentsService);
   const roomsService = new RoomsService(httpClient);
@@ -23,6 +32,7 @@ function initServices(): AppServices {
 
   return {
     authService,
+    userService,
     departmentsService,
     lecturesService,
     roomsService,

@@ -1,5 +1,8 @@
+import { HttpRequestHeaders } from './HttpRequestHeaders.ts';
+
 export type HttpRequestConfig = Partial<{
-  headers: Record<string, string>;
+  url: string;
+  headers: HttpRequestHeaders;
   params: unknown;
   data: unknown;
 }>;

@@ -14,8 +14,21 @@ import { Timetables } from '@/timetables/ui/pages';
 import { Help } from '@/help/ui/pages';
 import { ChangePassword } from '@/auth/ui/pages';
 import UnauthorizedLayout from '../UnauthorizedLayout';
+import { useUserProfileQuery } from '@/users/hooks';
+import AppLoader from '../AppLoader';
+import AppError from '@/app/ui/components/AppError';
 
 const AuthorizedMain = () => {
+  const { userProfile, isPending, isError } = useUserProfileQuery();
+
+  if (isError) {
+    return <AppError />;
+  }
+
+  if (isPending || !userProfile) {
+    return <AppLoader />;
+  }
+
   return (
     <Routes>
       <Route element={<AuthorizedLayout />}>
@@ -38,7 +51,7 @@ const AuthorizedMain = () => {
         <Route path={APP_ROUTES.HELP} element={<Help />} />
         <Route path="*" element={<Navigate to={APP_ROUTES.HOME} />} />
       </Route>
-      { /* Design mockups use the same layout as the unauthorized pages, i.e. no sidebar / navbar */ }
+      {/* Design mockups use the same layout as the unauthorized pages, i.e. no sidebar / navbar */}
       <Route element={<UnauthorizedLayout />}>
         <Route path={APP_ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
       </Route>

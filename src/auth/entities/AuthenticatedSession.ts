@@ -1,5 +1,9 @@
+export type AccessToken = string;
+
+export type RefreshToken = string;
+
 export type AuthenticatedSession = {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: AccessToken;
+  refreshToken: RefreshToken;
   firstLogin: boolean;
 };

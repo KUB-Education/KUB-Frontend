@@ -4,9 +4,14 @@ import { HttpClientDecorator } from './HttpClientDecorator';
 import { HttpRequestConfig, HttpResponse } from '@/common/http-client';
 import { AuthenticatedSessionDto } from '@/auth/services/dto';
 import { ApiError } from '@/common/errors';
+import { HttpStatusCodes } from '@/common/http-client/entities/HttpStatuses.ts';
+import { AuthTokensStorage } from '@/auth/services';
 
 export class HttpClientWithSessionRefresh extends HttpClientDecorator {
-  constructor(httpClient: HttpClient) {
+  constructor(
+    httpClient: HttpClient,
+    private readonly authTokensStorage: AuthTokensStorage,
+  ) {
     super(httpClient);
   }
 
@@ -39,7 +44,7 @@ export class HttpClientWithSessionRefresh extends HttpClientDecorator {
         throw err;
       }
 
-      await this.refreshAccess();
+      await this.refreshAccess(err);
       return super.delete<ResponseData>(url, config);
     }
   }
@@ -55,7 +60,7 @@ export class HttpClientWithSessionRefresh extends HttpClientDecorator {
         throw err;
       }
 
-      await this.refreshAccess();
+      await this.refreshAccess(err);
       return super.get<ResponseData>(url, config);
     }
   }
@@ -71,7 +76,7 @@ export class HttpClientWithSessionRefresh extends HttpClientDecorator {
         throw err;
       }
 
-      await this.refreshAccess();
+      await this.refreshAccess(err);
       return super.post<ResponseData>(url, config);
     }
   }
@@ -87,16 +92,25 @@ export class HttpClientWithSessionRefresh extends HttpClientDecorator {
         throw err;
       }
 
-      await this.refreshAccess();
+      await this.refreshAccess(err);
       return super.put<ResponseData>(url, config);
     }
   }
 
-  private async refreshAccess() {
+  private async refreshAccess(error: unknown) {
     if (this.refreshAccessJob) return this.refreshAccessJob;
+
+    const refreshToken = this.authTokensStorage.getRefreshToken();
+
+    if (!refreshToken) throw error;
 
     this.refreshAccessJob = super.post<AuthenticatedSessionDto>(
       '/auth/refresh',
+      {
+        data: {
+          refresh_token: refreshToken,
+        },
+      },
     );
 
     this.refreshAccessJob
@@ -114,9 +128,12 @@ export class HttpClientWithSessionRefresh extends HttpClientDecorator {
 
     return this.refreshAccessJob;
   }
-  // TODO add proper logic
+
   private isAccessForbiddenError(error: unknown) {
-    return error instanceof ApiError && error.getStatus() === 403;
+    return (
+      error instanceof ApiError &&
+      error.getStatus() === HttpStatusCodes.UNAUTHORIZED
+    );
   }
 
   private notifySessionRefreshFailed(reason: Error) {

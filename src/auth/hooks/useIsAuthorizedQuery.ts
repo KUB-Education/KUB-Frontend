@@ -1,10 +1,18 @@
 import { useAppServices } from '@/app/hooks';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export const isAuthorizedQueryKey = 'isAuthorizedQuery';
 
 export function useIsAuthorizedQuery() {
   const { authService } = useAppServices();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    authService.onUnauthorized(async () => {
+      await queryClient.invalidateQueries({ queryKey: [isAuthorizedQueryKey] });
+    });
+  }, [queryClient, authService]);
 
   const { data: isAuthorized, ...otherData } = useQuery({
     queryKey: [isAuthorizedQueryKey],

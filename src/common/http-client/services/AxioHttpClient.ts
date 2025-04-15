@@ -4,6 +4,7 @@ import { HttpClient } from '../interfaces';
 import { HttpRequestConfig, HttpResponse } from '../entities';
 import { ApiError } from '@/common/errors/ApiError.ts';
 import { normalizeError } from '@/common/utils/errors.ts';
+import { WithRequired } from '@/common/types';
 
 export class AxiosHttpClient implements HttpClient {
   private readonly client: AxiosInstance;
@@ -15,6 +16,14 @@ export class AxiosHttpClient implements HttpClient {
     this.client = axios.create({
       ...(this.config || {}),
     });
+  }
+
+  addRequestInterceptor(
+    interceptor: (
+      config: WithRequired<HttpRequestConfig, 'headers'>,
+    ) => WithRequired<HttpRequestConfig, 'headers'>,
+  ) {
+    this.client.interceptors.request.use(interceptor);
   }
 
   async get<ResponseData = any>(url: string, config: HttpRequestConfig = {}) {
