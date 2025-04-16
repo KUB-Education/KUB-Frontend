@@ -26,3 +26,5 @@ export { default as SaveButton } from './SaveButton';
 export * from './SaveButton';
 export { default as EditButton } from './EditButton';
 export * from './EditButton';
+export { default as ViewEducationalProgramButton } from './ViewEducationalProgramButton';
+export * from './ViewEducationalProgramButton';

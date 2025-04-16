@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from 'react-router';
 import { Home } from '@/home/ui/pages';
 import AuthorizedLayout from '../AuthorizedLayout';
 import { APP_ROUTES } from '@/common/routes.ts';
-import { Students } from '@/students/ui/pages';
+import { Students } from '@/students/ui/pages/ui/pages';
 import { StudentGroups } from '@/student-groups/ui/pages';
 import { Lecturers } from '@/lecturers/ui/pages';
 import { Subjects } from '@/subjects/ui/pages';
@@ -38,7 +38,7 @@ const AuthorizedMain = () => {
         <Route path={APP_ROUTES.HELP} element={<Help />} />
         <Route path="*" element={<Navigate to={APP_ROUTES.HOME} />} />
       </Route>
-      { /* Design mockups use the same layout as the unauthorized pages, i.e. no sidebar / navbar */ }
+      {/* Design mockups use the same layout as the unauthorized pages, i.e. no sidebar / navbar */}
       <Route element={<UnauthorizedLayout />}>
         <Route path={APP_ROUTES.CHANGE_PASSWORD} element={<ChangePassword />} />
       </Route>

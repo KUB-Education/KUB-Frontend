@@ -3,6 +3,7 @@ import { AuthService } from '@/auth/services';
 import { config } from '../config';
 import { AppServices } from '../entites';
 import { LecturersService } from '@/lecturers/services';
+import { StudentsService } from '@/students/ui/pages/services';
 import { RoomsService } from '@/rooms/services';
 import { DepartmentsService } from '@/departments/services';
 
@@ -10,12 +11,14 @@ function initServices(): AppServices {
   const authService = new AuthService();
   const departmentsService = new DepartmentsService();
   const lecturesService = new LecturersService(departmentsService);
+  const studentsService = new StudentsService();
   const roomsService = new RoomsService();
 
   return {
     authService,
     departmentsService,
     lecturesService,
+    studentsService,
     roomsService,
   };
 }
