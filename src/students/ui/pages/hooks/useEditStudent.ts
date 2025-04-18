@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { studentsQueryKey } from './useStudentsQuery.ts';
-import { EditLecturerParams } from '@/lecturers/entities';
+import { EditStudentParams } from '@/students/ui/pages/entities';
 
-type UseEditLecturerParams = Partial<{
+type UseEditStudentParams = Partial<{
   onSuccess?: () => void;
   onError?: () => void;
 }>;
 
-export function useEditLecturer({
+export function useEditStudent({
   onSuccess,
   onError,
-}: UseEditLecturerParams = {}) {
-  const { lecturesService } = useAppServices();
+}: UseEditStudentParams = {}) {
+  const { studentsService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: editLecturer, ...otherProps } = useMutation<
+  const { mutate: editStudent, ...otherProps } = useMutation<
     void,
     Error,
-    EditLecturerParams
+    EditStudentParams
   >({
     mutationFn: async (params) => {
-      await lecturesService.editLecturer(params);
+      await studentsService.editStudent(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [studentsQueryKey] });
@@ -35,7 +35,7 @@ export function useEditLecturer({
   });
 
   return {
-    editLecturer,
+    editStudent,
     ...otherProps,
   };
 }

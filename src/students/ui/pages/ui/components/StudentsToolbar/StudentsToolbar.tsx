@@ -17,6 +17,7 @@ export type StudentsToolbarProps = {
   onDelete: () => void;
   onResend: () => void;
   onEdit: () => void;
+  //onRedirectStudentPrograms: () => void;
 };
 
 const StudentsToolbar = ({
@@ -44,7 +45,7 @@ const StudentsToolbar = ({
           </ActionsListItem>
           <ActionsListItem>
             <ViewEducationalProgramButton />
-            {/* onClick={} */}
+            {/* onClick={onRedirectStudentPrograms} */}
           </ActionsListItem>
         </ActionsList>
       </Root>

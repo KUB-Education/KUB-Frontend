@@ -1,4 +1,4 @@
-// import AddIcon from '@/common/assets/icons/add.svg?react';
+import AddIcon from '@/common/assets/icons/educational_program.svg?react';
 import { Button } from './styles';
 import { ButtonProps } from '@mui/material';
 
@@ -11,7 +11,7 @@ const ViewEducationalProgramButton = ({
   return (
     <Button
       variant="contained"
-      // startIcon={<AddIcon width={18} height={18} />}
+      startIcon={<AddIcon width={18} height={18} />}
       {...otherProps}
     >
       {children}

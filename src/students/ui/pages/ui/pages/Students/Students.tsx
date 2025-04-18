@@ -58,6 +58,7 @@ const Students = () => {
         // departments={departments}
         onClose={() => setIsAddModalVisible(false)}
       />
+
       <EditStudentModal
         open={isEditModalVisible}
         student={selectedStudents[0]}
