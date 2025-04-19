@@ -1,13 +1,19 @@
 import { BaseService } from '@/common/services';
-import { Department, DepartmentId, AddDepartmentParams, EditDepartmentParams } from '@/departments/entities';
+import {
+  Department,
+  DepartmentId,
+  AddDepartmentParams,
+  EditDepartmentParams,
+} from '@/departments/entities';
 import { faker } from '@faker-js/faker';
 import { delay, SECOND } from '@/common/utils';
+import { HttpClient } from '@/common/http-client';
 
 export class DepartmentsService extends BaseService {
-  private  departments: Department[];
+  private departments: Department[];
 
-  constructor() {
-    super();
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
 
     this.departments = new Array(10).fill(0).map((_, i) => {
       return { id: i, name: faker.person.jobArea() };
@@ -47,5 +53,4 @@ export class DepartmentsService extends BaseService {
       return { ...department, ...params };
     });
   }
-
 }

@@ -1,21 +1,17 @@
 import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
-import {
-  AddRoomParams,
-  EditRoomParams,
-  Room,
-  RoomId,
-} from '@/rooms/entities';
+import { AddRoomParams, EditRoomParams, Room, RoomId } from '@/rooms/entities';
 import { delay, SECOND } from '@/common/utils';
+import { HttpClient } from '@/common/http-client';
 
 export class RoomsService extends BaseService {
   private rooms: Room[] = [];
 
-  constructor() {
-    super();
+  constructor(httpClient: HttpClient) {
+    super(httpClient);
 
     const array = new Array(5).fill(null);
-    
+
     this.rooms = array.map(() => ({
       id: faker.number.int({ min: 1, max: 100 }),
       location: `Room ${faker.number.int({ min: 1, max: 999 })}${faker.string.alpha({ length: 1 }).toUpperCase()}`,
@@ -37,9 +33,7 @@ export class RoomsService extends BaseService {
 
   async deleteRooms(ids: Array<RoomId>) {
     await delay(2 * SECOND);
-    this.rooms = this.rooms.filter(
-      (room) => !ids.includes(room.id),
-    );
+    this.rooms = this.rooms.filter((room) => !ids.includes(room.id));
   }
 
   async editRoom(params: EditRoomParams) {
