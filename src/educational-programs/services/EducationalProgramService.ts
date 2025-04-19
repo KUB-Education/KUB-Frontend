@@ -9,12 +9,13 @@ import {
   studyFormats,
 } from '@/educational-programs/entities';
 import { delay, SECOND } from '@/common/utils';
+import { HttpClient } from '@/common/http-client';
 
 export class EducationalProgramsService extends BaseService {
   private educationalPrograms: EducationalProgram[] = [];
 
-  constructor() {
-    super();
+  constructor(http: HttpClient) {
+    super(http);
 
     for (let i = 0; i < 1; i++) {
       const studyField = {
@@ -37,14 +38,13 @@ export class EducationalProgramsService extends BaseService {
             degreeType: faker.helpers.arrayElement(academicDegrees),
             studyFormat: faker.helpers.arrayElement(studyFormats),
           };
-          
+
           this.educationalPrograms.push({
             id: faker.number.int({ min: 1, max: 100 }),
             studyField: studyField,
             specialty: specialty,
             educationalProgram: educationalProgram,
           });
-
         }
       }
     }
@@ -55,53 +55,65 @@ export class EducationalProgramsService extends BaseService {
   }
 
   async addEducationalProgram(params: AddEducationalProgramParams) {
-      await delay(1 * SECOND);
-      this.educationalPrograms.push({
+    await delay(1 * SECOND);
+    this.educationalPrograms.push({
+      id: faker.number.int(),
+      studyField: {
+        ...params.studyField,
+        id:
+          this.educationalPrograms.find(
+            (ep) => ep.studyField.code == params.studyField.code,
+          )?.studyField.id ?? faker.number.int(),
+      },
+      specialty: {
+        ...params.specialty,
+        id:
+          this.educationalPrograms.find(
+            (ep) => ep.specialty.code == params.specialty.code,
+          )?.specialty.id ?? faker.number.int(),
+      },
+      educationalProgram: {
+        ...params.educationalProgram,
         id: faker.number.int(),
+      },
+    });
+  }
+
+  async deleteEducationalPrograms(ids: Array<EducationalProgramId>) {
+    await delay(1 * SECOND);
+    this.educationalPrograms = this.educationalPrograms.filter(
+      (ep) => !ids.includes(ep.id),
+    );
+  }
+
+  async editEducationalProgram(params: EditEducationalProgramParams) {
+    await delay(1 * SECOND);
+    this.educationalPrograms = this.educationalPrograms.map((ep) => {
+      if (ep.id !== params.id) return ep;
+
+      return {
+        id: ep.id,
         studyField: {
+          ...ep.studyField,
           ...params.studyField,
-          id: this.educationalPrograms.find(ep => ep.studyField.code == params.studyField.code)?.studyField.id ?? faker.number.int(),
+          id:
+            this.educationalPrograms.find(
+              (ep) => ep.studyField.code == params.studyField.code,
+            )?.studyField.id ?? faker.number.int(),
         },
         specialty: {
+          ...ep.specialty,
           ...params.specialty,
-          id: this.educationalPrograms.find(ep => ep.specialty.code == params.specialty.code)?.specialty.id ?? faker.number.int(),
+          id:
+            this.educationalPrograms.find(
+              (ep) => ep.specialty.code == params.specialty.code,
+            )?.specialty.id ?? faker.number.int(),
         },
         educationalProgram: {
+          ...ep.educationalProgram,
           ...params.educationalProgram,
-          id: faker.number.int(),
         },
-      });
-    }
-  
-    async deleteEducationalPrograms(ids: Array<EducationalProgramId>) {
-      await delay(1 * SECOND);
-      this.educationalPrograms = this.educationalPrograms.filter(
-        (ep) => !ids.includes(ep.id),
-      );
-    }
-  
-    async editEducationalProgram(params: EditEducationalProgramParams) {
-      await delay(1 * SECOND);
-      this.educationalPrograms = this.educationalPrograms.map((ep) => {
-        if (ep.id !== params.id) return ep;
-
-        return {
-          id: ep.id,
-          studyField: {
-            ...ep.studyField,
-            ...params.studyField,
-            id: this.educationalPrograms.find(ep => ep.studyField.code == params.studyField.code)?.studyField.id ?? faker.number.int(),
-          },
-          specialty: {
-            ...ep.specialty,
-            ...params.specialty,
-            id: this.educationalPrograms.find(ep => ep.specialty.code == params.specialty.code)?.specialty.id ?? faker.number.int(),
-          },
-          educationalProgram: {
-            ...ep.educationalProgram,
-            ...params.educationalProgram,
-          },
-        };
-      });
-    }
+      };
+    });
+  }
 }

@@ -10,13 +10,18 @@ import {
 } from './styles';
 import SettingsIcon from '@/common/assets/icons/settings.svg?react';
 import ProfileIcon from '@/common/assets/icons/profile.svg?react';
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useMemo } from 'react';
+import { useLogout } from '@/auth/hooks';
+import { useUserProfileQuery } from '@/users/hooks';
 
 export type HeaderToolbarProps = {
   className?: string;
 };
 
 const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
+  const { logout } = useLogout();
+  const { userProfile } = useUserProfileQuery();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -28,9 +33,20 @@ const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
     setAnchorEl(null);
   };
 
+  const onLogout = async () => {
+    logout();
+    setAnchorEl(null);
+  };
+
+  const userName = useMemo(() => {
+    if (!userProfile) return '';
+
+    return `${userProfile.lastName} ${userProfile.firstName}`;
+  }, [userProfile]);
+
   return (
     <Root className={className}>
-      <UserName>Kilko Pavlo</UserName>
+      <UserName>{userName}</UserName>
       <Avatar />
       <SettingButton
         aria-controls={open ? 'basic-menu' : undefined}
@@ -59,7 +75,7 @@ const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
           </MenuItemIcon>
           Profile settings
         </MenuItem>
-        <LogoutMenuItem onClick={handleClose}>Logout</LogoutMenuItem>
+        <LogoutMenuItem onClick={onLogout}>Logout</LogoutMenuItem>
       </Menu>
     </Root>
   );
