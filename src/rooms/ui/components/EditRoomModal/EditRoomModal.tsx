@@ -6,11 +6,13 @@ import {
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { EditRoomParams, Room } from '@/rooms/entities';
-import { InputLabel } from '@mui/material';
 import {
-  requiredValidator,
-} from '@/common/utils/validators.ts';
+  EditRoomParams,
+  Room,
+  roomCapacityValidator,
+  roomLocationValidator,
+} from '@/rooms/entities';
+import { InputLabel } from '@mui/material';
 import { useEditRoom } from '@/rooms/hooks';
 
 export type EditRoomModalProps = {
@@ -21,11 +23,7 @@ export type EditRoomModalProps = {
 
 type Inputs = Omit<EditRoomParams, 'id'>;
 
-const EditRoomModal = ({
-  open,
-  onClose,
-  room,
-}: EditRoomModalProps) => {
+const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
   const { editRoom, isPending } = useEditRoom({ onSuccess: onClose });
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
@@ -49,7 +47,7 @@ const EditRoomModal = ({
             </InputLabel>
             <FormTextField
               label="location"
-              {...register('location', { ...requiredValidator() })}
+              {...register('location', { ...roomLocationValidator })}
             />
           </FormControl>
           <FormControl>
@@ -59,10 +57,9 @@ const EditRoomModal = ({
             <FormTextField
               label="capacity"
               type="number"
-              {...register('capacity', { 
-                ...requiredValidator(), 
-                validate: (value) => Number(value) >= 1 ? true : 'Capacity must be at least 1',
-                setValueAs: (value) => Number(value)
+              {...register('capacity', {
+                ...roomCapacityValidator,
+                setValueAs: (value) => Number(value),
               })}
             />
           </FormControl>
