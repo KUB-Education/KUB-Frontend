@@ -11,7 +11,7 @@ import {
 import { useResetPassword } from '@/auth/hooks/usePasswordReset';
 import { InputLabel } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { InfoModal } from '@/auth/ui/components';
+import { InfoModal, ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { APP_ROUTES } from '@/common/routes';
@@ -27,17 +27,28 @@ type Inputs = {
 
 const ForgotPassword = () => {
   const [isHelpModalVisible, setIsHelpModalVisible] = useState(false);
-  const [isRecoveryCompletedModalVisible, setIsRecoveryCompletedModalVisible] =
-    useState(false);
+  const [isRecoveryCompletedModalVisible, setIsRecoveryCompletedModalVisible] = useState(false);
+  const [isFailedToResetPasswordModalVisible, setIsFailedToResetPasswordModalVisible] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<Inputs>();
 
   const navigate = useNavigate();
 
-  const { resetPassword } = useResetPassword();
+  const onPasswordResetFailed = () => {
+    setIsFailedToResetPasswordModalVisible(true);
+  };
+
+  const onPasswordResetSucceeded = () => {
+    setIsRecoveryCompletedModalVisible(true);
+  };
+
+  const { resetPassword } = useResetPassword({
+    onError: onPasswordResetFailed,
+    onSuccess: onPasswordResetSucceeded
+  });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     resetPassword(data);
-    setIsRecoveryCompletedModalVisible(true);
   };
 
   const { isValid } = formState;
@@ -104,6 +115,13 @@ const ForgotPassword = () => {
         password has been sent. Please check your inbox, including spam or junk
         folders.
       </InfoModal>
+      <ErrorModal
+        open={isFailedToResetPasswordModalVisible}
+        onClose={() => setIsFailedToResetPasswordModalVisible(false)}
+        onContinue={() => setIsFailedToResetPasswordModalVisible(false)}
+      >
+        <p>Password reset failed.</p>
+      </ErrorModal>
     </Root>
   );
 };
