@@ -8,6 +8,7 @@ import {
   Button,
   NeedHelp,
 } from './styles';
+import { useChangePassword } from '@/auth/hooks';
 import { InputLabel, OutlinedInput } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorModal, InfoModal } from '@/auth/ui/components';
@@ -30,6 +31,19 @@ const ChangePassword = () => {
 
   const navigate = useNavigate();
 
+  const onPasswordChangeFailed = () => {
+    setIsFailedToChangePasswordModalVisible(true);
+  };
+
+  const onPasswordChangeSucceeded = () => {
+    setIsPasswordChangeCompletedModalVisible(true);
+  };
+
+  const { changePassword } = useChangePassword({
+    onError: onPasswordChangeFailed,
+    onSuccess: onPasswordChangeSucceeded
+  });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const {newPassword, repeatNewPassword } = data;
 
@@ -38,8 +52,7 @@ const ChangePassword = () => {
       return;
     }
 
-    // TODO: add actual implementation when the endpoint is rdy
-    setIsPasswordChangeCompletedModalVisible(true);
+    changePassword(data);
   }
 
   const {isValid} = formState;
