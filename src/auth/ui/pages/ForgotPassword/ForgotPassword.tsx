@@ -8,6 +8,7 @@ import {
   Button,
   NeedHelp,
 } from './styles';
+import { useResetPassword } from '@/auth/hooks/usePasswordReset';
 import { InputLabel } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { InfoModal } from '@/auth/ui/components';
@@ -33,8 +34,9 @@ const ForgotPassword = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<Inputs> = () => {
-    // TODO: add actual implementation when the endpoint is rdy
+  const { resetPassword } = useResetPassword();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    resetPassword(data);
     setIsRecoveryCompletedModalVisible(true);
   };
 
