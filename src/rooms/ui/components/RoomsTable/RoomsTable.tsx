@@ -8,15 +8,27 @@ import { Table } from '@/common/ui/components';
 export type RoomsTableProps = {
   data: Array<Room>;
   onRoomsSelected: (data: Array<Room>) => void;
+  isLoading?: boolean;
+  isError?: boolean;
 };
 
-const RoomsTable = ({ data, onRoomsSelected }: RoomsTableProps) => {
+const RoomsTable = ({
+  data,
+  isLoading,
+  isError,
+  onRoomsSelected,
+}: RoomsTableProps) => {
   const gridRef = useRef<AgGridReact<Room>>(null);
 
   const [colDefs] = useState<ColDef<Room>[]>([
     { field: 'id', headerName: 'ID', minWidth: 80 },
     { field: 'location', headerName: 'Location', minWidth: 125 },
-    { field: 'capacity', headerName: 'Capacity', minWidth: 125, resizable: false }
+    {
+      field: 'capacity',
+      headerName: 'Capacity',
+      minWidth: 125,
+      resizable: false,
+    },
   ]);
 
   const onSelectionChanged = useCallback(() => {
@@ -38,6 +50,8 @@ const RoomsTable = ({ data, onRoomsSelected }: RoomsTableProps) => {
         columnDefs={colDefs}
         onSelectionChanged={onSelectionChanged}
         getRowId={getRowId}
+        loading={isLoading}
+        error={isError}
       />
     </Root>
   );

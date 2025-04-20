@@ -1,47 +1,40 @@
-import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
 import { AddRoomParams, EditRoomParams, Room, RoomId } from '@/rooms/entities';
-import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
+import { RoomDto } from '@/rooms/services/dto';
 
 export class RoomsService extends BaseService {
-  private rooms: Room[] = [];
-
   constructor(httpClient: HttpClient) {
     super(httpClient);
-
-    const array = new Array(5).fill(null);
-
-    this.rooms = array.map(() => ({
-      id: faker.number.int({ min: 1, max: 100 }),
-      location: `Room ${faker.number.int({ min: 1, max: 999 })}${faker.string.alpha({ length: 1 }).toUpperCase()}`,
-      capacity: faker.number.int({ min: 1, max: 100 }),
-    }));
   }
 
   async getRooms(): Promise<Room[]> {
-    return this.rooms;
+    const { data } = await this.http.get<RoomDto[]>('/rooms');
+    return data;
   }
 
-  async addRoom(params: AddRoomParams) {
-    await delay(5 * SECOND);
-    this.rooms.push({
-      ...params,
-      id: faker.number.int(),
+  async addRoom(params: AddRoomParams): Promise<Room> {
+    const { data } = await this.http.post<RoomDto>('/rooms', {
+      data: params,
     });
+
+    return data;
   }
 
-  async deleteRooms(ids: Array<RoomId>) {
-    await delay(2 * SECOND);
-    this.rooms = this.rooms.filter((room) => !ids.includes(room.id));
+  async deleteRooms(ids: Array<RoomId>): Promise<void> {
+    // TODO: should we delete bulk?
+    await Promise.all(ids.map((id) => this.http.delete(`/rooms/${id}`)));
   }
 
   async editRoom(params: EditRoomParams) {
-    await delay(5 * SECOND);
-    this.rooms = this.rooms.map((room) => {
-      if (room.id !== params.id) return room;
-
-      return { ...room, ...params };
+    const { location, capacity, id } = params;
+    const { data } = await this.http.put<RoomDto>(`/rooms/${id}`, {
+      data: {
+        location,
+        capacity,
+      },
     });
+
+    return data;
   }
 }
