@@ -70,7 +70,7 @@ const Table = forwardRef<AgGridReact, TableProps>((props: TableProps, ref) => {
     window.addEventListener('resize', debouncedHandleResize);
 
     return () => window.removeEventListener('resize', debouncedHandleResize);
-  }, []);
+  }, [debouncedHandleResize]);
 
   return (
     <AgGridReact

@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
-import EducationalProgramToolbar from '@/educational-programs/ui/components/EducationalProgramToolbar';
-import EducationalProgramTable from '@/educational-programs/ui/components/EducationalProgramTable';
+import { ThreeTables, ThreeTablesToolbar } from '@/common/ui/components';
+import { EducationalProgram } from '@/educational-programs/entities';
 
 export const Root = styled('div')({
   flexGrow: 1,
@@ -9,8 +9,8 @@ export const Root = styled('div')({
   padding: '10px',
 });
 
-export const Toolbar = styled(EducationalProgramToolbar)({
+export const Toolbar = styled(ThreeTablesToolbar<EducationalProgram["studyField"], EducationalProgram["specialty"], EducationalProgram["educationalProgram"]>)({
   marginBottom: '10px',
 });
 
-export const Table = styled(EducationalProgramTable)({});
+export const Table = styled(ThreeTables<EducationalProgram["studyField"], EducationalProgram["specialty"], EducationalProgram["educationalProgram"]>)({});

@@ -1,11 +1,5 @@
-export { default as AddEducationalProgramModal } from './AddEducationalProgramModal';
-export * from './AddEducationalProgramModal';
-export { default as EditEducationalProgramModal } from './EditEducationalProgramModal';
-export * from './EditEducationalProgramModal';
-export { default as EducationalProgramTable } from './EducationalProgramTable';
-export * from './EducationalProgramTable';
-export { default as EducationalProgramToolbar } from './EducationalProgramToolbar';
-export * from './EducationalProgramToolbar';
+export { default as EducationalProgramModal } from './EducationalProgramModal';
+export * from './EducationalProgramModal';
 export { default as AcademicDegree } from './AcademicDegree';
 export * from './AcademicDegree';
 export { default as StudyFormat } from './StudyFormat';

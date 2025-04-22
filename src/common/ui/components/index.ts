@@ -26,3 +26,7 @@ export { default as SaveButton } from './SaveButton';
 export * from './SaveButton';
 export { default as EditButton } from './EditButton';
 export * from './EditButton';
+export { default as ThreeTables } from './ThreeTables';
+export * from './ThreeTables';
+export { default as ThreeTablesToolbar } from './ThreeTablesToolbar';
+export * from './ThreeTablesToolbar';
