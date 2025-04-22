@@ -6,6 +6,7 @@ import { LecturersService } from '@/lecturers/services';
 import { RoomsService } from '@/rooms/services';
 import { DepartmentsService } from '@/departments/services';
 import { EducationalProgramsService } from '@/educational-programs/services';
+import { SubjectsService } from '@/subjects/services';
 
 function initServices(): AppServices {
   const authService = new AuthService();
@@ -13,6 +14,7 @@ function initServices(): AppServices {
   const lecturesService = new LecturersService(departmentsService);
   const roomsService = new RoomsService();
   const educationalProgramsService = new EducationalProgramsService();
+  const subjectsService = new SubjectsService();
 
   return {
     authService,
@@ -20,6 +22,7 @@ function initServices(): AppServices {
     lecturesService,
     roomsService,
     educationalProgramsService,
+    subjectsService,
   };
 }
 
