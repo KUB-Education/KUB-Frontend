@@ -12,4 +12,5 @@ export const APP_ROUTES = Object.freeze({
   HELP: '/help',
   LOGIN: '/login',
   FORGOT_PASSWORD: '/forgot-password',
+  CHANGE_PASSWORD: '/change-password',
 });

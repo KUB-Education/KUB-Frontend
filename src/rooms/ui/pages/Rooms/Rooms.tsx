@@ -1,14 +1,11 @@
 import { Room, RoomId } from '@/rooms/entities';
 import { Root, Toolbar, Table } from './styles';
-import {
-  useDeleteRooms,
-  useRoomsQuery,
-} from '@/rooms/hooks';
+import { useDeleteRooms, useRoomsQuery } from '@/rooms/hooks';
 import { useMemo, useState } from 'react';
 import { AddRoomModal, EditRoomModal } from '@/rooms/ui/components';
 
 const Rooms = () => {
-  const { rooms } = useRoomsQuery();
+  const { rooms, isFetching, isError } = useRoomsQuery();
   const { deleteRooms } = useDeleteRooms();
 
   const [selectedRooms, setSelectedRooms] = useState<Room[]>([]);
@@ -37,7 +34,12 @@ const Rooms = () => {
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Table data={rooms} onRoomsSelected={setSelectedRooms} />
+      <Table
+        data={rooms}
+        isLoading={isFetching}
+        isError={isError}
+        onRoomsSelected={setSelectedRooms}
+      />
 
       <AddRoomModal
         open={isAddModalVisible}

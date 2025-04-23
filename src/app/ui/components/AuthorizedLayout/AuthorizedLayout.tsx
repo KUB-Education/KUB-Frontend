@@ -11,6 +11,7 @@ import {
   HeaderToolbar,
 } from './styles.tsx';
 import { Outlet } from 'react-router';
+import Breadcrumb from './Breadcrumb/Breadcrumb.tsx';
 
 const AuthorizedLayout = () => {
   const [open, setOpen] = useState(true);
@@ -34,7 +35,9 @@ const AuthorizedLayout = () => {
         }
       >
         <HeaderContent>
-          <HeaderLabel>Admin</HeaderLabel>
+          <HeaderLabel>
+            <Breadcrumb />
+          </HeaderLabel>
           <HeaderToolbar />
         </HeaderContent>
       </Header>

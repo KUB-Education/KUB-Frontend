@@ -8,6 +8,7 @@ import {
   studyFormats,
 } from '@/educational-programs/entities';
 import { delay, SECOND } from '@/common/utils';
+import { HttpClient } from '@/common/http-client';
 
 type HierarchyEPData = HierarchyData<EducationalProgram["studyField"], EducationalProgram["specialty"], EducationalProgram["educationalProgram"]>;
 type GrouppedEPData = GrouppedData<EducationalProgram["studyField"], EducationalProgram["specialty"], EducationalProgram["educationalProgram"]>;
@@ -15,8 +16,8 @@ type GrouppedEPData = GrouppedData<EducationalProgram["studyField"], Educational
 export class EducationalProgramsService extends BaseService {
   private educationalPrograms: HierarchyEducationalPrograms[] = [];
 
-  constructor() {
-    super();
+  constructor(http: HttpClient) {
+    super(http);
 
     this.educationalPrograms = new Array(5).fill(null).map(() => ({
       studyField: {

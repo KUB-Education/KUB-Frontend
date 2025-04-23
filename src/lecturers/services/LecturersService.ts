@@ -13,12 +13,16 @@ import { delay, SECOND } from '@/common/utils';
 import { DepartmentsService } from '@/departments/services';
 import { Department } from '@/departments/entities';
 import { UserStatus, userStatuses } from '@/users/entities';
+import { HttpClient } from '@/common/http-client';
 
 export class LecturersService extends BaseService {
   private lecturers: Lecturer[] = [];
 
-  constructor(private readonly departmentsService: DepartmentsService) {
-    super();
+  constructor(
+    httpClient: HttpClient,
+    private readonly departmentsService: DepartmentsService,
+  ) {
+    super(httpClient);
   }
 
   async getLecturers(): Promise<Lecturer[]> {
