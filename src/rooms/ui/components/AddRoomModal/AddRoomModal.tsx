@@ -6,11 +6,12 @@ import {
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { AddRoomParams } from '@/rooms/entities';
-import { InputLabel } from '@mui/material';
 import {
-  requiredValidator,
-} from '@/common/utils/validators.ts';
+  AddRoomParams,
+  roomCapacityValidator,
+  roomLocationValidator,
+} from '@/rooms/entities';
+import { InputLabel } from '@mui/material';
 import { useAddRoom } from '@/rooms/hooks';
 
 export type AddRoomModalProps = {
@@ -41,7 +42,7 @@ const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
             </InputLabel>
             <FormTextField
               label="location"
-              {...register('location', { ...requiredValidator() })}
+              {...register('location', { ...roomLocationValidator })}
             />
           </FormControl>
           <FormControl>
@@ -51,10 +52,9 @@ const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
             <FormTextField
               label="capacity"
               type="number"
-              {...register('capacity', { 
-                ...requiredValidator(), 
-                validate: (value) => value >= 1 || 'Capacity must be at least 1',
-                setValueAs: (value) => Number(value)
+              {...register('capacity', {
+                ...roomCapacityValidator,
+                setValueAs: (value) => Number(value),
               })}
             />
           </FormControl>

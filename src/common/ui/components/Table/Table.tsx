@@ -11,6 +11,8 @@ import type {
   SizeColumnsToFitProvidedWidthStrategy,
 } from 'ag-grid-community';
 import { useDebouncedCallback } from 'use-debounce';
+import TableLoader from './TableLoader';
+import TableError from './TableError';
 
 export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   accentColor: '#008CFF',
@@ -36,55 +38,69 @@ function resizeColumns(api: GridApi | undefined) {
   api?.sizeColumnsToFit();
 }
 
-export type TableProps = AgGridReactProps;
+export type TableProps = AgGridReactProps & { error?: boolean };
 // TODO add generic for proper types
-const Table = forwardRef<AgGridReact, TableProps>((props: TableProps, ref) => {
-  const rowSelection = useMemo<{ mode: 'multiRow' }>(() => {
-    return {
-      mode: 'multiRow',
-    };
-  }, []);
+const Table = forwardRef<AgGridReact, TableProps>(
+  ({ error, noRowsOverlayComponent, ...otherProps }: TableProps, ref) => {
+    const rowSelection = useMemo<{ mode: 'multiRow' }>(() => {
+      return {
+        mode: 'multiRow',
+      };
+    }, []);
 
-  const defaultColDef = useMemo<ColDef>(() => {
-    return {
-      wrapHeaderText: true,
-      autoHeaderHeight: true,
-      sortable: false,
-    };
-  }, []);
+    const defaultColDef = useMemo<ColDef>(() => {
+      return {
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        sortable: false,
+      };
+    }, []);
 
-  const autoSizeStrategy = useMemo<
-    | SizeColumnsToFitGridStrategy
-    | SizeColumnsToFitProvidedWidthStrategy
-    | SizeColumnsToContentStrategy
-  >(() => {
-    return {
-      type: 'fitGridWidth',
-    };
-  }, []);
+    const autoSizeStrategy = useMemo<
+      | SizeColumnsToFitGridStrategy
+      | SizeColumnsToFitProvidedWidthStrategy
+      | SizeColumnsToContentStrategy
+    >(() => {
+      return {
+        type: 'fitGridWidth',
+      };
+    }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const debouncedHandleResize = useDebouncedCallback(() => resizeColumns((ref as any)?.current?.api), 100);
+    const debouncedHandleResize = useDebouncedCallback(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      () => resizeColumns((ref as any)?.current?.api),
+      100,
+    );
 
-  useEffect(() => {
-    window.addEventListener('resize', debouncedHandleResize);
+    useEffect(() => {
+      window.addEventListener('resize', debouncedHandleResize);
 
-    return () => window.removeEventListener('resize', debouncedHandleResize);
-  }, [debouncedHandleResize]);
+      return () => window.removeEventListener('resize', debouncedHandleResize);
+    }, [debouncedHandleResize]);
 
-  return (
-    <AgGridReact
-      ref={ref}
-      theme={tableTheme}
-      rowSelection={rowSelection}
-      pagination={true}
-      defaultColDef={defaultColDef}
-      autoSizeStrategy={autoSizeStrategy}
-      paginationPageSize={50}
-      paginationPageSizeSelector={[50, 100, 200]}
-      {...props}
-    />
-  );
-});
+    const noRowsComponent = useMemo(() => {
+      if (!error) return noRowsOverlayComponent;
+
+      return TableError;
+    }, [error, noRowsOverlayComponent]);
+
+    return (
+      <AgGridReact
+        ref={ref}
+        theme={tableTheme}
+        rowSelection={rowSelection}
+        pagination={true}
+        defaultColDef={defaultColDef}
+        autoSizeStrategy={autoSizeStrategy}
+        paginationPageSize={50}
+        paginationPageSizeSelector={[50, 100, 200]}
+        suppressDragLeaveHidesColumns // Prevents columns from delete when dragging
+        loadingOverlayComponent={TableLoader}
+        noRowsOverlayComponent={noRowsComponent}
+        {...otherProps}
+      />
+    );
+  },
+);
 
 export default Table;

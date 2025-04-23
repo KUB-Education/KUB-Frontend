@@ -30,6 +30,9 @@ const LecturersToolbar = ({
     return (
       <Root className={className}>
         <ActionsList>
+          <ActionsListItem>
+            <ResendButton onClick={onResend} />
+          </ActionsListItem>
           {selectedLecturers.length === 1 && (
             <ActionsListItem>
               <EditButton onClick={onEdit} />
@@ -37,9 +40,6 @@ const LecturersToolbar = ({
           )}
           <ActionsListItem>
             <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
-          <ActionsListItem>
-            <ResendButton onClick={onResend} />
           </ActionsListItem>
         </ActionsList>
       </Root>
