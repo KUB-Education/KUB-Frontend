@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react';
 import { AddDepartmentModal, EditDepartmentModal } from '@/departments/ui/components';
 
 const Departments = () => {
-  const { departments } = useDepartmentsQuery();
+  const { departments, isFetching, isError } = useDepartmentsQuery();
   const { deleteDepartments } = useDeleteDepartment();
 
   const [selectedDepartments, setSelectedDepartments] = useState<Department[]>([]);
@@ -36,7 +36,11 @@ const Departments = () => {
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Table data={departments} onDepartmentsSelected={setSelectedDepartments} />
+      <Table
+        data={departments}
+        isLoading={isFetching}
+        isError={isError}
+        onDepartmentsSelected={setSelectedDepartments} />
 
       <AddDepartmentModal
         open={isAddModalVisible}

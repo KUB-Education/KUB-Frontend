@@ -1,56 +1,43 @@
 import { BaseService } from '@/common/services';
 import {
-  Department,
-  DepartmentId,
   AddDepartmentParams,
   EditDepartmentParams,
+  Department,
+  DepartmentId,
 } from '@/departments/entities';
-import { faker } from '@faker-js/faker';
-import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
+import { DepartmentDto } from '@/departments/services/dto';
 
 export class DepartmentsService extends BaseService {
-  private departments: Department[];
-
   constructor(httpClient: HttpClient) {
     super(httpClient);
-
-    this.departments = new Array(10).fill(0).map((_, i) => {
-      return { id: i, name: faker.person.jobArea() };
-    });
   }
 
   async getDepartments(): Promise<Department[]> {
-    return this.departments;
+    const { data } = await this.http.get<DepartmentDto[]>('/departments');
+    return data;
   }
 
-  async getDepartment(id: DepartmentId): Promise<Department | null> {
-    const foundDepartment = this.departments.find((d) => d.id === id);
-
-    return foundDepartment || null;
-  }
-
-  async addDepartment(params: AddDepartmentParams) {
-    await delay(5 * SECOND);
-    this.departments.push({
-      ...params,
-      id: faker.number.int(),
+  async addDepartment(params: AddDepartmentParams): Promise<Department> {
+    const { data } = await this.http.post<DepartmentDto>('/departments', {
+      data: params,
     });
+
+    return data;
   }
 
-  async deleteDepartments(ids: Array<DepartmentId>) {
-    await delay(2 * SECOND);
-    this.departments = this.departments.filter(
-      (department) => !ids.includes(department.id),
-    );
+  async deleteDepartments(ids: Array<DepartmentId>): Promise<void> {
+    await Promise.all(ids.map((id) => this.http.delete(`/departments/${id}`)));
   }
 
-  async editDepartment(params: EditDepartmentParams) {
-    await delay(5 * SECOND);
-    this.departments = this.departments.map((department) => {
-      if (department.id !== params.id) return department;
-
-      return { ...department, ...params };
+  async editDepartment(params: EditDepartmentParams): Promise<Department> {
+    const { id, name } = params;
+    const { data } = await this.http.put<DepartmentDto>(`/departments/${id}`, {
+      data: {
+        name,
+      },
     });
+
+    return data;
   }
 }

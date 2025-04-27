@@ -6,11 +6,10 @@ import {
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { AddDepartmentParams } from '@/departments/entities';
+import { AddDepartmentParams,
+  departmentNameValidator,
+} from '@/departments/entities';
 import { InputLabel } from '@mui/material';
-import {
-  requiredValidator,
-} from '@/common/utils/validators.ts';
 import { useAddDepartment } from '@/departments/hooks';
 
 export type AddDepartmentModalProps = {
@@ -41,7 +40,7 @@ const AddDepartmentModal = ({ open, onClose }: AddDepartmentModalProps) => {
             </InputLabel>
             <FormTextField
               label="name"
-              {...register('name', { ...requiredValidator() })}
+              {...register('name', { ...departmentNameValidator })}
             />
           </FormControl>
           <Actions>
