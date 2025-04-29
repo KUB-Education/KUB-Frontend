@@ -14,9 +14,11 @@ import {
   ButtonsGroup,
 } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { EditDepartmentParams, Department } from '@/departments/entities';
+import { EditDepartmentParams,
+  Department,
+  departmentNameValidator
+} from '@/departments/entities';
 import { InputLabel } from '@mui/material';
-import { requiredValidator } from '@/common/utils/validators.ts';
 import { useEditDepartment, useDeleteDepartment } from '@/departments/hooks';
 
 export type EditDepartmentModalProps = {
@@ -66,7 +68,7 @@ const EditDepartmentModal = ({
             </InputLabel>
             <FormTextField
               label="name"
-              {...register('name', { ...requiredValidator() })}
+              {...register('name', { ...departmentNameValidator })}
             />
           </FormControl>
           <Actions>

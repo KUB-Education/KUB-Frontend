@@ -8,11 +8,13 @@ import { Table } from '@/common/ui/components';
 export type DepartmentsTableProps = {
   data: Array<Department>;
   onDepartmentsSelected: (data: Array<Department>) => void;
+  isLoading?: boolean;
+  isError?: boolean;
 };
 
 const DepartmentsTable = ({
   data,
-  onDepartmentsSelected,
+  onDepartmentsSelected, isLoading, isError,
 }: DepartmentsTableProps) => {
   const gridRef = useRef<AgGridReact<Department>>(null);
 
@@ -50,6 +52,8 @@ const DepartmentsTable = ({
         columnDefs={colDefs}
         onSelectionChanged={onSelectionChanged}
         getRowId={getRowId}
+        loading={isLoading}
+        error={isError}
         rowSelection="multiple"
         suppressRowClickSelection
       />

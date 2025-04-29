@@ -1,1 +1,1 @@
-export * from './DepartmentsService';
+export * from './DepartmentsService.ts';
