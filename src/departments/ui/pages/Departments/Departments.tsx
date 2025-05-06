@@ -1,19 +1,30 @@
 import { Department, DepartmentId } from '@/departments/entities';
 import { Root, Toolbar, Table } from './styles';
-import {
-  useDeleteDepartment,
-  useDepartmentsQuery,
-} from '@/departments/hooks';
+import { useDeleteDepartment, useDepartmentsQuery } from '@/departments/hooks';
 import { useMemo, useState } from 'react';
-import { AddDepartmentModal, EditDepartmentModal } from '@/departments/ui/components';
+import {
+  AddDepartmentModal,
+  EditDepartmentModal,
+} from '@/departments/ui/components';
+import { ErrorModal } from '@/common/ui/components';
 
 const Departments = () => {
-  const { departments, isFetching, isError } = useDepartmentsQuery();
-  const { deleteDepartments } = useDeleteDepartment();
+  const onDeleteError = () => {
+    setIsDeleteErrorModalVisible(true);
+  };
 
-  const [selectedDepartments, setSelectedDepartments] = useState<Department[]>([]);
+  const { departments, isFetching, isError } = useDepartmentsQuery();
+  const { deleteDepartments, error: deleteError } = useDeleteDepartment({
+    onError: onDeleteError,
+  });
+
+  const [selectedDepartments, setSelectedDepartments] = useState<Department[]>(
+    [],
+  );
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDeleteErrorModalVisible, setIsDeleteErrorModalVisible] =
+    useState(false);
 
   const selectedDepartmentsIds = useMemo<DepartmentId[]>(() => {
     return selectedDepartments.map((department) => department.id);
@@ -40,7 +51,8 @@ const Departments = () => {
         data={departments}
         isLoading={isFetching}
         isError={isError}
-        onDepartmentsSelected={setSelectedDepartments} />
+        onDepartmentsSelected={setSelectedDepartments}
+      />
 
       <AddDepartmentModal
         open={isAddModalVisible}
@@ -51,6 +63,14 @@ const Departments = () => {
         department={selectedDepartments[0]}
         onClose={() => setIsEditModalVisible(false)}
       />
+
+      <ErrorModal
+        open={isDeleteErrorModalVisible}
+        onClose={() => setIsDeleteErrorModalVisible(false)}
+        onContinue={() => setIsDeleteErrorModalVisible(false)}
+      >
+        {deleteError?.message}
+      </ErrorModal>
     </Root>
   );
 };

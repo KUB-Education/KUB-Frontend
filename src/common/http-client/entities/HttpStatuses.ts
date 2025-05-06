@@ -1,1 +1,4 @@
-export { StatusCodes as HttpStatusCodes } from 'http-status-codes';
+export {
+  StatusCodes as HttpStatusCodes,
+  getReasonPhrase as getHttpStatusReasonPhrase,
+} from 'http-status-codes';

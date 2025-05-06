@@ -11,7 +11,7 @@ import {
 import { useChangePassword } from '@/auth/hooks';
 import { InputLabel, OutlinedInput } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ErrorModal, InfoModal } from '@/auth/ui/components';
+import { ErrorModal, InfoModal } from '@/common/ui/components';
 import { requiredValidator } from '@/common/utils/validators';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -24,8 +24,14 @@ type Inputs = {
 
 const ChangePassword = () => {
   const [isHelpModalVisible, setIsHelpModalVisible] = useState(false);
-  const [isPasswordChangeCompletedModalVisible, setIsPasswordChangeCompletedModalVisible] = useState(false);
-  const [isFailedToChangePasswordModalVisible, setIsFailedToChangePasswordModalVisible] = useState(false);
+  const [
+    isPasswordChangeCompletedModalVisible,
+    setIsPasswordChangeCompletedModalVisible,
+  ] = useState(false);
+  const [
+    isFailedToChangePasswordModalVisible,
+    setIsFailedToChangePasswordModalVisible,
+  ] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<Inputs>();
 
@@ -41,11 +47,11 @@ const ChangePassword = () => {
 
   const { changePassword } = useChangePassword({
     onError: onPasswordChangeFailed,
-    onSuccess: onPasswordChangeSucceeded
+    onSuccess: onPasswordChangeSucceeded,
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const {newPassword, repeatNewPassword } = data;
+    const { newPassword, repeatNewPassword } = data;
 
     if (newPassword != repeatNewPassword) {
       setIsFailedToChangePasswordModalVisible(true);
@@ -53,9 +59,9 @@ const ChangePassword = () => {
     }
 
     changePassword(data);
-  }
+  };
 
-  const {isValid} = formState;
+  const { isValid } = formState;
 
   return (
     <Root>
@@ -96,22 +102,22 @@ const ChangePassword = () => {
             />
           </FormControl>
           <Actions>
-            <NeedHelp onClick={() => setIsHelpModalVisible(true)} >
+            <NeedHelp onClick={() => setIsHelpModalVisible(true)}>
               Need help?
             </NeedHelp>
             <div>
-              <Button  
-                type="submit" 
-                variant="contained" 
+              <Button
+                type="submit"
+                variant="contained"
                 color="primary"
                 onClick={() => navigate(-1)}
               >
                 Back
               </Button>
-              <Button 
-                disabled={!isValid} 
-                type="submit" 
-                variant="contained" 
+              <Button
+                disabled={!isValid}
+                type="submit"
+                variant="contained"
                 color="primary"
               >
                 Send
@@ -121,7 +127,7 @@ const ChangePassword = () => {
         </Form>
       </Content>
       <InfoModal
-        title='Password change'
+        title="Password change"
         open={isHelpModalVisible}
         onClose={() => setIsHelpModalVisible(false)}
         onContinue={() => setIsHelpModalVisible(false)}
@@ -131,10 +137,13 @@ const ChangePassword = () => {
         <p>2) consist of uppercase Latin letters A-Z;</p>
         <p>3) consist of lowercase Latin letters a-z;</p>
         <p>4) consist of numbers 0-9;</p>
-        <p>5) consist of special characters ~!@#$%^&*()_-+={}[]|\\:;&lsquo;&ldquo;&lt;&gt;.?/</p>
+        <p>
+          5) consist of special characters ~!@#$%^&*()_-+={}
+          []|\\:;&lsquo;&ldquo;&lt;&gt;.?/
+        </p>
       </InfoModal>
       <InfoModal
-        title='Password change completed'
+        title="Password change completed"
         open={isPasswordChangeCompletedModalVisible}
         onClose={() => navigate(-1)}
         onContinue={() => navigate(-1)}
@@ -148,12 +157,18 @@ const ChangePassword = () => {
         onClose={() => setIsFailedToChangePasswordModalVisible(false)}
         onContinue={() => setIsFailedToChangePasswordModalVisible(false)}
       >
-        <p>Failed to change password. Please check that the old and the new password you entered are correct. The password must: </p>
+        <p>
+          Failed to change password. Please check that the old and the new
+          password you entered are correct. The password must:{' '}
+        </p>
         <p>1) be at least 8 characters long;</p>
         <p>2) consist of uppercase Latin letters A-Z;</p>
         <p>3) lowercase Latin letters a-z;</p>
         <p>4) consist of numbers 0-9;</p>
-        <p>5) consist of special characters ~`!@#$%^&*()_-+={}[]|\:;&ldquo;&lsquo;&lt;&gt;.?/</p>
+        <p>
+          5) consist of special characters ~`!@#$%^&*()_-+={}
+          []|\:;&ldquo;&lsquo;&lt;&gt;.?/
+        </p>
       </ErrorModal>
     </Root>
   );

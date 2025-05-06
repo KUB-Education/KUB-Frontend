@@ -5,7 +5,7 @@ import {
   Title,
   ContinueButton,
   DescriptionWrapper,
-} from './styles';
+} from './styles.tsx';
 import { ReactNode } from 'react';
 
 type InfoModalProps = {
@@ -29,9 +29,7 @@ const InfoModal = ({
         <Title>{title}</Title>
         <DescriptionWrapper>{children}</DescriptionWrapper>
         <Actions>
-          <ContinueButton onClick={onContinue}>
-            Continue
-          </ContinueButton>
+          <ContinueButton onClick={onContinue}>Continue</ContinueButton>
         </Actions>
       </Content>
     </Modal>
