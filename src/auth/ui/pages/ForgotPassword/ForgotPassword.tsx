@@ -11,11 +11,10 @@ import {
 import { useResetPassword } from '@/auth/hooks/usePasswordReset';
 import { InputLabel } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { InfoModal, ErrorModal } from '@/auth/ui/components';
+import { InfoModal, ErrorModal, FormTextField } from '@/common/ui/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { APP_ROUTES } from '@/common/routes';
-import { FormTextField } from '@/common/ui/components';
 import {
   emailValidator,
   requiredValidator,
@@ -27,8 +26,12 @@ type Inputs = {
 
 const ForgotPassword = () => {
   const [isHelpModalVisible, setIsHelpModalVisible] = useState(false);
-  const [isRecoveryCompletedModalVisible, setIsRecoveryCompletedModalVisible] = useState(false);
-  const [isFailedToResetPasswordModalVisible, setIsFailedToResetPasswordModalVisible] = useState(false);
+  const [isRecoveryCompletedModalVisible, setIsRecoveryCompletedModalVisible] =
+    useState(false);
+  const [
+    isFailedToResetPasswordModalVisible,
+    setIsFailedToResetPasswordModalVisible,
+  ] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<Inputs>();
 
@@ -44,7 +47,7 @@ const ForgotPassword = () => {
 
   const { resetPassword } = useResetPassword({
     onError: onPasswordResetFailed,
-    onSuccess: onPasswordResetSucceeded
+    onSuccess: onPasswordResetSucceeded,
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {

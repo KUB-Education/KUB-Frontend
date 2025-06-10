@@ -3,6 +3,7 @@ import {
   BackButton,
   FormTextField,
   SaveButton,
+  ErrorModal,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
@@ -14,6 +15,7 @@ import {
 } from '@/rooms/entities';
 import { InputLabel } from '@mui/material';
 import { useEditRoom } from '@/rooms/hooks';
+import { useState } from 'react';
 
 export type EditRoomModalProps = {
   open: boolean;
@@ -24,7 +26,15 @@ export type EditRoomModalProps = {
 type Inputs = Omit<EditRoomParams, 'id'>;
 
 const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
-  const { editRoom, isPending } = useEditRoom({ onSuccess: onClose });
+  const onError = () => {
+    setIsErrorModalVisible(true);
+  };
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const { editRoom, isPending, error } = useEditRoom({
+    onSuccess: onClose,
+    onError,
+  });
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
     values: { ...room },
@@ -68,6 +78,14 @@ const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
             <SaveButton loading={isPending} disabled={!isValid} type="submit" />
           </Actions>
         </Form>
+
+        <ErrorModal
+          open={isErrorModalVisible}
+          onClose={() => setIsErrorModalVisible(false)}
+          onContinue={() => setIsErrorModalVisible(false)}
+        >
+          {error?.message}
+        </ErrorModal>
       </Content>
     </Modal>
   );
