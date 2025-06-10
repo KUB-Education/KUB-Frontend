@@ -1,6 +1,6 @@
 import { GrouppedData } from '@/common/entities';
 import { EducationalProgram } from '@/educational-programs/entities';
-import { Root, Toolbar, Table } from './styles';
+import { Root, Toolbar } from './styles';
 import {
   useDeleteEducationPrograms,
   useEducationalProgramsQuery,
@@ -8,8 +8,7 @@ import {
 import { useMemo, useState } from 'react';
 import {
   EducationalProgramModal,
-  AcademicDegree,
-  StudyFormat,
+  EducationalProgramsTable,
 } from '@/educational-programs/ui/components';
 
 type GrouppedEPData = GrouppedData<
@@ -17,42 +16,6 @@ type GrouppedEPData = GrouppedData<
   EducationalProgram['specialty'],
   EducationalProgram['educationalProgram']
 >;
-
-const studyFieldColDefs = {
-  headerName: 'Study Field',
-  children: [
-    { field: 'id', headerName: 'ID' },
-    { field: 'code', headerName: 'Code' },
-    { field: 'name', headerName: 'Name' },
-  ],
-};
-
-const specialtyColDefs = {
-  headerName: 'Specialty',
-  children: [
-    { field: 'id', headerName: 'ID' },
-    { field: 'code', headerName: 'Code' },
-    { field: 'name', headerName: 'Name' },
-  ],
-};
-
-const educationalProgramColDefs = {
-  headerName: 'Educational Program',
-  children: [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Name' },
-    {
-      field: 'degreeType',
-      headerName: 'Degree Type',
-      cellRenderer: AcademicDegree,
-    },
-    {
-      field: 'studyFormat',
-      headerName: 'Study Format',
-      cellRenderer: StudyFormat,
-    },
-  ],
-};
 
 const EducationalPrograms = () => {
   const { educationalPrograms } = useEducationalProgramsQuery();
@@ -139,14 +102,12 @@ const EducationalPrograms = () => {
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Table
+
+      <EducationalProgramsTable
         data={[...educationalPrograms]}
-        columns1={studyFieldColDefs}
-        columns2={specialtyColDefs}
-        columns3={educationalProgramColDefs}
-        onTable1RowSelected={handleStudyFieldsSelected}
-        onTable2RowSelected={handleSpecialtiesSelected}
-        onTable3RowSelected={handleEducationalProgramsSelected}
+        onStudyFieldsSelected={handleStudyFieldsSelected}
+        onSpecialtiesSelected={handleSpecialtiesSelected}
+        onEducationalProgramsSelected={handleEducationalProgramsSelected}
       />
 
       <EducationalProgramModal
