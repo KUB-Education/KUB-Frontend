@@ -1,18 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { epQueryKey } from './useEducationalProgramsQuery.ts';
+import { educationalProgramsQueryKey } from './useEducationalProgramsQuery.ts';
+import { EditEducationalProgramParams } from '@/educational-programs/entities';
 
-type UseEducationalProgramsExecuteParams = Partial<{
-  serviceFunction: string;
+type UseEditEducationProgramParams = Partial<{
   onSuccess?: () => void;
   onError?: () => void;
 }>;
 
-export function useEducationalProgramsExecute<TParams>({
-  serviceFunction,
+export function useEditEducationProgram({
   onSuccess,
   onError,
-}: UseEducationalProgramsExecuteParams = {}) {
+}: UseEditEducationProgramParams = {}) {
   const { educationalProgramsService } = useAppServices();
 
   const queryClient = useQueryClient();
@@ -20,14 +19,15 @@ export function useEducationalProgramsExecute<TParams>({
   const { mutate: executeRequest, ...otherProps } = useMutation<
     void,
     Error,
-    TParams
+    EditEducationalProgramParams
   >({
     mutationFn: async (params) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (educationalProgramsService  as any)[serviceFunction!](params);
+      await educationalProgramsService.editEducationalProgram(params);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [epQueryKey] });
+      await queryClient.invalidateQueries({
+        queryKey: [educationalProgramsQueryKey],
+      });
 
       if (onSuccess) onSuccess();
     },
