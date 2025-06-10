@@ -1,19 +1,16 @@
-export type EducationalProgramId = number;
-export type SubjectId = number;
 
 export type EducationalProgram = {
-  id: EducationalProgramId;
-  studyField: {
+  studyField?: {
     id: number;
     code: string;
     name: string;
   };
-  specialty: {
+  specialty?: {
     id: number;
     code: string;
     name: string;
   };
-  educationalProgram: {
+  educationalProgram?: {
     id: number;
     name: string;
     degreeType: string;
@@ -21,20 +18,10 @@ export type EducationalProgram = {
   };
 };
 
-export type Subject = {
-  id: SubjectId;
-  term: {
-    id: number;
-    number: string;
-  };
-  subject: {
-    id: number;
-    name: string;
-    type: 'Обов’язкова' | 'Вибіркова';
-  };
-  subjectActivity: {
-    id: number;
-    type: 'Лекція' | 'Лабораторна' | 'Семінар' | 'Залік';
-    academicHours: number;
-  }
-}
+export type HierarchyEducationalPrograms = {
+  studyField: EducationalProgram["studyField"];
+  specialties: Array<{
+    specialty: EducationalProgram["specialty"];
+    educationalPrograms: (EducationalProgram["educationalProgram"])[];
+  }>;
+};

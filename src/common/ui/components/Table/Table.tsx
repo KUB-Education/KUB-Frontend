@@ -74,9 +74,9 @@ const Table = forwardRef<AgGridReact, TableProps>(
 
     useEffect(() => {
       window.addEventListener('resize', debouncedHandleResize);
-
+      
       return () => window.removeEventListener('resize', debouncedHandleResize);
-    }, []);
+    }, [debouncedHandleResize]);
 
     const noRowsComponent = useMemo(() => {
       if (!error) return noRowsOverlayComponent;
