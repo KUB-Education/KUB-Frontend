@@ -3,20 +3,20 @@ import { useAppServices } from '@/app/hooks';
 import { educationalProgramsQueryKey } from './useEducationalProgramsQuery.ts';
 import { AddEducationalProgramParams } from '@/educational-programs/entities';
 
-type UseAddEducationProgramParams = Partial<{
+type UseAddEducationalProgramParams = Partial<{
   onSuccess?: () => void;
   onError?: () => void;
 }>;
 
-export function useAddEducationProgram({
+export function useAddEducationalProgram({
   onSuccess,
   onError,
-}: UseAddEducationProgramParams = {}) {
+}: UseAddEducationalProgramParams = {}) {
   const { educationalProgramsService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: executeRequest, ...otherProps } = useMutation<
+  const { mutate: addEducationalProgram, ...otherProps } = useMutation<
     void,
     Error,
     AddEducationalProgramParams
@@ -37,7 +37,7 @@ export function useAddEducationProgram({
   });
 
   return {
-    executeRequest,
+    addEducationalProgram,
     ...otherProps,
   };
 }

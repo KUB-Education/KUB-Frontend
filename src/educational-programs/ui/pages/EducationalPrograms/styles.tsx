@@ -1,6 +1,10 @@
 import { styled } from '@mui/material';
 import { ThreeTablesToolbar } from '@/common/ui/components';
-import { EducationalProgram } from '@/educational-programs/entities';
+import {
+  EducationalProgram,
+  Specialty,
+  StudyField,
+} from '@/educational-programs/entities';
 
 export const Root = styled('div')({
   flexGrow: 1,
@@ -10,11 +14,7 @@ export const Root = styled('div')({
 });
 
 export const Toolbar = styled(
-  ThreeTablesToolbar<
-    EducationalProgram['studyField'],
-    EducationalProgram['specialty'],
-    EducationalProgram['educationalProgram']
-  >,
+  ThreeTablesToolbar<StudyField, Specialty, EducationalProgram>,
 )({
   marginBottom: '10px',
 });

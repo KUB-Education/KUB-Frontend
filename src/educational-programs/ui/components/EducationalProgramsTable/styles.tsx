@@ -1,11 +1,11 @@
 import { styled } from '@mui/material';
 import { ThreeTables } from '@/common/ui/components';
-import { EducationalProgram } from '@/educational-programs/entities';
+import {
+  EducationalProgram,
+  Specialty,
+  StudyField,
+} from '@/educational-programs/entities';
 
 export const Table = styled(
-  ThreeTables<
-    EducationalProgram['studyField'],
-    EducationalProgram['specialty'],
-    EducationalProgram['educationalProgram']
-  >,
+  ThreeTables<StudyField, Specialty, EducationalProgram>,
 )({});

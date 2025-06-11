@@ -1,10 +1,10 @@
 import { GrouppedData } from '@/common/entities';
-import { EducationalProgram } from './EducationalProgram.ts';
+import {
+  EducationalProgram,
+  Specialty,
+  StudyField,
+} from './EducationalProgram.ts';
 // TODO refactor this
 export type DeleteEducationalProgramsParams = Array<
-  GrouppedData<
-    EducationalProgram['studyField'],
-    EducationalProgram['specialty'],
-    EducationalProgram['educationalProgram']
-  >
+  GrouppedData<StudyField, Specialty, EducationalProgram>
 >;

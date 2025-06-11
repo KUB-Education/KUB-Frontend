@@ -1,27 +1,26 @@
+export type StudyField = {
+  id: number;
+  code: string;
+  name: string;
+};
+
+export type Specialty = {
+  id: number;
+  code: string;
+  name: string;
+};
 
 export type EducationalProgram = {
-  studyField?: {
-    id: number;
-    code: string;
-    name: string;
-  };
-  specialty?: {
-    id: number;
-    code: string;
-    name: string;
-  };
-  educationalProgram?: {
-    id: number;
-    name: string;
-    degreeType: string;
-    studyFormat: string;
-  };
+  id: number;
+  name: string;
+  degreeType: string;
+  studyFormat: string;
 };
 
 export type HierarchyEducationalPrograms = {
-  studyField: EducationalProgram["studyField"];
+  studyField: StudyField;
   specialties: Array<{
-    specialty: EducationalProgram["specialty"];
-    educationalPrograms: (EducationalProgram["educationalProgram"])[];
+    specialty: Specialty;
+    educationalPrograms: EducationalProgram[];
   }>;
 };

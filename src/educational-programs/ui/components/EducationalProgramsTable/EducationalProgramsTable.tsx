@@ -1,28 +1,24 @@
-import { EducationalProgram } from '@/educational-programs/entities';
+import {
+  EducationalProgram,
+  Specialty,
+  StudyField,
+} from '@/educational-programs/entities';
 import { HierarchyData } from '@/common/entities';
 import { Table } from './styles.tsx';
 import AcademicDegree from '../AcademicDegree';
 import StudyFormat from '../StudyFormat';
 
 export type EducationalProgramsTableProps = {
-  data: Array<
-    HierarchyData<
-      EducationalProgram['studyField'],
-      EducationalProgram['specialty'],
-      EducationalProgram['educationalProgram']
-    >
-  >;
-  onStudyFieldsSelected: (
-    fields: Array<EducationalProgram['studyField']>,
-  ) => void;
+  data: Array<HierarchyData<StudyField, Specialty, EducationalProgram>>;
+  onStudyFieldsSelected: (fields: Array<StudyField>) => void;
   onSpecialtiesSelected: (
-    studyField: EducationalProgram['studyField'],
-    specialities: Array<EducationalProgram['specialty']>,
+    studyField: StudyField,
+    specialities: Array<Specialty>,
   ) => void;
   onEducationalProgramsSelected: (
-    studyField: EducationalProgram['studyField'],
-    specialty: EducationalProgram['specialty'],
-    educationPrograms: Array<EducationalProgram['educationalProgram']>,
+    studyField: StudyField,
+    specialty: Specialty,
+    educationPrograms: Array<EducationalProgram>,
   ) => void;
 };
 

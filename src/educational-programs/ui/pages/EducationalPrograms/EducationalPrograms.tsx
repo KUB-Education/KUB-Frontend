@@ -1,5 +1,9 @@
 import { GrouppedData } from '@/common/entities';
-import { EducationalProgram } from '@/educational-programs/entities';
+import {
+  EducationalProgram,
+  Specialty,
+  StudyField,
+} from '@/educational-programs/entities';
 import { Root, Toolbar } from './styles';
 import {
   useDeleteEducationPrograms,
@@ -7,15 +11,16 @@ import {
 } from '@/educational-programs/hooks';
 import { useMemo, useState } from 'react';
 import {
-  EducationalProgramModal,
+  EditEducationalProgramModal,
   EducationalProgramsTable,
+  AddEducationalProgramModal,
+  EditSpecialtyModal,
+  AddSpecialtyModal,
+  EditStudyFieldModal,
+  AddStudyFieldModal,
 } from '@/educational-programs/ui/components';
 
-type GrouppedEPData = GrouppedData<
-  EducationalProgram['studyField'],
-  EducationalProgram['specialty'],
-  EducationalProgram['educationalProgram']
->;
+type GrouppedEPData = GrouppedData<StudyField, Specialty, EducationalProgram>;
 
 const EducationalPrograms = () => {
   const { educationalPrograms } = useEducationalProgramsQuery();
@@ -31,9 +36,8 @@ const EducationalPrograms = () => {
   >([]);
   const [selectedEducationalPrograms, setSelectedEducationalPrograms] =
     useState<GrouppedEPData[]>([]);
-  const [modalVisible, setModalVisible] = useState<
-    'add' | 'edit' | undefined
-  >();
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const selectedItems = useMemo(
     () => [
@@ -49,12 +53,10 @@ const EducationalPrograms = () => {
   };
 
   const onEdit = () => {
-    setModalVisible('edit');
+    setIsEditModalVisible(true);
   };
 
-  const handleStudyFieldsSelected = (
-    data: Array<EducationalProgram['studyField']>,
-  ) => {
+  const handleStudyFieldsSelected = (data: Array<StudyField>) => {
     setSelectedStudyFields(
       data.map((item) => ({
         data1: item,
@@ -63,8 +65,8 @@ const EducationalPrograms = () => {
   };
 
   const handleSpecialtiesSelected = (
-    studyField: EducationalProgram['studyField'],
-    data: Array<EducationalProgram['specialty']>,
+    studyField: StudyField,
+    data: Array<Specialty>,
   ) => {
     setSelectedSpecialties(
       data.map((item) => ({
@@ -75,9 +77,9 @@ const EducationalPrograms = () => {
   };
 
   const handleEducationalProgramsSelected = (
-    studyField: EducationalProgram['studyField'],
-    specialty: EducationalProgram['specialty'],
-    data: Array<EducationalProgram['educationalProgram']>,
+    studyField: StudyField,
+    specialty: Specialty,
+    data: Array<EducationalProgram>,
   ) => {
     setSelectedEducationalPrograms(
       data.map((item) => ({
@@ -87,6 +89,58 @@ const EducationalPrograms = () => {
       })),
     );
   };
+
+  const isEditEducationalModalVisible = useMemo(() => {
+    return !!selectedEducationalPrograms.length && isEditModalVisible;
+  }, [selectedEducationalPrograms, isEditModalVisible]);
+  const isEditSpecialtyModalVisible = useMemo(() => {
+    return (
+      isEditModalVisible &&
+      !isEditEducationalModalVisible &&
+      !!selectedSpecialties.length
+    );
+  }, [selectedSpecialties, isEditModalVisible, isEditEducationalModalVisible]);
+  const isEditStudyFieldModalVisible = useMemo(() => {
+    return (
+      isEditModalVisible &&
+      !isEditEducationalModalVisible &&
+      !isEditSpecialtyModalVisible &&
+      !!selectedStudyFields.length
+    );
+  }, [
+    isEditModalVisible,
+    isEditEducationalModalVisible,
+    isEditSpecialtyModalVisible,
+    selectedStudyFields.length,
+  ]);
+
+  const isAddSpecialtyModalVisible = useMemo(() => {
+    return isAddModalVisible && !!selectedStudyFields.length;
+  }, [selectedStudyFields, isAddModalVisible]);
+
+  const isAddEducationalModalVisible = useMemo(() => {
+    return (
+      isAddModalVisible &&
+      !isAddSpecialtyModalVisible &&
+      !!selectedSpecialties.length
+    );
+  }, [
+    isAddModalVisible,
+    isAddSpecialtyModalVisible,
+    selectedSpecialties.length,
+  ]);
+
+  const isAddStudyFieldModalVisible = useMemo(() => {
+    return (
+      isAddModalVisible &&
+      !isAddSpecialtyModalVisible &&
+      !isAddEducationalModalVisible
+    );
+  }, [
+    isAddModalVisible,
+    isAddSpecialtyModalVisible,
+    isAddEducationalModalVisible,
+  ]);
 
   return (
     <Root>
@@ -98,7 +152,7 @@ const EducationalPrograms = () => {
           addNewData2: 'Add new speciality',
           addNewData3: 'Add new educational program',
         }}
-        onAdd={() => setModalVisible('add')}
+        onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
         onEdit={onEdit}
       />
@@ -110,15 +164,34 @@ const EducationalPrograms = () => {
         onEducationalProgramsSelected={handleEducationalProgramsSelected}
       />
 
-      <EducationalProgramModal
-        open={!!modalVisible}
-        educationalProgram={
-          selectedItems.length
-            ? { ...selectedItems[0] }
-            : ({ data1: {} } as GrouppedEPData)
-        }
-        mode={modalVisible}
-        onClose={() => setModalVisible(undefined)}
+      <EditEducationalProgramModal
+        open={isEditEducationalModalVisible}
+        educationalProgram={selectedItems[0]?.data3}
+        onClose={() => setIsEditModalVisible(false)}
+      />
+      <AddEducationalProgramModal
+        open={isAddEducationalModalVisible}
+        onClose={() => setIsAddModalVisible(false)}
+      />
+
+      <EditSpecialtyModal
+        open={isEditSpecialtyModalVisible}
+        specialty={selectedItems[0]?.data2}
+        onClose={() => setIsEditModalVisible(false)}
+      />
+      <AddSpecialtyModal
+        open={isAddSpecialtyModalVisible}
+        onClose={() => setIsAddModalVisible(false)}
+      />
+
+      <EditStudyFieldModal
+        open={isEditStudyFieldModalVisible}
+        studyField={selectedItems[0]?.data1}
+        onClose={() => setIsEditModalVisible(false)}
+      />
+      <AddStudyFieldModal
+        open={isAddStudyFieldModalVisible}
+        onClose={() => setIsAddModalVisible(false)}
       />
     </Root>
   );
