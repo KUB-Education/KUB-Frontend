@@ -20,7 +20,11 @@ import {
   AddStudyFieldModal,
 } from '@/educational-programs/ui/components';
 
-type GrouppedEPData = GrouppedData<StudyField, Specialty, EducationalProgram>;
+type GrouppedEducationalProgram = GrouppedData<
+  StudyField,
+  Specialty,
+  EducationalProgram
+>;
 
 const EducationalPrograms = () => {
   const { educationalPrograms } = useEducationalProgramsQuery();
@@ -29,13 +33,13 @@ const EducationalPrograms = () => {
     useDeleteEducationPrograms();
 
   const [selectedStudyFields, setSelectedStudyFields] = useState<
-    GrouppedEPData[]
+    GrouppedEducationalProgram[]
   >([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState<
-    GrouppedEPData[]
+    GrouppedEducationalProgram[]
   >([]);
   const [selectedEducationalPrograms, setSelectedEducationalPrograms] =
-    useState<GrouppedEPData[]>([]);
+    useState<GrouppedEducationalProgram[]>([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 

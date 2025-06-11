@@ -12,8 +12,16 @@ import {
 import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
 
-type HierarchyEPData = HierarchyData<StudyField, Specialty, EducationalProgram>;
-type GrouppedEPData = GrouppedData<StudyField, Specialty, EducationalProgram>;
+type HierarchyEducationalProgram = HierarchyData<
+  StudyField,
+  Specialty,
+  EducationalProgram
+>;
+type GrouppedEducationalProgram = GrouppedData<
+  StudyField,
+  Specialty,
+  EducationalProgram
+>;
 
 export class EducationalProgramsService extends BaseService {
   private educationalPrograms: HierarchyEducationalPrograms[] = [];
@@ -43,11 +51,11 @@ export class EducationalProgramsService extends BaseService {
     }));
   }
 
-  async getEducationalPrograms(): Promise<HierarchyEPData[]> {
+  async getEducationalPrograms(): Promise<HierarchyEducationalProgram[]> {
     return this.convertHierarchyFrom(this.educationalPrograms);
   }
 
-  async addEducationalProgram(data: GrouppedEPData) {
+  async addEducationalProgram(data: GrouppedEducationalProgram) {
     await delay(1 * SECOND);
 
     const item = this.convertGrouppedTo(data);
@@ -77,7 +85,7 @@ export class EducationalProgramsService extends BaseService {
     }
   }
 
-  async editEducationalProgram(data: GrouppedEPData) {
+  async editEducationalProgram(data: GrouppedEducationalProgram) {
     await delay(1 * SECOND);
 
     const item = this.convertGrouppedTo(data);
@@ -95,7 +103,7 @@ export class EducationalProgramsService extends BaseService {
     }
   }
 
-  async deleteEducationalPrograms(data: Array<GrouppedEPData>) {
+  async deleteEducationalPrograms(data: Array<GrouppedEducationalProgram>) {
     await delay(1 * SECOND);
 
     const items = data.map((d) => this.convertGrouppedTo(d));
@@ -132,16 +140,22 @@ export class EducationalProgramsService extends BaseService {
     this.educationalPrograms = filteredPrograms;
   }
 
-  getParams(program: EducationalProgram) {
+  getParams(
+    params: Partial<{
+      studyField: StudyField;
+      specialty: Specialty;
+      educationalProgram: EducationalProgram;
+    }>,
+  ) {
     const studyField = this.educationalPrograms.find(
-      (ep) => ep.studyField?.id == program.studyField?.id,
+      (ep) => ep.studyField?.id == params.studyField?.id,
     );
     const specialty = studyField?.specialties.find(
-      (s) => s.specialty?.id == program.specialty?.id,
+      (s) => s.specialty?.id == params.specialty?.id,
     );
     const educationalProgramIndex =
       specialty?.educationalPrograms.findIndex(
-        (ep) => ep?.id === program.educationalProgram?.id,
+        (ep) => ep?.id === params.educationalProgram?.id,
       ) ?? -1;
 
     return {
@@ -153,7 +167,7 @@ export class EducationalProgramsService extends BaseService {
 
   convertHierarchyFrom(
     educationalPrograms: HierarchyEducationalPrograms[],
-  ): HierarchyEPData[] {
+  ): HierarchyEducationalProgram[] {
     return educationalPrograms.map((p) => ({
       data1Value: p.studyField,
       data2: p.specialties.map((s) => ({
@@ -163,7 +177,7 @@ export class EducationalProgramsService extends BaseService {
     }));
   }
 
-  convertGrouppedTo(educationalProgram: GrouppedEPData): EducationalProgram {
+  convertGrouppedTo(educationalProgram: GrouppedEducationalProgram) {
     return {
       studyField: educationalProgram.data1,
       specialty: educationalProgram.data2,
