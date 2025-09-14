@@ -1,31 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { roomsQueryKey } from './useRoomsQuery.ts';
-import { RoomId } from '@/rooms/entities';
+import { usersQueryKey } from './useUsersQuery';
+import { UserId } from '@/users/entities';
 
-type UseDeleteRoomsParams = Partial<{
+type UseDeleteUserParams = Partial<{
   onSuccess: () => void;
   onError: () => void;
 }>;
 
-export function useDeleteRooms({
+export function useDeleteUser({
   onSuccess,
   onError,
-}: UseDeleteRoomsParams = {}) {
-  const { roomsService } = useAppServices();
+}: UseDeleteUserParams = {}) {
+  const { userService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: deleteRooms, ...otherProps } = useMutation<
+  const { mutate: deleteUsers, ...otherProps } = useMutation<
     void,
     Error,
-    Array<RoomId>
+    Array<UserId>
   >({
     mutationFn: async (params) => {
-      await roomsService.deleteRooms(params);
+      await userService.deleteUser(params);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [roomsQueryKey] });
+      await queryClient.invalidateQueries({ queryKey: [usersQueryKey] });
 
       if (onSuccess) onSuccess();
     },
@@ -35,7 +35,7 @@ export function useDeleteRooms({
   });
 
   return {
-    deleteRooms,
+    deleteUsers,
     ...otherProps,
   };
 }

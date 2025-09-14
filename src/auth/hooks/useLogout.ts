@@ -3,8 +3,8 @@ import { useAppServices } from '@/app/hooks';
 import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
 
 type UseLogoutParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useLogout({ onSuccess, onError }: UseLogoutParams = {}) {

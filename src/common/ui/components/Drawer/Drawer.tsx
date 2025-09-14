@@ -30,6 +30,11 @@ const links = [
     text: 'Home',
   },
   {
+    to: APP_ROUTES.USERS,
+    icon: HomeIcon,
+    text: 'Users',
+  },
+  {
     to: APP_ROUTES.STUDENTS,
     icon: StudentIcon,
     text: 'Students',

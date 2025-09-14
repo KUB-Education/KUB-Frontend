@@ -1,5 +1,6 @@
 export const APP_ROUTES = Object.freeze({
   HOME: '/home',
+  USERS: '/users',
   STUDENTS: '/students',
   STUDENT_GROUPS: '/student-groups',
   LECTURERS: '/lecturers',

@@ -8,6 +8,7 @@ const Breadcrumb = () => {
   const [breadcrumbKey, setBreadcrumbKey] = useState<string | null>(null);
   const pathToKeyMap: Record<string, string> = {
     [APP_ROUTES.HOME]: 'Home',
+    [APP_ROUTES.USERS]: 'Users',
     [APP_ROUTES.STUDENTS]: 'Students',
     [APP_ROUTES.STUDENT_GROUPS]: 'Student Groups',
     [APP_ROUTES.LECTURERS]: 'Lecturers',
@@ -22,6 +23,7 @@ const Breadcrumb = () => {
     [APP_ROUTES.TIMETABLES]: 'Timetables',
     [APP_ROUTES.HELP]: 'Help',
   };
+
   useEffect(() => {
     const currentPath = location.pathname.split('/').slice(0, 2).join('/');
     if (pathToKeyMap[currentPath]) {

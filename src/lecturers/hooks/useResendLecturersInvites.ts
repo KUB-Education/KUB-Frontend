@@ -4,8 +4,8 @@ import { lecturesQueryKey } from './useLecturersQuery.ts';
 import { LecturerId } from '@/lecturers/entities';
 
 type UseResendLecturersInvitesParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useResendLecturersInvites({

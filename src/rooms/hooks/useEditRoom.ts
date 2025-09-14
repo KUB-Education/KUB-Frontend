@@ -4,14 +4,11 @@ import { roomsQueryKey } from './useRoomsQuery.ts';
 import { EditRoomParams } from '@/rooms/entities';
 
 type UseEditRoomParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
-export function useEditRoom({
-  onSuccess,
-  onError,
-}: UseEditRoomParams = {}) {
+export function useEditRoom({ onSuccess, onError }: UseEditRoomParams = {}) {
   const { roomsService } = useAppServices();
 
   const queryClient = useQueryClient();

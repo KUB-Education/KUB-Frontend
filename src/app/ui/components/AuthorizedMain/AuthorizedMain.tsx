@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router';
 import { Home } from '@/home/ui/pages';
+import { Users } from '@/users/ui/pages';
 import AuthorizedLayout from '../AuthorizedLayout';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { Students } from '@/students/ui/pages';
@@ -33,6 +34,7 @@ const AuthorizedMain = () => {
     <Routes>
       <Route element={<AuthorizedLayout />}>
         <Route path={APP_ROUTES.HOME} element={<Home />} />
+        <Route path={APP_ROUTES.USERS} element={<Users />} />
         <Route path={APP_ROUTES.STUDENTS} element={<Students />} />
         <Route path={APP_ROUTES.STUDENT_GROUPS} element={<StudentGroups />} />
         <Route path={APP_ROUTES.LECTURERS} element={<Lecturers />} />

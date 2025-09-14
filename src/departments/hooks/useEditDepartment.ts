@@ -4,8 +4,8 @@ import { departmentsQueryKey } from './useDepartmentsQuery.ts';
 import { EditDepartmentParams } from '@/departments/entities';
 
 type UseEditDepartmentParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useEditDepartment({
