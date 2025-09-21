@@ -4,3 +4,5 @@ export { default as UsersTable } from './UsersTable';
 export * from './UsersTable';
 export { default as UsersToolbar } from './UsersToolbar';
 export * from './UsersToolbar';
+export { default as AddUserModal } from './AddUserModal';
+export * from './AddUserModal';
