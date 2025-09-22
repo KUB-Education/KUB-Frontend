@@ -74,7 +74,7 @@ const AddUserModal = ({ open, onClose }: AddUserModalProps) => {
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="middleName">
+            <InputLabel shrink htmlFor="email">
               Email
             </InputLabel>
             <FormTextField

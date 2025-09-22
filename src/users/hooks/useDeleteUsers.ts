@@ -8,7 +8,7 @@ type UseDeleteUserParams = Partial<{
   onError: () => void;
 }>;
 
-export function useDeleteUser({
+export function useDeleteUsers({
   onSuccess,
   onError,
 }: UseDeleteUserParams = {}) {
@@ -22,7 +22,7 @@ export function useDeleteUser({
     Array<UserId>
   >({
     mutationFn: async (params) => {
-      await userService.deleteUser(params);
+      await userService.deleteUsers(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [usersQueryKey] });

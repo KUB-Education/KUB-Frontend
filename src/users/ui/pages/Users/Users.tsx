@@ -1,6 +1,6 @@
 import { Root, Table, Toolbar } from './styles';
 import {
-  useDeleteUser,
+  useDeleteUsers,
   useUsersQuery,
   useResendUsersActivationEmail,
 } from '@/users/hooks';
@@ -11,7 +11,7 @@ import EditUserModal from '@/users/ui/components/EditUserModal';
 
 const Users = () => {
   const { users, isFetching, isError } = useUsersQuery();
-  const { deleteUsers } = useDeleteUser();
+  const { deleteUsers } = useDeleteUsers();
   const { resendUsersActivationEmail } = useResendUsersActivationEmail();
 
   const [selectedUserIds, setSelectedUserIds] = useState<Array<UserId>>([]);

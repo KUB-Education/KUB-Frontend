@@ -16,7 +16,7 @@ import {
   useGetUserRoles,
   useAddUserRole,
   useDeleteUserRole,
-  useDeleteUser,
+  useDeleteUsers,
 } from '@/users/hooks';
 
 export type EditUserModalContentProps = {
@@ -37,7 +37,7 @@ const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
     isPending: isEditPending,
     error,
   } = useEditUser({ onError });
-  const { deleteUsers, isPending: isDeletePending } = useDeleteUser({
+  const { deleteUsers, isPending: isDeletePending } = useDeleteUsers({
     onSuccess: onClose,
   });
   const { resendUsersActivationEmail, isPending: isResendPending } =

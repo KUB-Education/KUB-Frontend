@@ -65,7 +65,7 @@ export class UserService extends BaseService {
     });
   }
 
-  async deleteUser(ids: Array<UserId>) {
+  async deleteUsers(ids: Array<UserId>) {
     await delay(2 * SECOND);
     this.users = this.users.filter((user) => !ids.includes(user.id));
   }
