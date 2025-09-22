@@ -6,3 +6,5 @@ export { default as UsersToolbar } from './UsersToolbar';
 export * from './UsersToolbar';
 export { default as AddUserModal } from './AddUserModal';
 export * from './AddUserModal';
+export { default as EditUserModal } from './EditUserModal';
+export * from './EditUserModal';

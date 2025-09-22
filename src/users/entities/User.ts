@@ -7,3 +7,5 @@ export type User = UserProfile & {
   id: UserId;
   userStatus: UserStatus;
 };
+
+export const getUserId = (user: User): UserId => user.id;

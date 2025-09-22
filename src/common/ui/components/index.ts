@@ -26,6 +26,8 @@ export { default as SaveButton } from './SaveButton';
 export * from './SaveButton';
 export { default as EditButton } from './EditButton';
 export * from './EditButton';
+export { default as InfoButton } from './InfoButton';
+export * from './InfoButton';
 export { default as ErrorModal } from './ErrorModal';
 export * from './ErrorModal';
 export { default as InfoModal } from './InfoModal';

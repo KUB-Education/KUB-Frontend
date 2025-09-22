@@ -5,14 +5,18 @@ import {
   Root,
   EditButton,
   DeleteButton,
+  ResendButton,
 } from './styles';
-import { User } from '@/users/entities';
+import { isUserEmailSendingFailure, User } from '@/users/entities';
+import { useMemo } from 'react';
 
 export type UsersToolbarProps = {
   selectedUsers?: Array<User>;
   className?: string;
   onAdd: () => void;
   onDelete: () => void;
+  onResend: () => void;
+  onEdit: () => void;
 };
 
 const UsersToolbar = ({
@@ -20,14 +24,28 @@ const UsersToolbar = ({
   className,
   onAdd,
   onDelete,
+  onResend,
+  onEdit,
 }: UsersToolbarProps) => {
+  const isResendAvailable = useMemo(() => {
+    const userWithoutResend = selectedUsers.find(
+      (user) => !isUserEmailSendingFailure(user),
+    );
+    return !userWithoutResend;
+  }, [selectedUsers]);
+
   if (selectedUsers.length) {
     return (
       <Root className={className}>
         <ActionsList>
+          {isResendAvailable && (
+            <ActionsListItem>
+              <ResendButton onClick={onResend} />
+            </ActionsListItem>
+          )}
           {selectedUsers.length === 1 && (
             <ActionsListItem>
-              <EditButton onClick={onDelete} />
+              <EditButton onClick={onEdit} />
             </ActionsListItem>
           )}
           <ActionsListItem>
