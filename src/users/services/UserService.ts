@@ -1,9 +1,10 @@
 import { BaseService } from '@/common/services';
-import { UserProfileDto } from '@/users/services/dto';
-import { UserProfileDtoMapper } from '@/users/mappers';
+import { CurrentUserDto } from '@/users/services/dto';
+import { UserDtoMapper } from '@/users/mappers';
 import {
   AddUserParams,
   AddUserRoleParams,
+  CurrentUser,
   DeleteUserRoleParams,
   EditUserParams,
   User,
@@ -20,10 +21,10 @@ export class UserService extends BaseService {
 
   private userRoles: Record<UserId, UserRole[]> = {};
 
-  async getProfile() {
-    const dtoMapper = new UserProfileDtoMapper();
+  async getCurrentUser(): Promise<CurrentUser> {
+    const dtoMapper = new UserDtoMapper();
 
-    const { data } = await this.http.get<UserProfileDto>('/user/me');
+    const { data } = await this.http.get<CurrentUserDto>('/user/me');
 
     return dtoMapper.toEntity(data);
   }
@@ -41,6 +42,12 @@ export class UserService extends BaseService {
       lastName: faker.person.lastName(),
       middleName: faker.person.middleName(),
       userStatus: faker.helpers.arrayElement(userStatuses),
+      roles: [
+        {
+          id: faker.number.int(),
+          name: faker.helpers.arrayElement(Object.values(UserRole)),
+        },
+      ],
     }));
 
     return this.users;
@@ -53,6 +60,12 @@ export class UserService extends BaseService {
       id: faker.number.int(),
       ...params,
       userStatus: faker.helpers.arrayElement(userStatuses),
+      roles: [
+        {
+          id: faker.number.int(),
+          name: faker.helpers.arrayElement(Object.values(UserRole)),
+        },
+      ],
     });
   }
 

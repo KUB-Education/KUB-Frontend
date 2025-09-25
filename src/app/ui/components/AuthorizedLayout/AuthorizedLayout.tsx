@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MenuIcon from '@/common/assets/icons/menu.svg?react';
-import { Drawer } from '@/common/ui/components';
+import { Drawer, Modal } from '@/common/ui/components';
 import {
   Content,
   Root,
@@ -10,14 +10,28 @@ import {
   HeaderLabel,
   HeaderToolbar,
 } from './styles.tsx';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import Breadcrumb from './Breadcrumb/Breadcrumb.tsx';
+import { useLogout } from '@/auth/hooks';
+import { useGetCurrentUserQuery } from '@/users/hooks';
+import { UserProfileSettings } from '@/users/ui/components';
+import { APP_ROUTES } from '@/common/routes.ts';
 
 const AuthorizedLayout = () => {
-  const [open, setOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isProfileSettingsOpen, setIsProfileSettingsOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const { logout } = useLogout();
+  const { currentUser, isPending } = useGetCurrentUserQuery();
 
   const toggleDrawer = () => {
-    setOpen((val) => !val);
+    setIsDrawerOpen((val) => !val);
+  };
+
+  const onChangePassword = () => {
+    setIsProfileSettingsOpen(false);
+    navigate(APP_ROUTES.CHANGE_PASSWORD);
   };
 
   return (
@@ -28,7 +42,7 @@ const AuthorizedLayout = () => {
             disableRipple
             aria-label="open drawer"
             onClick={toggleDrawer}
-            open={open}
+            open={isDrawerOpen}
           >
             <MenuIcon />
           </MenuButton>
@@ -38,13 +52,29 @@ const AuthorizedLayout = () => {
           <HeaderLabel>
             <Breadcrumb />
           </HeaderLabel>
-          <HeaderToolbar />
+          <HeaderToolbar
+            currentUser={currentUser}
+            onLogout={logout}
+            onSelectProfileSettings={() => setIsProfileSettingsOpen(true)}
+          />
         </HeaderContent>
       </Header>
-      <Drawer open={open} />
+      <Drawer open={isDrawerOpen} />
       <Content>
         <Outlet />
       </Content>
+
+      <Modal
+        open={isProfileSettingsOpen}
+        onClose={() => setIsProfileSettingsOpen(false)}
+      >
+        <UserProfileSettings
+          currentUser={currentUser}
+          isPending={isPending}
+          onBack={() => setIsProfileSettingsOpen(false)}
+          onChangePassword={onChangePassword}
+        />
+      </Modal>
     </Root>
   );
 };

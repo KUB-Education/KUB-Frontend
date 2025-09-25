@@ -8,3 +8,5 @@ export { default as AddUserModal } from './AddUserModal';
 export * from './AddUserModal';
 export { default as EditUserModal } from './EditUserModal';
 export * from './EditUserModal';
+export { default as UserProfileSettings } from './UserProfileSettings';
+export * from './UserProfileSettings';

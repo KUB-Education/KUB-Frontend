@@ -11,17 +11,21 @@ import {
 import SettingsIcon from '@/common/assets/icons/settings.svg?react';
 import ProfileIcon from '@/common/assets/icons/profile.svg?react';
 import { useState, MouseEvent, useMemo } from 'react';
-import { useLogout } from '@/auth/hooks';
-import { useUserProfileQuery } from '@/users/hooks';
+import { CurrentUser } from '@/users/entities';
 
 export type HeaderToolbarProps = {
+  currentUser?: CurrentUser;
   className?: string;
+  onSelectProfileSettings: () => void;
+  onLogout: () => void;
 };
 
-const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
-  const { logout } = useLogout();
-  const { userProfile } = useUserProfileQuery();
-
+const HeaderToolbar = ({
+  currentUser,
+  className,
+  onLogout,
+  onSelectProfileSettings,
+}: HeaderToolbarProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -33,16 +37,21 @@ const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
     setAnchorEl(null);
   };
 
-  const onLogout = async () => {
-    logout();
+  const onSelectProfile = () => {
+    onSelectProfileSettings();
+    setAnchorEl(null);
+  };
+
+  const onClickLogout = () => {
+    onLogout();
     setAnchorEl(null);
   };
 
   const userName = useMemo(() => {
-    if (!userProfile) return '';
+    if (!currentUser) return '';
 
-    return `${userProfile.lastName} ${userProfile.firstName}`;
-  }, [userProfile]);
+    return `${currentUser.lastName} ${currentUser.firstName}`;
+  }, [currentUser]);
 
   return (
     <Root className={className}>
@@ -69,13 +78,13 @@ const HeaderToolbar = ({ className }: HeaderToolbarProps) => {
           horizontal: 'right',
         }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={onSelectProfile}>
           <MenuItemIcon>
             <ProfileIcon />
           </MenuItemIcon>
           Profile settings
         </MenuItem>
-        <LogoutMenuItem onClick={onLogout}>Logout</LogoutMenuItem>
+        <LogoutMenuItem onClick={onClickLogout}>Logout</LogoutMenuItem>
       </Menu>
     </Root>
   );

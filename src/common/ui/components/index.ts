@@ -32,3 +32,5 @@ export { default as ErrorModal } from './ErrorModal';
 export * from './ErrorModal';
 export { default as InfoModal } from './InfoModal';
 export * from './InfoModal';
+export { default as CircularProgress } from './CircularProgress';
+export * from './CircularProgress';

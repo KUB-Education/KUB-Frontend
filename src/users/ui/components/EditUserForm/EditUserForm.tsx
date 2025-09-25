@@ -1,4 +1,9 @@
-import { Actions, Form, FormControl } from './styles.tsx';
+import {
+  Actions,
+  Form,
+  FormControl,
+  UserStatusFormControl,
+} from './styles.tsx';
 import { InputLabel } from '@mui/material';
 import {
   FormTextField,
@@ -58,12 +63,12 @@ const EditUserForm = ({
 
   return (
     <Form className={className} onSubmit={handleSubmit(onSubmit)}>
-      <FormControl>
+      <UserStatusFormControl>
         <InputLabel shrink htmlFor="userStatus">
           User Status
         </InputLabel>
         <FormTextField label="userStatus" readOnly value={userStatusValue} />
-      </FormControl>
+      </UserStatusFormControl>
       <FormControl>
         <InputLabel shrink htmlFor="lastName">
           Last Name
