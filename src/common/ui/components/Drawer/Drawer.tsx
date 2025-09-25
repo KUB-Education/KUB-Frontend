@@ -5,7 +5,7 @@ import StudentGroupIcon from '@/common/assets/icons/student_group.svg?react';
 import LecturesIcon from '@/common/assets/icons/lecturer.svg?react';
 import SubjectsIcon from '@/common/assets/icons/subject.svg?react';
 import AudiencesIcon from '@/common/assets/icons/audience.svg?react';
-import EducationalProgramsIcon from '@/common/assets/icons/educational_program.svg?react';
+import BooksIcon from '@/common/assets/icons/books.svg?react';
 import DepartmentsIcon from '@/common/assets/icons/department.svg?react';
 import EducationalCoursesIcon from '@/common/assets/icons/educational_course.svg?react';
 import TimetablesIcon from '@/common/assets/icons/timetable.svg?react';
@@ -28,6 +28,11 @@ const links = [
     to: APP_ROUTES.HOME,
     icon: HomeIcon,
     text: 'Home',
+  },
+  {
+    to: APP_ROUTES.USERS,
+    icon: HomeIcon,
+    text: 'Users',
   },
   {
     to: APP_ROUTES.STUDENTS,
@@ -56,7 +61,7 @@ const links = [
   },
   {
     to: APP_ROUTES.EDUCATIONAL_PROGRAMS,
-    icon: EducationalProgramsIcon,
+    icon: BooksIcon,
     text: 'Educational Programs',
   },
   {

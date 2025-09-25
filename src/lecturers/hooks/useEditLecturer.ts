@@ -4,8 +4,8 @@ import { lecturesQueryKey } from './useLecturersQuery.ts';
 import { EditLecturerParams } from '@/lecturers/entities';
 
 type UseEditLecturerParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useEditLecturer({

@@ -4,8 +4,8 @@ import { roomsQueryKey } from './useRoomsQuery.ts';
 import { RoomId } from '@/rooms/entities';
 
 type UseDeleteRoomsParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useDeleteRooms({

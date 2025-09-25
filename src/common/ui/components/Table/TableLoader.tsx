@@ -1,7 +1,7 @@
-import { CircularProgress } from '@mui/material';
+import { CircularProgress } from '@/common/ui/components';
 
 const TableLoader = () => {
-  return <CircularProgress sx={{ color: '#3BB3FF' }} />;
+  return <CircularProgress />;
 };
 
 export default TableLoader;

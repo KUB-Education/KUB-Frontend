@@ -91,6 +91,7 @@ export const ListItemIcon = styled(MuiListItemIcon)({
   minWidth: 0,
   justifyContent: 'center',
   marginRight: 8,
+  color: '#3bb3ff',
 });
 
 export const ListItemText = styled('span', {

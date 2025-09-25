@@ -2,19 +2,19 @@ import { useAppServices } from '@/app/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { useIsAuthorizedQuery } from '@/auth/hooks';
 
-export const userProfileQueryKey = 'userProfileQuery';
+export const currentUserQueryKey = 'currentUserQuery';
 
-export function useUserProfileQuery() {
+export function useGetCurrentUserQuery() {
   const { userService } = useAppServices();
   const { isAuthorized } = useIsAuthorizedQuery();
 
-  const { data: userProfile, ...otherData } = useQuery({
-    queryKey: [userProfileQueryKey],
+  const { data: currentUser, ...otherData } = useQuery({
+    queryKey: [currentUserQueryKey],
     queryFn: () => {
-      return userService.getProfile();
+      return userService.getCurrentUser();
     },
     enabled: isAuthorized,
   });
 
-  return { userProfile, ...otherData };
+  return { currentUser, ...otherData };
 }

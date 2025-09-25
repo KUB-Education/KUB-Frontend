@@ -1,4 +1,4 @@
-export type UserProfile = {
+export type AddUserParams = {
   lastName: string;
   firstName: string;
   middleName: string;

@@ -10,18 +10,13 @@ import {
   lecturerStatuses,
 } from '@/lecturers/entities';
 import { delay, SECOND } from '@/common/utils';
-import { DepartmentsService } from '@/departments/services';
-import { Department } from '@/departments/entities';
 import { UserStatus, userStatuses } from '@/users/entities';
 import { HttpClient } from '@/common/http-client';
 
 export class LecturersService extends BaseService {
   private lecturers: Lecturer[] = [];
 
-  constructor(
-    httpClient: HttpClient,
-    private readonly departmentsService: DepartmentsService,
-  ) {
+  constructor(httpClient: HttpClient) {
     super(httpClient);
   }
 
@@ -34,9 +29,10 @@ export class LecturersService extends BaseService {
       array.map(async () => ({
         id: faker.number.int(),
         academicTitle: faker.helpers.arrayElement(academicTitles),
-        department: (await this.departmentsService.getDepartment(
-          faker.number.int({ min: 0, max: 9 }),
-        )) as Department,
+        department: {
+          id: faker.number.int(),
+          name: faker.person.jobArea(),
+        },
         email: faker.internet.email(),
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
@@ -44,6 +40,7 @@ export class LecturersService extends BaseService {
         position: faker.helpers.arrayElement(lecturerPositions),
         status: faker.helpers.arrayElement(lecturerStatuses),
         userStatus: faker.helpers.arrayElement(userStatuses),
+        roles: [],
       })),
     );
 
@@ -53,17 +50,15 @@ export class LecturersService extends BaseService {
   async addLecturer(params: AddLecturerParams) {
     await delay(5 * SECOND);
 
-    const department = await this.departmentsService.getDepartment(
-      params.departmentId,
-    );
-
-    if (!department) return;
-
     this.lecturers.push({
       ...params,
-      department,
+      department: {
+        id: params.departmentId,
+        name: faker.person.jobArea(),
+      },
       id: faker.number.int(),
       userStatus: faker.helpers.arrayElement(userStatuses),
+      roles: [],
     });
   }
 
@@ -89,7 +84,10 @@ export class LecturersService extends BaseService {
     await delay(5 * SECOND);
 
     const updatedDepartment = params.departmentId
-      ? await this.departmentsService.getDepartment(params.departmentId)
+      ? {
+          id: params.departmentId,
+          name: faker.person.jobArea(),
+        }
       : null;
 
     this.lecturers = this.lecturers.map((lecturer) => {

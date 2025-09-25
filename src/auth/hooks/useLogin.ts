@@ -4,8 +4,8 @@ import { useAppServices } from '@/app/hooks';
 import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
 
 type UseLoginParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useLogin({ onSuccess, onError }: UseLoginParams = {}) {

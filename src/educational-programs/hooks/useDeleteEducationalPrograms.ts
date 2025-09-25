@@ -4,8 +4,8 @@ import { epQueryKey } from './useEducationalProgramsQuery.ts';
 import { EducationalProgramId } from '@/educational-programs/entities';
 
 type UseDeleteEducationalProgramParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useDeleteEducationalPrograms({
