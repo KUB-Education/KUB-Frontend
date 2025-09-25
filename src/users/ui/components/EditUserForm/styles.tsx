@@ -18,6 +18,10 @@ export const FormControl = styled(MuiFormControl)({
   },
 });
 
+export const UserStatusFormControl = styled(FormControl)({
+  maxWidth: '240px',
+});
+
 export const Actions = styled(ModalActions)({
   justifyContent: 'flex-end',
   columnGap: '10px',

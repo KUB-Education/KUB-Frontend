@@ -15,18 +15,18 @@ import { Timetables } from '@/timetables/ui/pages';
 import { Help } from '@/help/ui/pages';
 import { ChangePassword } from '@/auth/ui/pages';
 import UnauthorizedLayout from '../UnauthorizedLayout';
-import { useUserProfileQuery } from '@/users/hooks';
+import { useGetCurrentUserQuery } from '@/users/hooks';
 import AppLoader from '../AppLoader';
-import AppError from '@/app/ui/components/AppError';
+import AppError from '../AppError';
 
 const AuthorizedMain = () => {
-  const { userProfile, isPending, isError } = useUserProfileQuery();
+  const { currentUser, isPending, isError } = useGetCurrentUserQuery();
 
   if (isError) {
     return <AppError />;
   }
 
-  if (isPending || !userProfile) {
+  if (isPending || !currentUser) {
     return <AppLoader />;
   }
 
