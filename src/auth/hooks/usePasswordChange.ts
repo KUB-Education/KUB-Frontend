@@ -8,11 +8,14 @@ type ChangePasswordParams = {
 };
 
 type UseChangePasswordParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
-export function useChangePassword({ onSuccess, onError }: UseChangePasswordParams = {}) {
+export function useChangePassword({
+  onSuccess,
+  onError,
+}: UseChangePasswordParams = {}) {
   const { authService } = useAppServices();
   const queryClient = useQueryClient();
 

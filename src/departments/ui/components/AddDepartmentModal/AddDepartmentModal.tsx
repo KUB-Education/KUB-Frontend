@@ -3,14 +3,17 @@ import {
   AddButton,
   BackButton,
   FormTextField,
+  ErrorModal,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { AddDepartmentParams,
+import {
+  AddDepartmentParams,
   departmentNameValidator,
 } from '@/departments/entities';
 import { InputLabel } from '@mui/material';
 import { useAddDepartment } from '@/departments/hooks';
+import { useState } from 'react';
 
 export type AddDepartmentModalProps = {
   open: boolean;
@@ -18,7 +21,15 @@ export type AddDepartmentModalProps = {
 };
 
 const AddDepartmentModal = ({ open, onClose }: AddDepartmentModalProps) => {
-  const { addDepartment, isPending } = useAddDepartment({ onSuccess: onClose });
+  const onError = () => {
+    setIsErrorModalVisible(true);
+  };
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const { addDepartment, isPending, error } = useAddDepartment({
+    onSuccess: onClose,
+    onError,
+  });
   const { register, handleSubmit, formState } = useForm<AddDepartmentParams>({
     mode: 'onChange',
   });
@@ -48,6 +59,14 @@ const AddDepartmentModal = ({ open, onClose }: AddDepartmentModalProps) => {
             <AddButton loading={isPending} disabled={!isValid} type="submit" />
           </Actions>
         </Form>
+
+        <ErrorModal
+          open={isErrorModalVisible}
+          onClose={() => setIsErrorModalVisible(false)}
+          onContinue={() => setIsErrorModalVisible(false)}
+        >
+          {error?.message}
+        </ErrorModal>
       </Content>
     </Modal>
   );

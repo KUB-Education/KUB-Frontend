@@ -4,8 +4,8 @@ import { departmentsQueryKey } from './useDepartmentsQuery.ts';
 import { DepartmentId } from '@/departments/entities';
 
 type UseDeleteDepartmentsParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useDeleteDepartment({

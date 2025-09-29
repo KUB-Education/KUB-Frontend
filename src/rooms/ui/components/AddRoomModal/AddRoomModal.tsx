@@ -3,6 +3,7 @@ import {
   AddButton,
   BackButton,
   FormTextField,
+  ErrorModal,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
@@ -13,6 +14,7 @@ import {
 } from '@/rooms/entities';
 import { InputLabel } from '@mui/material';
 import { useAddRoom } from '@/rooms/hooks';
+import { useState } from 'react';
 
 export type AddRoomModalProps = {
   open: boolean;
@@ -20,9 +22,17 @@ export type AddRoomModalProps = {
 };
 
 const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
-  const { addRoom, isPending } = useAddRoom({ onSuccess: onClose });
+  const onError = () => {
+    setIsErrorModalVisible(true);
+  };
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { register, handleSubmit, formState } = useForm<AddRoomParams>({
     mode: 'onChange',
+  });
+  const { addRoom, isPending, error } = useAddRoom({
+    onSuccess: onClose,
+    onError,
   });
 
   const onSubmit = async (values: AddRoomParams) => {
@@ -63,6 +73,14 @@ const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
             <AddButton loading={isPending} disabled={!isValid} type="submit" />
           </Actions>
         </Form>
+
+        <ErrorModal
+          open={isErrorModalVisible}
+          onClose={() => setIsErrorModalVisible(false)}
+          onContinue={() => setIsErrorModalVisible(false)}
+        >
+          {error?.message}
+        </ErrorModal>
       </Content>
     </Modal>
   );

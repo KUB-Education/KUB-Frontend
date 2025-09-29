@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router';
 import { Home } from '@/home/ui/pages';
+import { Users } from '@/users/ui/pages';
 import AuthorizedLayout from '../AuthorizedLayout';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { Students } from '@/students/ui/pages';
@@ -14,18 +15,18 @@ import { Timetables } from '@/timetables/ui/pages';
 import { Help } from '@/help/ui/pages';
 import { ChangePassword } from '@/auth/ui/pages';
 import UnauthorizedLayout from '../UnauthorizedLayout';
-import { useUserProfileQuery } from '@/users/hooks';
+import { useGetCurrentUserQuery } from '@/users/hooks';
 import AppLoader from '../AppLoader';
-import AppError from '@/app/ui/components/AppError';
+import AppError from '../AppError';
 
 const AuthorizedMain = () => {
-  const { userProfile, isPending, isError } = useUserProfileQuery();
+  const { currentUser, isPending, isError } = useGetCurrentUserQuery();
 
   if (isError) {
     return <AppError />;
   }
 
-  if (isPending || !userProfile) {
+  if (isPending || !currentUser) {
     return <AppLoader />;
   }
 
@@ -33,6 +34,7 @@ const AuthorizedMain = () => {
     <Routes>
       <Route element={<AuthorizedLayout />}>
         <Route path={APP_ROUTES.HOME} element={<Home />} />
+        <Route path={APP_ROUTES.USERS} element={<Users />} />
         <Route path={APP_ROUTES.STUDENTS} element={<Students />} />
         <Route path={APP_ROUTES.STUDENT_GROUPS} element={<StudentGroups />} />
         <Route path={APP_ROUTES.LECTURERS} element={<Lecturers />} />

@@ -6,11 +6,14 @@ type ResetPasswordParams = {
 };
 
 type UseResetPasswordParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
-export function useResetPassword({ onSuccess, onError }: UseResetPasswordParams = {}) {
+export function useResetPassword({
+  onSuccess,
+  onError,
+}: UseResetPasswordParams = {}) {
   const { authService } = useAppServices();
 
   const { mutate: resetPassword, ...otherProps } = useMutation<

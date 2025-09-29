@@ -3,23 +3,18 @@ import {
   BackButton,
   FormTextField,
   SaveButton,
-  DeleteButton,
+  ErrorModal,
 } from '@/common/ui/components';
-import {
-  Content,
-  Title,
-  Actions,
-  Form,
-  FormControl,
-  ButtonsGroup,
-} from './styles.tsx';
+import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { EditDepartmentParams,
+import {
+  EditDepartmentParams,
   Department,
-  departmentNameValidator
+  departmentNameValidator,
 } from '@/departments/entities';
 import { InputLabel } from '@mui/material';
-import { useEditDepartment, useDeleteDepartment } from '@/departments/hooks';
+import { useEditDepartment } from '@/departments/hooks';
+import { useState } from 'react';
 
 export type EditDepartmentModalProps = {
   open: boolean;
@@ -34,12 +29,18 @@ const EditDepartmentModal = ({
   onClose,
   department,
 }: EditDepartmentModalProps) => {
-  const { editDepartment, isPending } = useEditDepartment({
-    onSuccess: onClose,
-  });
+  const onError = () => {
+    setIsErrorModalVisible(true);
+  };
 
-  const { deleteDepartments } = useDeleteDepartment({
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const {
+    editDepartment,
+    isPending,
+    error: editError,
+  } = useEditDepartment({
     onSuccess: onClose,
+    onError: onError,
   });
 
   const { register, handleSubmit, formState } = useForm<Inputs>({
@@ -49,10 +50,6 @@ const EditDepartmentModal = ({
 
   const onSubmit = async (values: Inputs) => {
     return editDepartment({ ...values, id: department.id });
-  };
-
-  const handleDelete = () => {
-    deleteDepartments([department.id]);
   };
 
   const { isValid } = formState;
@@ -73,12 +70,17 @@ const EditDepartmentModal = ({
           </FormControl>
           <Actions>
             <BackButton onClick={onClose} />
-            <ButtonsGroup>
-              <SaveButton loading={isPending} disabled={!isValid} type="submit" />
-              <DeleteButton onClick={handleDelete} />
-            </ButtonsGroup>
+            <SaveButton loading={isPending} disabled={!isValid} type="submit" />
           </Actions>
         </Form>
+
+        <ErrorModal
+          open={isErrorModalVisible}
+          onClose={() => setIsErrorModalVisible(false)}
+          onContinue={() => setIsErrorModalVisible(false)}
+        >
+          {editError?.message}
+        </ErrorModal>
       </Content>
     </Modal>
   );

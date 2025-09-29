@@ -26,7 +26,7 @@ function initServices(): AppServices {
   const authService = new AuthService(httpClient, authTokensStorage);
   const userService = new UserService(httpClient);
   const departmentsService = new DepartmentsService(httpClient);
-  const lecturesService = new LecturersService(httpClient, departmentsService);
+  const lecturesService = new LecturersService(httpClient);
   const roomsService = new RoomsService(httpClient);
   const educationalProgramsService = new EducationalProgramsService(httpClient);
 

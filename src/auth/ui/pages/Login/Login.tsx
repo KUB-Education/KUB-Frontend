@@ -12,9 +12,8 @@ import { FormHelperText, InputLabel } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ErrorModal } from '@/auth/ui/components';
 import { useState } from 'react';
-import { FormTextField } from '@/common/ui/components';
+import { FormTextField, ErrorModal } from '@/common/ui/components';
 import {
   emailValidator,
   requiredValidator,

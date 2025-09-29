@@ -5,7 +5,7 @@ import {
   Title,
   ContinueButton,
   DescriptionWrapper,
-} from './styles';
+} from './styles.tsx';
 import { ReactNode } from 'react';
 
 type ErrorModalProps = {

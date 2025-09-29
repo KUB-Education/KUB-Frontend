@@ -4,8 +4,8 @@ import { epQueryKey } from './useEducationalProgramsQuery.ts';
 import { AddEducationalProgramParams } from '@/educational-programs/entities';
 
 type UseAddEducationalProgramParams = Partial<{
-  onSuccess?: () => void;
-  onError?: () => void;
+  onSuccess: () => void;
+  onError: () => void;
 }>;
 
 export function useAddEducationalProgram({

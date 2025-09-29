@@ -4,7 +4,7 @@ import { HttpClientDecorator } from './HttpClientDecorator';
 import { HttpRequestConfig, HttpResponse } from '@/common/http-client';
 import { AuthenticatedSessionDto } from '@/auth/services/dto';
 import { ApiError } from '@/common/errors';
-import { HttpStatusCodes } from '@/common/http-client/entities/HttpStatuses.ts';
+import { HttpStatusCodes } from '../entities';
 import { AuthTokensStorage } from '@/auth/services';
 
 export class HttpClientWithSessionRefresh extends HttpClientDecorator {
