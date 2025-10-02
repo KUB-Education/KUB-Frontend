@@ -4,6 +4,7 @@ import {
   FormTextField,
   SaveButton,
   ErrorModal,
+  FieldLabel,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
@@ -12,7 +13,6 @@ import {
   Department,
   departmentNameValidator,
 } from '@/departments/entities';
-import { InputLabel } from '@mui/material';
 import { useEditDepartment } from '@/departments/hooks';
 import { useState } from 'react';
 
@@ -60,9 +60,9 @@ const EditDepartmentModal = ({
         <Title>Department information</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <InputLabel shrink htmlFor="name">
+            <FieldLabel shrink htmlFor="name">
               Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="name"
               {...register('name', { ...departmentNameValidator })}

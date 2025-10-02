@@ -4,6 +4,7 @@ import {
   BackButton,
   FormTextField,
   ErrorModal,
+  FieldLabel,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
@@ -11,7 +12,6 @@ import {
   AddDepartmentParams,
   departmentNameValidator,
 } from '@/departments/entities';
-import { InputLabel } from '@mui/material';
 import { useAddDepartment } from '@/departments/hooks';
 import { useState } from 'react';
 
@@ -46,9 +46,9 @@ const AddDepartmentModal = ({ open, onClose }: AddDepartmentModalProps) => {
         <Title>Add new department</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <InputLabel shrink htmlFor="name">
+            <FieldLabel shrink htmlFor="name">
               Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="name"
               {...register('name', { ...departmentNameValidator })}

@@ -1,5 +1,9 @@
-import { FormControl as MuiFormControl, styled } from '@mui/material';
-import { ModalActions, ModalForm } from '@/common/ui/components';
+import { styled } from '@mui/material';
+import {
+  ModalActions,
+  ModalForm,
+  FormControl as CommonFormControl,
+} from '@/common/ui/components';
 
 export const Form = styled(ModalForm)({
   display: 'flex',
@@ -9,7 +13,7 @@ export const Form = styled(ModalForm)({
   border: '1px solid #79747E',
 });
 
-export const FormControl = styled(MuiFormControl)({
+export const FormControl = styled(CommonFormControl)({
   width: '100%',
   marginBottom: '18px',
 

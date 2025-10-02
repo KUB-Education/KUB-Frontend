@@ -4,6 +4,7 @@ import {
   FormTextField,
   SaveButton,
   ErrorModal,
+  FieldLabel,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,6 @@ import {
   roomCapacityValidator,
   roomLocationValidator,
 } from '@/rooms/entities';
-import { InputLabel } from '@mui/material';
 import { useEditRoom } from '@/rooms/hooks';
 import { useState } from 'react';
 
@@ -52,18 +52,18 @@ const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
         <Title>Room information</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <InputLabel shrink htmlFor="lastName">
+            <FieldLabel shrink htmlFor="lastName">
               Location
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="location"
               {...register('location', { ...roomLocationValidator })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="capacity">
+            <FieldLabel shrink htmlFor="capacity">
               Capacity
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="capacity"
               type="number"

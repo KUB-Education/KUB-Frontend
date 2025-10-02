@@ -1,4 +1,4 @@
-import { FormControl as MuiFormControl, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import {
   ModalTitle,
   ModalBody,
@@ -6,6 +6,7 @@ import {
   ModalForm,
   ModalFormCol,
   ModalFormRow,
+  FormControl as CommonFormControl,
 } from '@/common/ui/components';
 
 export const Content = styled(ModalBody)({
@@ -19,7 +20,7 @@ export const Title = styled(ModalTitle)({
 
 export const Form = styled(ModalForm)({});
 
-export const FormControl = styled(MuiFormControl)({
+export const FormControl = styled(CommonFormControl)({
   width: '100%',
 });
 

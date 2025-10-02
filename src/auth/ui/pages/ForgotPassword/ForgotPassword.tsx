@@ -8,10 +8,14 @@ import {
   Button,
   NeedHelp,
 } from './styles';
-import { useResetPassword } from '@/auth/hooks/usePasswordReset';
-import { InputLabel } from '@mui/material';
+import { useResetPassword } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { InfoModal, ErrorModal, FormTextField } from '@/common/ui/components';
+import {
+  InfoModal,
+  ErrorModal,
+  FormTextField,
+  FieldLabel,
+} from '@/common/ui/components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { APP_ROUTES } from '@/common/routes';
@@ -62,9 +66,9 @@ const ForgotPassword = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Title>Password recovery</Title>
           <FormControl>
-            <InputLabel shrink htmlFor="email">
+            <FieldLabel shrink htmlFor="email">
               Email
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="Email"
               {...register('email', {

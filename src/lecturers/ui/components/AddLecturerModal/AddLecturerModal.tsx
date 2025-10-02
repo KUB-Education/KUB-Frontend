@@ -3,6 +3,7 @@ import {
   AddButton,
   BackButton,
   FormTextField,
+  FieldLabel,
 } from '@/common/ui/components';
 import {
   Content,
@@ -20,7 +21,7 @@ import {
   lecturerPositions,
   lecturerStatuses,
 } from '@/lecturers/entities';
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 import {
   emailValidator,
   requiredValidator,
@@ -65,9 +66,9 @@ const AddLecturerModal = ({
           <Row>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="lastName">
+                <FieldLabel shrink htmlFor="lastName">
                   Last Name
-                </InputLabel>
+                </FieldLabel>
                 <FormTextField
                   label="lastName"
                   {...register('lastName', { ...requiredValidator() })}
@@ -76,9 +77,9 @@ const AddLecturerModal = ({
             </Col>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="departmentId">
+                <FieldLabel shrink htmlFor="departmentId">
                   Department
-                </InputLabel>
+                </FieldLabel>
                 <Controller
                   name="departmentId"
                   control={control}
@@ -99,9 +100,9 @@ const AddLecturerModal = ({
           <Row>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="firstName">
+                <FieldLabel shrink htmlFor="firstName">
                   First Name
-                </InputLabel>
+                </FieldLabel>
                 <FormTextField
                   label="firstName"
                   {...register('firstName', { ...requiredValidator() })}
@@ -110,9 +111,9 @@ const AddLecturerModal = ({
             </Col>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="academicTitle">
+                <FieldLabel shrink htmlFor="academicTitle">
                   Academic title
-                </InputLabel>
+                </FieldLabel>
                 <Controller
                   name="academicTitle"
                   control={control}
@@ -133,9 +134,9 @@ const AddLecturerModal = ({
           <Row>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="middleName">
+                <FieldLabel shrink htmlFor="middleName">
                   Middle Name
-                </InputLabel>
+                </FieldLabel>
                 <FormTextField
                   label="middleName"
                   {...register('middleName', { ...requiredValidator() })}
@@ -144,9 +145,9 @@ const AddLecturerModal = ({
             </Col>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="position">
+                <FieldLabel shrink htmlFor="position">
                   Position
-                </InputLabel>
+                </FieldLabel>
                 <Controller
                   name="position"
                   control={control}
@@ -167,9 +168,9 @@ const AddLecturerModal = ({
           <Row>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="email">
+                <FieldLabel shrink htmlFor="email">
                   Email
-                </InputLabel>
+                </FieldLabel>
                 <FormTextField
                   label="Email"
                   type="email"
@@ -182,9 +183,9 @@ const AddLecturerModal = ({
             </Col>
             <Col>
               <FormControl>
-                <InputLabel shrink htmlFor="status">
+                <FieldLabel shrink htmlFor="status">
                   Status
-                </InputLabel>
+                </FieldLabel>
                 <Controller
                   name="status"
                   control={control}

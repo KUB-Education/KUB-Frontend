@@ -5,7 +5,6 @@ import {
   Col,
   Content,
   Field,
-  FieldLabel,
   FieldList,
   FieldListItem,
   FieldText,
@@ -16,7 +15,7 @@ import {
   Loader,
   UserStatusField,
 } from './styles';
-import { BackButton } from '@/common/ui/components';
+import { BackButton, FieldLabel } from '@/common/ui/components';
 
 export type UserProfileSettingsProps = {
   currentUser?: CurrentUser;

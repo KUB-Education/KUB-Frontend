@@ -9,8 +9,8 @@ import {
   RoleDelete,
   Actions,
 } from './styles.tsx';
-import { InputLabel, MenuItem, Select } from '@mui/material';
-import { FormTextField, SaveButton } from '@/common/ui/components';
+import { MenuItem, Select } from '@mui/material';
+import { FieldLabel, FormTextField, SaveButton } from '@/common/ui/components';
 import UserRoleLabel from '../UserRole';
 import {
   getUserRoleLabel,
@@ -62,9 +62,9 @@ const EditUserRolesForm = ({
         {userRoles.map((role) => (
           <RoleListItem key={role}>
             <FormControl>
-              <InputLabel shrink htmlFor={role}>
+              <FieldLabel shrink htmlFor={role}>
                 Role
-              </InputLabel>
+              </FieldLabel>
               <FormTextField
                 label="Role"
                 id={role}
@@ -101,7 +101,7 @@ const EditUserRolesForm = ({
           ) : (
             <Form onSubmit={handleSubmit(onSubmit)}>
               <FormControl>
-                <InputLabel htmlFor="newRole">New Role</InputLabel>
+                <FieldLabel htmlFor="newRole">New Role</FieldLabel>
                 <Controller
                   name="newRole"
                   control={control}
