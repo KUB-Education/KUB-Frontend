@@ -1,13 +1,14 @@
 import { Lecturer } from '@/lecturers/entities';
 import {
-  Root,
   AddButton,
   DeleteButton,
-  ResendButton,
   EditButton,
-  ActionsListItem,
-  ActionsList,
-} from './styles.tsx';
+  ResendButton,
+  Toolbar,
+  ToolbarAction,
+  ToolbarActionsList,
+  ToolbarActionsListItem,
+} from '@/common/ui/components';
 
 export type LecturesToolbarProps = {
   selectedLecturers: Lecturer[];
@@ -28,32 +29,40 @@ const LecturersToolbar = ({
 }: LecturesToolbarProps) => {
   if (selectedLecturers.length) {
     return (
-      <Root className={className}>
-        <ActionsList>
-          <ActionsListItem>
-            <ResendButton onClick={onResend} />
-          </ActionsListItem>
+      <Toolbar className={className}>
+        <ToolbarActionsList>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <ResendButton onClick={onResend} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
           {selectedLecturers.length === 1 && (
-            <ActionsListItem>
-              <EditButton onClick={onEdit} />
-            </ActionsListItem>
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <EditButton onClick={onEdit} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
-          <ActionsListItem>
-            <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
-        </ActionsList>
-      </Root>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDelete} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+        </ToolbarActionsList>
+      </Toolbar>
     );
   }
 
   return (
-    <Root className={className}>
-      <ActionsList>
-        <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new lecturer</AddButton>
-        </ActionsListItem>
-      </ActionsList>
-    </Root>
+    <Toolbar className={className}>
+      <ToolbarActionsList>
+        <ToolbarActionsListItem>
+          <ToolbarAction>
+            <AddButton onClick={onAdd}>Add new lecturer</AddButton>
+          </ToolbarAction>
+        </ToolbarActionsListItem>
+      </ToolbarActionsList>
+    </Toolbar>
   );
 };
 

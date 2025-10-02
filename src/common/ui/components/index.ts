@@ -38,3 +38,5 @@ export { default as InfoModal } from './InfoModal';
 export * from './InfoModal';
 export { default as CircularProgress } from './CircularProgress';
 export * from './CircularProgress';
+export { default as Toolbar } from './Toolbar';
+export * from './Toolbar';
