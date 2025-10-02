@@ -12,6 +12,7 @@ import {
 } from '@/common/http-client';
 import { PersistentStorage } from '@/common/persistent-storage';
 import { UserService } from '@/users/services';
+import { StudentsService } from '@/students/services';
 
 function initServices(): AppServices {
   const persistentStorage = new PersistentStorage();
@@ -25,6 +26,7 @@ function initServices(): AppServices {
 
   const authService = new AuthService(httpClient, authTokensStorage);
   const userService = new UserService(httpClient);
+  const studentsService = new StudentsService(httpClient);
   const departmentsService = new DepartmentsService(httpClient);
   const lecturesService = new LecturersService(httpClient);
   const roomsService = new RoomsService(httpClient);
@@ -33,6 +35,7 @@ function initServices(): AppServices {
   return {
     authService,
     userService,
+    studentsService,
     departmentsService,
     lecturesService,
     roomsService,
