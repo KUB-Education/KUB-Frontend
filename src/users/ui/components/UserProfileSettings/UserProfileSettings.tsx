@@ -1,4 +1,8 @@
-import { CurrentUser, getUserStatusLabel } from '@/users/entities';
+import {
+  CurrentUser,
+  getUserRoleLabel,
+  getUserStatusLabel,
+} from '@/users/entities';
 import {
   Actions,
   ChangeButton,
@@ -103,7 +107,7 @@ const UserProfileSettings = ({
                     <FieldText
                       label="Role"
                       readOnly
-                      value={role.name.toUpperCase()}
+                      value={getUserRoleLabel(role.type).toUpperCase()}
                     />
                   </Field>
                 </FieldListItem>

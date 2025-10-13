@@ -29,7 +29,7 @@ export class StudentsService extends BaseService {
       roles: [
         {
           id: faker.number.int(),
-          name: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRole)),
         },
       ],
       educationalPrograms: [
@@ -75,7 +75,7 @@ export class StudentsService extends BaseService {
       roles: [
         {
           id: faker.number.int(),
-          name: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRole)),
         },
       ],
       educationalPrograms: [],

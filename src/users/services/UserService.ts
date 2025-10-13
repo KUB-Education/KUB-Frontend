@@ -24,7 +24,7 @@ export class UserService extends BaseService {
   async getCurrentUser(): Promise<CurrentUser> {
     const dtoMapper = new UserDtoMapper();
 
-    const { data } = await this.http.get<CurrentUserDto>('/user/me');
+    const { data } = await this.http.get<CurrentUserDto>('/account/me');
 
     return dtoMapper.toEntity(data);
   }
@@ -45,7 +45,7 @@ export class UserService extends BaseService {
       roles: [
         {
           id: faker.number.int(),
-          name: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRole)),
         },
       ],
     }));
@@ -63,7 +63,7 @@ export class UserService extends BaseService {
       roles: [
         {
           id: faker.number.int(),
-          name: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRole)),
         },
       ],
     });
