@@ -1,10 +1,7 @@
 import { BaseService } from '@/common/services';
-import { CurrentUserDto } from '@/users/services/dto';
-import { UserDtoMapper } from '@/users/mappers';
 import {
   AddUserParams,
   AddUserRoleParams,
-  CurrentUser,
   DeleteUserRoleParams,
   EditUserParams,
   User,
@@ -20,14 +17,6 @@ export class UserService extends BaseService {
   private users: User[] = [];
 
   private userRoles: Record<UserId, UserRole[]> = {};
-
-  async getCurrentUser(): Promise<CurrentUser> {
-    const dtoMapper = new UserDtoMapper();
-
-    const { data } = await this.http.get<CurrentUserDto>('/account/me');
-
-    return dtoMapper.toEntity(data);
-  }
 
   async getUsers(): Promise<User[]> {
     await delay(2 * SECOND);

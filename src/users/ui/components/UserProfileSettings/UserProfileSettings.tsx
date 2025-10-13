@@ -1,8 +1,4 @@
-import {
-  CurrentUser,
-  getUserRoleLabel,
-  getUserStatusLabel,
-} from '@/users/entities';
+import { getUserRoleLabel, getUserStatusLabel } from '@/users/entities';
 import {
   Actions,
   ChangeButton,
@@ -20,6 +16,7 @@ import {
   UserStatusField,
 } from './styles';
 import { BackButton, FieldLabel } from '@/common/ui/components';
+import { CurrentUser } from '@/current-user/entities';
 
 export type UserProfileSettingsProps = {
   currentUser?: CurrentUser;
