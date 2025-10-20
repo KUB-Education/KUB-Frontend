@@ -34,7 +34,7 @@ export class AuthService extends BaseService {
     const dtoMapper = new AuthenticatedSessionDtoMapper();
 
     const { data } = await this.http.post<AuthenticatedSessionDto>(
-      '/auth/login',
+      '/v1/auth/login',
       {
         data: params,
       },
@@ -49,7 +49,7 @@ export class AuthService extends BaseService {
   }
 
   async logout(): Promise<void> {
-    await this.http.post('/auth/logout');
+    await this.http.post('/v1/auth/logout');
     this.authTokensStorage.resetAccessToken();
     this.authTokensStorage.resetRefreshToken();
   }
@@ -58,7 +58,7 @@ export class AuthService extends BaseService {
     currentPassword: string;
     newPassword: string;
   }): Promise<void> {
-    await this.http.post('/account/change-password', {
+    await this.http.post('/v1/account/change-password', {
       data: {
         old_password: params.currentPassword,
         new_password: params.newPassword,
@@ -67,7 +67,7 @@ export class AuthService extends BaseService {
   }
 
   async resetPassword(params: { email: string }): Promise<void> {
-    await this.http.post('/account/recovery-password', {
+    await this.http.post('/v1/account/recovery-password', {
       data: params,
     });
   }
@@ -111,7 +111,7 @@ export class AuthService extends BaseService {
   ) {
     const token = this.authTokensStorage.getAccessToken();
 
-    if (config.url && config.url.includes('/auth/refresh')) {
+    if (config.url && config.url.includes('/v1/auth/refresh')) {
       return config;
     }
 

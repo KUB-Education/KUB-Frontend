@@ -48,11 +48,11 @@ const EditStudent = ({
     return isDeletePending || isEditPending || isResendPending;
   }, [isEditPending, isResendPending, isDeletePending]);
 
-  const onDelete = async () => {
+  const onDelete = () => {
     deleteStudents([student.id]);
   };
 
-  const onResend = async () => {
+  const onResend = () => {
     resendStudentsActivationEmail([student.id]);
   };
 
