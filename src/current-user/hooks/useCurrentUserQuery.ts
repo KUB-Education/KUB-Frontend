@@ -4,14 +4,14 @@ import { useIsAuthorizedQuery } from '@/auth/hooks';
 
 export const currentUserQueryKey = 'currentUserQuery';
 
-export function useGetCurrentUserQuery() {
-  const { userService } = useAppServices();
+export function useCurrentUserQuery() {
+  const { currentUserService } = useAppServices();
   const { isAuthorized } = useIsAuthorizedQuery();
 
   const { data: currentUser, ...otherData } = useQuery({
     queryKey: [currentUserQueryKey],
     queryFn: () => {
-      return userService.getCurrentUser();
+      return currentUserService.getCurrentUser();
     },
     enabled: isAuthorized,
   });

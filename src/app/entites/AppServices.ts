@@ -6,10 +6,12 @@ import { EducationalProgramsService } from '@/educational-programs/services';
 import { UserService } from '@/users/services';
 import { StudentsService } from '@/students/services';
 import { StudentGroupsService } from '@/student-groups/services';
+import { CurrentUserService } from '@/current-user/services';
 
 export type AppServices = {
   authService: AuthService;
   userService: UserService;
+  currentUserService: CurrentUserService;
   studentsService: StudentsService;
   studentGroupsService: StudentGroupsService;
   departmentsService: DepartmentsService;

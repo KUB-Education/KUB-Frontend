@@ -5,4 +5,3 @@ export * from './AddUserRoleParams';
 export * from './DeleteUserRoleParams';
 export * from './UserStatus';
 export * from './User';
-export * from './CurrentUser';

@@ -1,4 +1,3 @@
-export * from './useGetCurrentUserQuery.ts';
 export * from './useUsersQuery';
 export * from './useAddUser';
 export * from './useEditUser';

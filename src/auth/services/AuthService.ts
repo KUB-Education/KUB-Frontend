@@ -54,20 +54,23 @@ export class AuthService extends BaseService {
     this.authTokensStorage.resetRefreshToken();
   }
 
-  async changePassword(params: { currentPassword: string; newPassword: string }): Promise<void> {
-    await this.http.post('/user/change-password', {
+  async changePassword(params: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<void> {
+    await this.http.post('/account/change-password', {
       data: {
         old_password: params.currentPassword,
         new_password: params.newPassword,
-      }
+      },
     });
   }
 
   async resetPassword(params: { email: string }): Promise<void> {
-    await this.http.post('/user/recovery-password', {
+    await this.http.post('/account/recovery-password', {
       data: params,
     });
-  }  
+  }
 
   getIsAuthorized() {
     const token = this.authTokensStorage.getRefreshToken();
