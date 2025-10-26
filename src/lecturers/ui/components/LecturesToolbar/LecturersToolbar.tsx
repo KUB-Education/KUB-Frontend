@@ -31,7 +31,7 @@ const LecturersToolbar = ({
 }: LecturesToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const lecturerWithoutResend = selectedLecturers.find(
-      (student) => !isUserEmailSendingFailure(student),
+      (lecturer) => !isUserEmailSendingFailure(lecturer.userStatus),
     );
     return !lecturerWithoutResend;
   }, [selectedLecturers]);

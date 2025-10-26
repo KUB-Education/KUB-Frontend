@@ -13,7 +13,7 @@ import {
   Actions,
 } from './styles.tsx';
 import {
-  getAvailableLecturerDepartments,
+  getAvailableDepartmentPositions,
   Lecturer,
 } from '@/lecturers/entities';
 import {
@@ -38,7 +38,7 @@ export type EditLecturerDepartmentsProps = {
   onDetails: (departmentId: DepartmentId) => void;
 };
 
-const EditLecturerDepartments = ({
+const EditDepartmentPositions = ({
   lecturer,
   departments,
   isPending,
@@ -47,67 +47,73 @@ const EditLecturerDepartments = ({
   onAdd,
   onDelete,
 }: EditLecturerDepartmentsProps) => {
-  const isNewDepartmentsAvailable = useMemo(() => {
-    const availableDepartments = getAvailableLecturerDepartments(
-      lecturer.departments,
+  const isNewDepartmentPositionsAvailable = useMemo(() => {
+    const availableDepartmentPositions = getAvailableDepartmentPositions(
+      lecturer.departmentPositions,
       departments,
     );
-    return !!availableDepartments.length;
+    return !!availableDepartmentPositions.length;
   }, [departments, lecturer]);
 
   return (
     <Root className={className}>
       <DepartmentList>
-        {lecturer.departments.map((department) => (
-          <DepartmentListItem key={department.id}>
+        {lecturer.departmentPositions.map((departmentPosition) => (
+          <DepartmentListItem key={departmentPosition.id}>
             <Department>
               <DepartmentName>
-                <FieldLabel shrink htmlFor={String(department.id)}>
+                <FieldLabel
+                  shrink
+                  htmlFor={String(departmentPosition.department.id)}
+                >
                   Department
                 </FieldLabel>
                 <DepartmentNameText
                   label="Department"
-                  id={String(department.id)}
+                  id={String(departmentPosition.department.id)}
                   readOnly
                   multiline
-                  value={department.name}
+                  value={departmentPosition.department.name}
                 />
               </DepartmentName>
               <DepartmentInfo>
                 <DepartmentInfoRow>
                   <FormControl>
-                    <FieldLabel shrink htmlFor={department.position}>
+                    <FieldLabel
+                      shrink
+                      htmlFor={String(departmentPosition.position.id)}
+                    >
                       Position
                     </FieldLabel>
                     <FormTextField
                       label="Position"
-                      id={department.position}
+                      id={String(departmentPosition.position.id)}
                       readOnly
-                      value={department.position}
+                      value={departmentPosition.position.name}
                     />
                   </FormControl>
                   <DepartmentDetailsControl
                     disabled={isPending}
-                    onClick={() => onDetails(department.id)}
+                    onClick={() => onDetails(departmentPosition.id)}
                   >
                     Details
                   </DepartmentDetailsControl>
                 </DepartmentInfoRow>
                 <DepartmentInfoRow>
                   <FormControl>
-                    <FieldLabel shrink htmlFor={department.status}>
+                    <FieldLabel shrink htmlFor={departmentPosition.status}>
                       Status
                     </FieldLabel>
                     <FormTextField
                       label="Status"
-                      id={department.status}
+                      id={departmentPosition.status}
                       readOnly
-                      value={department.status}
+                      value={departmentPosition.status}
                     />
                   </FormControl>
                   <DepartmentDeleteControl
                     disabled={isPending}
-                    onClick={() => onDelete(department.id)}
+                    onClick={() => onDelete(departmentPosition.id)}
                   >
                     Delete
                   </DepartmentDeleteControl>
@@ -117,7 +123,7 @@ const EditLecturerDepartments = ({
           </DepartmentListItem>
         ))}
       </DepartmentList>
-      <Condition.When condition={isNewDepartmentsAvailable}>
+      <Condition.When condition={isNewDepartmentPositionsAvailable}>
         <Actions>
           <AddButton disabled={isPending} type="button" onClick={onAdd}>
             Add to department
@@ -128,4 +134,4 @@ const EditLecturerDepartments = ({
   );
 };
 
-export default EditLecturerDepartments;
+export default EditDepartmentPositions;

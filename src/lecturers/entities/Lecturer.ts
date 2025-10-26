@@ -1,10 +1,13 @@
 import { AcademicTitle } from './AcademicTitle';
-import { User } from '@/users/entities';
-import { LecturerDepartment } from './LecturerDepartment';
+import { UserProfile, UserId, UserStatus } from '@/users/entities';
+import { LecturerDepartmentPosition } from './LecturerDepartmentPosition';
 
-export type LecturerId = User['id'];
+export type LecturerId = number;
 
-export type Lecturer = User & {
-  departments: LecturerDepartment[];
+export type Lecturer = UserProfile & {
+  id: LecturerId;
+  userId: UserId;
+  userStatus: UserStatus;
+  departmentPositions: LecturerDepartmentPosition[];
   academicTitles: AcademicTitle[];
 };

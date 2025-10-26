@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { lecturesQueryKey } from './useLecturersQuery.ts';
-import { EditLecturerDepartmentParams } from '@/lecturers/entities';
+import { lecturesQueryKey } from './useLecturersQuery';
+import { EditDepartmentPositionParams } from '@/lecturers/entities';
 
-type UseEditLecturerDepartment = Partial<{
+type UseEditDepartmentPosition = Partial<{
   onSuccess: () => void;
   onError: () => void;
 }>;
 
-export function useEditLecturerDepartment({
+export function useEditDepartmentPosition({
   onSuccess,
   onError,
-}: UseEditLecturerDepartment = {}) {
+}: UseEditDepartmentPosition = {}) {
   const { lecturesService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: editLecturerDepartment, ...otherProps } = useMutation<
+  const { mutate: editDepartmentPosition, ...otherProps } = useMutation<
     void,
     Error,
-    EditLecturerDepartmentParams
+    EditDepartmentPositionParams
   >({
     mutationFn: async (params) => {
-      await lecturesService.editLecturerDepartment(params);
+      await lecturesService.editLecturerDepartmentPosition(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [lecturesQueryKey] });
@@ -35,7 +35,7 @@ export function useEditLecturerDepartment({
   });
 
   return {
-    editLecturerDepartment,
+    editDepartmentPosition,
     ...otherProps,
   };
 }

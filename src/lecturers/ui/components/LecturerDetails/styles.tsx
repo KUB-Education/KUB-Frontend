@@ -7,8 +7,8 @@ import {
   ModalFormCol,
 } from '@/common/ui/components';
 import EditLecturerForm from '../EditLecturerForm';
-import EditLecturerAcademicTitle from '../EditLecturerAcademicTitle';
-import EditLecturerDepartments from '../EditLecturerDepartments';
+import EditLecturerAcademicTitles from '../EditAcademicTitles';
+import EditLecturerDepartmentPositions from '../EditDepartmentPositions';
 
 export const Content = styled(ModalBody)({
   width: '1440px',
@@ -35,11 +35,11 @@ export const EditForm = styled(EditLecturerForm)({
   flexGrow: 1,
 });
 
-export const EditAcademicTitle = styled(EditLecturerAcademicTitle)({
+export const EditAcademicTitles = styled(EditLecturerAcademicTitles)({
   flexGrow: 1,
 });
 
-export const EditDepartments = styled(EditLecturerDepartments)({
+export const EditDepartmentPositions = styled(EditLecturerDepartmentPositions)({
   flexGrow: 1,
 });
 
@@ -49,11 +49,11 @@ export const EditFormCol = styled(Col)({
   maxWidth: '405px',
 });
 
-export const EditDepartmentsCol = styled(Col)({
+export const EditDepartmentPositionsCol = styled(Col)({
   flexGrow: 2,
 });
 
-export const EditAcademicTitleCol = styled(Col)({
+export const EditAcademicTitlesCol = styled(Col)({
   flexGrow: 1,
   width: '25%',
   maxWidth: '370px',

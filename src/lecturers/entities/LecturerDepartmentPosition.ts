@@ -1,18 +1,22 @@
 import { Department, DepartmentId } from '@/departments/entities';
 import { LecturerPosition } from './LecturerPosition';
-import { LecturerStatus } from './LecturerStatus';
+import { LecturerPositionStatus } from './LecturerPositionStatus.ts';
 import { difference } from '@/common/utils';
 
-export type LecturerDepartment = Department & {
+export type LecturerDepartmentPositionId = number;
+
+export type LecturerDepartmentPosition = {
+  id: LecturerDepartmentPositionId;
+  department: Department;
   position: LecturerPosition;
-  status: LecturerStatus;
+  status: LecturerPositionStatus;
 };
 
-export const getAvailableLecturerDepartments = (
-  lecturerDepartments: LecturerDepartment[],
+export const getAvailableDepartmentPositions = (
+  departmentPositions: LecturerDepartmentPosition[],
   departments: Department[],
 ) => {
-  const lecturerDepartmentIds = lecturerDepartments.map(
+  const lecturerDepartmentIds = departmentPositions.map(
     (department) => department.id,
   );
   const departmentsIds = departments.map((department) => department.id);

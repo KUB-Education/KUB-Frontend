@@ -31,7 +31,7 @@ const StudentsToolbar = ({
 }: StudentsToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const studentWithoutResend = selectedStudents.find(
-      (student) => !isUserEmailSendingFailure(student),
+      (student) => !isUserEmailSendingFailure(student.status),
     );
     return !studentWithoutResend;
   }, [selectedStudents]);

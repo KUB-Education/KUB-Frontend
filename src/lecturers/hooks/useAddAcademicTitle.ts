@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { lecturesQueryKey } from './useLecturersQuery.ts';
-import { AddLecturerToDepartmentParams } from '@/lecturers/entities';
+import { lecturesQueryKey } from './useLecturersQuery';
+import { AddAcademicTitleParams } from '@/lecturers/entities';
 
-type UseAddLecturerToDepartment = Partial<{
+type UseAddAcademicTitle = Partial<{
   onSuccess: () => void;
   onError: () => void;
 }>;
 
-export function useAddLecturerToDepartment({
+export function useAddAcademicTitle({
   onSuccess,
   onError,
-}: UseAddLecturerToDepartment = {}) {
+}: UseAddAcademicTitle = {}) {
   const { lecturesService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: addLecturerToDepartment, ...otherProps } = useMutation<
+  const { mutate: addAcademicTitle, ...otherProps } = useMutation<
     void,
     Error,
-    AddLecturerToDepartmentParams
+    AddAcademicTitleParams
   >({
     mutationFn: async (params) => {
-      await lecturesService.addLecturerToDepartment(params);
+      await lecturesService.addAcademicTitle(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [lecturesQueryKey] });
@@ -35,7 +35,7 @@ export function useAddLecturerToDepartment({
   });
 
   return {
-    addLecturerToDepartment,
+    addAcademicTitle,
     ...otherProps,
   };
 }

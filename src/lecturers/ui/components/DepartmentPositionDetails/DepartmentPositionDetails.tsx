@@ -1,9 +1,10 @@
 import {
-  LecturerDepartment,
+  LecturerDepartmentPosition,
+  LecturerPositionStatus as Status,
   LecturerPosition as Position,
-  lecturerPositions,
-  LecturerStatus as Status,
-  lecturerStatuses,
+  LecturerPositionId,
+  EditDepartmentPositionParams,
+  lecturerPositionStatuses,
 } from '@/lecturers/entities';
 import {
   Actions,
@@ -22,41 +23,53 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { MenuItem, Select } from '@mui/material';
 import { requiredValidator } from '@/common/utils/validators';
-import { LecturerPosition, LecturerStatus } from '@/lecturers/ui/components';
+import { LecturerPositionStatus } from '@/lecturers/ui/components';
 import { DepartmentId } from '@/departments/entities';
 
-export type LecturerDepartmentDetailsProps = {
-  department: LecturerDepartment;
+export type DepartmentPositionDetailsProps = {
+  positions: Array<Position>;
+  departmentPosition: LecturerDepartmentPosition;
   isPending: boolean;
-  onEdit: (department: LecturerDepartment) => void;
+  onEdit: (data: Omit<EditDepartmentPositionParams, 'lecturerId'>) => void;
   onDelete: (departmentId: DepartmentId) => void;
   onBack: () => void;
 };
 
-const LecturerDepartmentDetails = ({
-  department,
+const DepartmentPositionDetails = ({
+  positions,
+  departmentPosition,
   isPending,
   onEdit,
   onDelete,
   onBack,
-}: LecturerDepartmentDetailsProps) => {
+}: DepartmentPositionDetailsProps) => {
+  const { department, position, status } = departmentPosition;
+
   const { handleSubmit, formState, control } = useForm<{
     status: Status;
-    position: Position;
+    positionId: LecturerPositionId;
   }>({
     mode: 'onChange',
-    values: { position: department.position, status: department.status },
+    values: { positionId: position.id, status },
   });
 
-  const onSubmit = async (values: { status: Status; position: Position }) => {
-    onEdit({ ...department, ...values });
+  const onSubmit = async (values: {
+    status: Status;
+    positionId: LecturerPositionId;
+  }) => {
+    onEdit({
+      departmentPositionId: departmentPosition.id,
+      ...values,
+    });
   };
 
-  const onDeleteFromDepartment = () => {
-    onDelete(department.id);
+  const onDeleteDepartmentPosition = () => {
+    onDelete(departmentPosition.id);
   };
 
-  const { isValid } = formState;
+  const { isValid, isDirty } = formState;
+
+  const isConfirmDisabled = !isValid || isPending || !isDirty;
 
   return (
     <Content>
@@ -78,14 +91,14 @@ const LecturerDepartmentDetails = ({
             Position
           </FieldLabel>
           <Controller
-            name="position"
+            name="positionId"
             control={control}
             rules={{ ...requiredValidator() }}
             render={({ field }) => (
-              <Select notched label="position" {...field}>
-                {lecturerPositions.map((position) => (
-                  <MenuItem key={position} value={position}>
-                    <LecturerPosition value={position} />
+              <Select notched label="Position" {...field}>
+                {positions.map((position) => (
+                  <MenuItem key={String(position.id)} value={position.id}>
+                    {position.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -102,9 +115,9 @@ const LecturerDepartmentDetails = ({
             rules={{ ...requiredValidator() }}
             render={({ field }) => (
               <Select notched label="status" {...field}>
-                {lecturerStatuses.map((status) => (
+                {lecturerPositionStatuses.map((status) => (
                   <MenuItem key={status} value={status}>
-                    <LecturerStatus value={status} />
+                    <LecturerPositionStatus value={status} />
                   </MenuItem>
                 ))}
               </Select>
@@ -113,14 +126,21 @@ const LecturerDepartmentDetails = ({
         </FormControl>
         <Actions>
           <BackButton onClick={onBack} />
-          <DeleteButton loading={isPending} onClick={onDeleteFromDepartment}>
+          <DeleteButton
+            loading={isPending}
+            onClick={onDeleteDepartmentPosition}
+          >
             Delete lecturer
           </DeleteButton>
-          <SaveButton loading={isPending} disabled={!isValid} type="submit" />
+          <SaveButton
+            loading={isPending}
+            disabled={isConfirmDisabled}
+            type="submit"
+          />
         </Actions>
       </Form>
     </Content>
   );
 };
 
-export default LecturerDepartmentDetails;
+export default DepartmentPositionDetails;

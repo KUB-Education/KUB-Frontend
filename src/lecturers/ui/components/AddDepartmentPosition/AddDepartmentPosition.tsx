@@ -1,9 +1,9 @@
 import {
-  AddLecturerToDepartmentParams,
-  getAvailableLecturerDepartments,
+  AddDepartmentPositionParams,
+  getAvailableDepartmentPositions,
   Lecturer,
   LecturerPosition as Position,
-  lecturerPositions,
+  LecturerPositionId,
 } from '@/lecturers/entities';
 import { Actions, Content, Form, FormControl, Title } from './styles';
 import { BackButton, FieldLabel, SaveButton } from '@/common/ui/components';
@@ -11,51 +11,42 @@ import { Department, DepartmentId } from '@/departments/entities';
 import { Controller, useForm } from 'react-hook-form';
 import { MenuItem, Select } from '@mui/material';
 import { requiredValidator } from '@/common/utils/validators';
-import { LecturerPosition } from '@/lecturers/ui/components';
 import { useMemo } from 'react';
 
-export type AddLecturerDepartmentProps = {
+export type AddDepartmentPositionProps = {
   lecturer: Lecturer;
+  positions: Position[];
   departments: Department[];
   isPending: boolean;
-  onAdd: (params: AddLecturerToDepartmentParams) => void;
+  onAdd: (params: AddDepartmentPositionParams) => void;
   onBack: () => void;
 };
 
-const AddLecturerDepartment = ({
+const AddDepartmentPosition = ({
   lecturer,
   departments,
+  positions,
   isPending,
   onAdd,
   onBack,
-}: AddLecturerDepartmentProps) => {
+}: AddDepartmentPositionProps) => {
   const { handleSubmit, formState, control, reset } = useForm<{
-    department: DepartmentId;
-    position: Position;
-  }>({
-    mode: 'onChange',
-  });
+    departmentId: DepartmentId;
+    positionId: LecturerPositionId;
+  }>({ mode: 'onChange' });
 
   const availableDepartments = useMemo(() => {
-    return getAvailableLecturerDepartments(lecturer.departments, departments);
+    return getAvailableDepartmentPositions(
+      lecturer.departmentPositions,
+      departments,
+    );
   }, [departments, lecturer]);
 
   const onSubmit = async (values: {
-    department: DepartmentId;
-    position: Position;
+    departmentId: DepartmentId;
+    positionId: LecturerPositionId;
   }) => {
-    const department = departments.find(
-      (department) => department.id === values.department,
-    );
-
-    if (!department) return;
-
-    onAdd({
-      lecturerId: lecturer.id,
-      id: values.department,
-      position: values.position,
-      name: department.name,
-    });
+    onAdd({ lecturerId: lecturer.id, ...values });
     reset();
   };
 
@@ -66,15 +57,15 @@ const AddLecturerDepartment = ({
       <Title>Add department position</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <FieldLabel shrink htmlFor="department">
+          <FieldLabel shrink htmlFor="departmentId">
             Department
           </FieldLabel>
           <Controller
-            name="department"
+            name="departmentId"
             control={control}
             rules={{ ...requiredValidator() }}
             render={({ field }) => (
-              <Select notched label="department" {...field}>
+              <Select notched label="Department" {...field}>
                 {availableDepartments.map((department) => (
                   <MenuItem key={department.id} value={department.id}>
                     {department.name}
@@ -85,18 +76,18 @@ const AddLecturerDepartment = ({
           />
         </FormControl>
         <FormControl>
-          <FieldLabel shrink htmlFor="position">
+          <FieldLabel shrink htmlFor="positionId">
             Position
           </FieldLabel>
           <Controller
-            name="position"
+            name="positionId"
             control={control}
             rules={{ ...requiredValidator() }}
             render={({ field }) => (
-              <Select notched label="position" {...field}>
-                {lecturerPositions.map((position) => (
-                  <MenuItem key={position} value={position}>
-                    <LecturerPosition value={position} />
+              <Select notched label="Position" {...field}>
+                {positions.map((position) => (
+                  <MenuItem key={String(position.id)} value={position.id}>
+                    {position.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -112,4 +103,4 @@ const AddLecturerDepartment = ({
   );
 };
 
-export default AddLecturerDepartment;
+export default AddDepartmentPosition;

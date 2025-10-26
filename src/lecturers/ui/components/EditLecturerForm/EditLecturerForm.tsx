@@ -16,6 +16,7 @@ import {
   requiredValidator,
 } from '@/common/utils/validators.ts';
 import { EditLecturerParams, Lecturer } from '@/lecturers/entities';
+import { getFormDirtyValues } from '@/common/utils';
 
 export type EditLecturerFormProps = {
   lecturer: Lecturer;
@@ -25,10 +26,7 @@ export type EditLecturerFormProps = {
   onEdit: (params: EditLecturerParams) => void;
 };
 
-type Inputs = Pick<
-  EditLecturerParams,
-  'email' | 'firstName' | 'lastName' | 'middleName'
->;
+type Inputs = Omit<EditLecturerParams, 'userId' | 'lecturerId'>;
 
 const EditLecturerForm = ({
   lecturer,
@@ -42,21 +40,27 @@ const EditLecturerForm = ({
     values: { ...lecturer },
   });
 
+  const { isValid, isDirty, dirtyFields } = formState;
+
   const userStatusValue = useMemo(() => {
-    return lecturer && getUserStatusLabel(lecturer.status);
+    return lecturer && getUserStatusLabel(lecturer.userStatus);
   }, [lecturer]);
 
   const isResendAvailable = useMemo(() => {
-    return isUserEmailSendingFailure(lecturer);
+    return isUserEmailSendingFailure(lecturer.userStatus);
   }, [lecturer]);
 
   const onSubmit = async (values: Inputs) => {
-    return onEdit({ ...values, id: lecturer.id });
+    const updatedValues = getFormDirtyValues(values, dirtyFields);
+
+    return onEdit({
+      lecturerId: lecturer.id,
+      userId: lecturer.userId,
+      ...updatedValues,
+    });
   };
 
-  const { isValid } = formState;
-
-  const isSubmitDisabled = isPending || !isValid;
+  const isSubmitDisabled = isPending || !isValid || !isDirty;
 
   return (
     <Form className={className} onSubmit={handleSubmit(onSubmit)}>
@@ -88,10 +92,7 @@ const EditLecturerForm = ({
         <FieldLabel shrink htmlFor="middleName">
           Middle Name
         </FieldLabel>
-        <FormTextField
-          label="Middle Name"
-          {...register('middleName', { ...requiredValidator() })}
-        />
+        <FormTextField label="Middle Name" {...register('middleName')} />
       </FormControl>
       <FormControl>
         <FieldLabel shrink htmlFor="email">

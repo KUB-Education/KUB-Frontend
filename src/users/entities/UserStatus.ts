@@ -1,5 +1,3 @@
-import { User } from '@/users/entities/User.ts';
-
 export enum UserStatus {
   EMAIL_SENDING_FAILURE = 'EMAIL_SENDING_FAILURE',
   ACTIVATION_PENDING = 'ACTIVATION_PENDING',
@@ -22,6 +20,6 @@ export const getUserStatusLabel = (status: UserStatus) => {
   return userStatusLabelsMap[status] ? userStatusLabelsMap[status] : 'Unknown';
 };
 
-export const isUserEmailSendingFailure = (user: User) => {
-  return user.status === UserStatus.EMAIL_SENDING_FAILURE;
+export const isUserEmailSendingFailure = (status: UserStatus) => {
+  return status === UserStatus.EMAIL_SENDING_FAILURE;
 };

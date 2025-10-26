@@ -57,7 +57,7 @@ const EditUserForm = ({
   }, [user]);
 
   const isResendAvailable = useMemo(() => {
-    return isUserEmailSendingFailure(user);
+    return isUserEmailSendingFailure(user.status);
   }, [user]);
 
   const onSubmit = async (values: Inputs) => {

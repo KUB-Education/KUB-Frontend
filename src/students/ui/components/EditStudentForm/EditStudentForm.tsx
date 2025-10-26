@@ -52,7 +52,7 @@ const EditStudentForm = ({
   }, [student]);
 
   const isResendAvailable = useMemo(() => {
-    return isUserEmailSendingFailure(student);
+    return isUserEmailSendingFailure(student.status);
   }, [student]);
 
   const onSubmit = async (values: Inputs) => {

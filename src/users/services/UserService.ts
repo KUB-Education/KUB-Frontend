@@ -51,7 +51,7 @@ export class UserService extends BaseService {
   }
 
   async deleteUsers(ids: Array<UserId>) {
-    await Promise.all(
+    return Promise.all(
       ids.map((id) => {
         return this.http.delete(`/v1/users/${id}`);
       }),

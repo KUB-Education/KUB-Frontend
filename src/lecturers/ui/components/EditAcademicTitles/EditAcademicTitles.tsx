@@ -25,7 +25,7 @@ import {
   Lecturer,
 } from '@/lecturers/entities';
 
-export type EditLecturerAcademicTitleProps = {
+export type EditAcademicsTitleProps = {
   lecturer: Lecturer;
   academicTitles: Array<AcademicTitle>;
   isPending: boolean;
@@ -34,14 +34,14 @@ export type EditLecturerAcademicTitleProps = {
   onDelete: (id: AcademicTitleId) => void;
 };
 
-const EditLecturerAcademicTitle = ({
+const EditAcademicTitles = ({
   lecturer,
   academicTitles,
   isPending,
   className,
   onAdd,
   onDelete,
-}: EditLecturerAcademicTitleProps) => {
+}: EditAcademicsTitleProps) => {
   const [isNewTitleFormVisible, setIsNewTitleFormVisible] = useState(false);
 
   const { handleSubmit, formState, control, reset } = useForm<{
@@ -140,4 +140,4 @@ const EditLecturerAcademicTitle = ({
   );
 };
 
-export default EditLecturerAcademicTitle;
+export default EditAcademicTitles;

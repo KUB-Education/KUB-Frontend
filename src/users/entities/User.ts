@@ -3,7 +3,7 @@ import { UserRole } from './UserRole';
 
 export type UserId = number;
 
-type UserProfile = {
+export type UserProfile = {
   lastName: string;
   firstName: string;
   middleName?: string;

@@ -63,12 +63,12 @@ const EditUserRolesForm = ({
         {userRoles.map((role) => (
           <RoleListItem key={role.id}>
             <FormControl>
-              <FieldLabel shrink htmlFor={role.id.toString()}>
+              <FieldLabel shrink htmlFor={String(role.id)}>
                 Role
               </FieldLabel>
               <FormTextField
                 label="Role"
-                id={role.id.toString()}
+                id={String(role.id)}
                 readOnly
                 value={role.type}
                 endAdornment={
