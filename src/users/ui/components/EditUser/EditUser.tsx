@@ -13,38 +13,51 @@ import { useMemo, useState } from 'react';
 import {
   useEditUser,
   useResendUsersActivationEmail,
-  useGetUserRoles,
   useAddUserRole,
   useDeleteUserRole,
   useDeleteUsers,
+  useGetRoles,
 } from '@/users/hooks';
 
-export type EditUserModalContentProps = {
+export type EditUserProps = {
   user: User;
-  onClose: () => void;
+  onDeleted: () => void;
+  onBack: () => void;
 };
 
-const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
+const EditUser = ({ user, onBack, onDeleted }: EditUserProps) => {
   const onError = () => {
     setIsErrorModalVisible(true);
   };
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
-  const { userRoles } = useGetUserRoles(user.id);
+  const { roles } = useGetRoles();
   const {
     editUser,
     isPending: isEditPending,
-    error,
+    error: editUserError,
   } = useEditUser({ onError });
-  const { deleteUsers, isPending: isDeletePending } = useDeleteUsers({
-    onSuccess: onClose,
-  });
-  const { resendUsersActivationEmail, isPending: isResendPending } =
-    useResendUsersActivationEmail({ onError });
-  const { addUserRole, isPending: isAddRolePending } = useAddUserRole();
-  const { deleteUserRole, isPending: isDeleteRolePending } =
-    useDeleteUserRole();
+  const {
+    deleteUsers,
+    isPending: isDeletePending,
+    error: deleteUsersError,
+  } = useDeleteUsers({ onSuccess: onDeleted, onError });
+  const {
+    resendUsersActivationEmail,
+    isPending: isResendPending,
+    error: resendEmailError,
+  } = useResendUsersActivationEmail({ onError });
+  const {
+    addUserRole,
+    isPending: isAddRolePending,
+    error: addRoleError,
+  } = useAddUserRole({ onError });
+  const {
+    deleteUserRole,
+    isPending: isDeleteRolePending,
+    error: deleteRoleError,
+  } = useDeleteUserRole({ onError });
 
   const isEditFormPending = useMemo(() => {
     return isDeletePending || isEditPending || isResendPending;
@@ -53,6 +66,24 @@ const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
   const isEditRolesFormPending = useMemo(() => {
     return isDeletePending || isAddRolePending || isDeleteRolePending;
   }, [isAddRolePending, isDeleteRolePending, isDeletePending]);
+
+  const error = useMemo(() => {
+    const errors = [
+      editUserError,
+      deleteUsersError,
+      resendEmailError,
+      addRoleError,
+      deleteRoleError,
+    ].filter(Boolean);
+
+    return errors[0];
+  }, [
+    editUserError,
+    deleteUsersError,
+    resendEmailError,
+    addRoleError,
+    deleteRoleError,
+  ]);
 
   const onEdit = async (data: EditUserParams) => {
     return editUser(data);
@@ -89,7 +120,8 @@ const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
         <Col>
           <Title>User roles</Title>
           <EditRolesForm
-            userRoles={userRoles}
+            roles={roles}
+            userRoles={user.roles}
             isPending={isEditRolesFormPending}
             onAdd={onAddRole}
             onDelete={onDeleteRole}
@@ -97,7 +129,7 @@ const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
         </Col>
       </Row>
       <Actions>
-        <BackButton onClick={onClose} />
+        <BackButton onClick={onBack} />
         <DeleteButton disabled={isDeletePending} onClick={onDelete}>
           Delete user
         </DeleteButton>
@@ -114,4 +146,4 @@ const EditUserModalContent = ({ onClose, user }: EditUserModalContentProps) => {
   );
 };
 
-export default EditUserModalContent;
+export default EditUser;

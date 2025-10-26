@@ -6,8 +6,8 @@ import {
 } from '@/users/hooks';
 import { getUserId, User, UserId } from '@/users/entities';
 import { useMemo, useState } from 'react';
-import { AddUserModal } from '@/users/ui/components';
-import EditUserModal from '@/users/ui/components/EditUserModal';
+import { AddUser, EditUser } from '@/users/ui/components';
+import { Modal } from '@/common/ui/components';
 
 const Users = () => {
   const { users, isFetching, isError } = useUsersQuery();
@@ -57,15 +57,25 @@ const Users = () => {
         onUsersSelected={onUserSelected}
       />
 
-      <AddUserModal
+      <Modal
         open={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
-      />
-      <EditUserModal
+      >
+        <AddUser
+          onBack={() => setIsAddModalVisible(false)}
+          onSucceed={() => setIsAddModalVisible(false)}
+        />
+      </Modal>
+      <Modal
         open={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
-        user={selectedUsers[0]}
-      />
+      >
+        <EditUser
+          user={selectedUsers[0]}
+          onDeleted={() => setIsEditModalVisible(false)}
+          onBack={() => setIsEditModalVisible(false)}
+        />
+      </Modal>
     </Root>
   );
 };

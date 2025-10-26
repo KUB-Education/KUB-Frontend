@@ -7,107 +7,76 @@ import {
   User,
   UserId,
   UserRole,
-  UserStatus,
-  userStatuses,
 } from '@/users/entities';
-import { faker } from '@faker-js/faker';
 import { delay, SECOND } from '@/common/utils';
+import { UserDto, UserRoleDto } from './dto';
+import { UserDtoMapper } from '@/users/mappers';
 
 export class UserService extends BaseService {
-  private users: User[] = [];
-
-  private userRoles: Record<UserId, UserRole[]> = {};
-
   async getUsers(): Promise<User[]> {
-    await delay(2 * SECOND);
-    const array = new Array(5).fill(null);
+    const dtoMapper = new UserDtoMapper();
+    const { data } = await this.http.get<UserDto[]>('/v1/users');
 
-    if (this.users.length) return this.users;
-
-    this.users = array.map(() => ({
-      id: faker.number.int(),
-      email: faker.internet.email(),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      middleName: faker.person.middleName(),
-      userStatus: faker.helpers.arrayElement(userStatuses),
-      roles: [
-        {
-          id: faker.number.int(),
-          type: faker.helpers.arrayElement(Object.values(UserRole)),
-        },
-      ],
-    }));
-
-    return this.users;
+    return data.map((dto) => dtoMapper.toEntity.bind(dtoMapper)(dto));
   }
 
-  async addUser(params: AddUserParams) {
-    await delay(2 * SECOND);
+  async addUser(params: AddUserParams): Promise<User> {
+    const dtoMapper = new UserDtoMapper();
 
-    this.users.push({
-      id: faker.number.int(),
-      ...params,
-      userStatus: faker.helpers.arrayElement(userStatuses),
-      roles: [
-        {
-          id: faker.number.int(),
-          type: faker.helpers.arrayElement(Object.values(UserRole)),
-        },
-      ],
+    const { data } = await this.http.post('/v1/users', {
+      data: {
+        first_name: params.firstName,
+        last_name: params.lastName,
+        middle_name: params.middleName,
+        email: params.email,
+      },
     });
+
+    return dtoMapper.toEntity(data);
   }
 
   async editUser(params: EditUserParams) {
-    await delay(2 * SECOND);
+    const dtoMapper = new UserDtoMapper();
 
-    this.users = this.users.map((user) => {
-      if (user.id !== params.id) return user;
-      return { ...user, ...params };
+    const { data } = await this.http.put(`/v1/users/${params.id}`, {
+      data: {
+        first_name: params.firstName,
+        last_name: params.lastName,
+        middle_name: params.middleName,
+        email: params.email,
+      },
     });
+
+    return dtoMapper.toEntity(data);
   }
 
   async deleteUsers(ids: Array<UserId>) {
-    await delay(2 * SECOND);
-    this.users = this.users.filter((user) => !ids.includes(user.id));
+    await Promise.all(
+      ids.map((id) => {
+        return this.http.delete(`/v1/users/${id}`);
+      }),
+    );
   }
 
   async resendUsersActivationEmail(ids: Array<UserId>) {
     await delay(2 * SECOND);
-    this.users = this.users.map((user) => {
-      if (!ids.includes(user.id)) return user;
-
-      return { ...user, userStatus: UserStatus.ACTIVATION_PENDING };
-    });
+    // TODO add implementation
+    console.log('resendUsersActivationEmail', ids);
   }
 
-  async getUserRoles(userId: UserId) {
-    const userRoles = this.userRoles[userId] || [];
+  async getRoles(): Promise<UserRole[]> {
+    const { data } = await this.http.get<UserRoleDto[]>('/v1/roles');
 
-    if (userRoles && userRoles.length) return userRoles;
-
-    userRoles.push(faker.helpers.arrayElement(Object.values(UserRole)));
-
-    this.userRoles[userId] = userRoles;
-
-    return this.userRoles[userId];
+    return data;
   }
 
   async addUserRole(params: AddUserRoleParams) {
-    await delay(2 * SECOND);
-
-    const userRoles = this.userRoles[params.userId] || [];
-
-    if (userRoles.includes(params.role)) return;
-
-    this.userRoles[params.userId] = [...userRoles, params.role];
+    await this.http.put(`/v1/users/${params.userId}/roles/${params.role.id}`);
   }
 
   async deleteUserRole(params: DeleteUserRoleParams) {
-    await delay(2 * SECOND);
-
-    this.userRoles[params.userId] = this.userRoles[params.userId].filter(
-      (role) => role !== params.role,
+    await this.http.delete(
+      `/v1/users/${params.userId}/roles/${params.role.id}`,
     );
   }
 }

@@ -28,7 +28,7 @@ const StudentsTable = ({
     { field: 'middleName', headerName: 'Middle Name', minWidth: 125 },
     { field: 'email', headerName: 'Email', minWidth: 150 },
     {
-      field: 'userStatus',
+      field: 'status',
       headerName: 'User Status',
       minWidth: 100,
       cellRenderer: UserStatus,

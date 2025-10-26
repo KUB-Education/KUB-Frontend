@@ -1,4 +1,4 @@
-import { getUserRoleLabel, getUserStatusLabel } from '@/users/entities';
+import { getUserStatusLabel } from '@/users/entities';
 import {
   Actions,
   ChangeButton,
@@ -50,7 +50,7 @@ const UserProfileSettings = ({
                   <FieldText
                     readOnly
                     label="User Status"
-                    value={getUserStatusLabel(currentUser.userStatus)}
+                    value={getUserStatusLabel(currentUser.status)}
                   />
                 </UserStatusField>
               </FieldListItem>
@@ -101,11 +101,7 @@ const UserProfileSettings = ({
                 <FieldListItem key={role.id}>
                   <Field>
                     <FieldLabel shrink>Role</FieldLabel>
-                    <FieldText
-                      label="Role"
-                      readOnly
-                      value={getUserRoleLabel(role.type).toUpperCase()}
-                    />
+                    <FieldText label="Role" readOnly value={role.type} />
                   </Field>
                 </FieldListItem>
               ))}

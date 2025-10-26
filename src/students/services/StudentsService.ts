@@ -1,5 +1,5 @@
 import { BaseService } from '@/common/services';
-import { UserRole, UserStatus, userStatuses } from '@/users/entities';
+import { UserRoleType, UserStatus, userStatuses } from '@/users/entities';
 import { delay, SECOND } from '@/common/utils';
 import { faker } from '@faker-js/faker';
 import {
@@ -25,11 +25,11 @@ export class StudentsService extends BaseService {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       middleName: faker.person.middleName(),
-      userStatus: faker.helpers.arrayElement(userStatuses),
+      status: faker.helpers.arrayElement(userStatuses),
       roles: [
         {
           id: faker.number.int(),
-          type: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRoleType)),
         },
       ],
       educationalPrograms: [
@@ -71,11 +71,11 @@ export class StudentsService extends BaseService {
     this.students.push({
       id: faker.number.int(),
       ...params,
-      userStatus: faker.helpers.arrayElement(userStatuses),
+      status: faker.helpers.arrayElement(userStatuses),
       roles: [
         {
           id: faker.number.int(),
-          type: faker.helpers.arrayElement(Object.values(UserRole)),
+          type: faker.helpers.arrayElement(Object.values(UserRoleType)),
         },
       ],
       educationalPrograms: [],

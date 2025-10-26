@@ -50,7 +50,7 @@ export class LecturersService extends BaseService {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
       middleName: faker.person.middleName(),
-      userStatus: faker.helpers.arrayElement(userStatuses),
+      status: faker.helpers.arrayElement(userStatuses),
       academicTitles: faker.helpers.arrayElements(
         Object.values(this.academicTitlesMap),
         { max: 3, min: 1 },
@@ -77,7 +77,7 @@ export class LecturersService extends BaseService {
       ...params,
       academicTitles: [],
       departments: [],
-      userStatus: UserStatus.ACTIVATION_PENDING,
+      status: UserStatus.ACTIVATION_PENDING,
       roles: [],
     });
   }

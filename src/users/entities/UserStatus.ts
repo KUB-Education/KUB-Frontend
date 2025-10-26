@@ -23,5 +23,5 @@ export const getUserStatusLabel = (status: UserStatus) => {
 };
 
 export const isUserEmailSendingFailure = (user: User) => {
-  return user.userStatus === UserStatus.EMAIL_SENDING_FAILURE;
+  return user.status === UserStatus.EMAIL_SENDING_FAILURE;
 };

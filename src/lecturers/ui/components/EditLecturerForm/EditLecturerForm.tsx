@@ -43,7 +43,7 @@ const EditLecturerForm = ({
   });
 
   const userStatusValue = useMemo(() => {
-    return lecturer && getUserStatusLabel(lecturer.userStatus);
+    return lecturer && getUserStatusLabel(lecturer.status);
   }, [lecturer]);
 
   const isResendAvailable = useMemo(() => {

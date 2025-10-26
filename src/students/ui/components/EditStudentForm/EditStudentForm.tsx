@@ -48,7 +48,7 @@ const EditStudentForm = ({
   });
 
   const userStatusValue = useMemo(() => {
-    return student && getUserStatusLabel(student.userStatus);
+    return student && getUserStatusLabel(student.status);
   }, [student]);
 
   const isResendAvailable = useMemo(() => {

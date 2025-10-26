@@ -3,6 +3,6 @@ export * from './useAddUser';
 export * from './useEditUser';
 export * from './useDeleteUsers';
 export * from './useResendUsersActivationEmail';
-export * from './useGetUserRoles';
+export * from './useGetRoles';
 export * from './useAddUserRole';
 export * from './useDeleteUserRole';
