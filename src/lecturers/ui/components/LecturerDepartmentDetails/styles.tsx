@@ -4,13 +4,12 @@ import {
   ModalBody,
   ModalActions,
   ModalForm,
-  ModalFormCol,
-  ModalFormRow,
   FormControl as CommonFormControl,
+  DeleteButton as CommonDeleteButton,
 } from '@/common/ui/components';
 
 export const Content = styled(ModalBody)({
-  width: '920px',
+  width: '460px',
   maxWidth: '96vw',
 });
 
@@ -22,11 +21,6 @@ export const Form = styled(ModalForm)({});
 
 export const FormControl = styled(CommonFormControl)({
   width: '100%',
-});
-
-export const Row = styled(ModalFormRow)({
-  marginLeft: '-20px',
-  marginRight: '-20px',
   marginBottom: '18px',
 
   '&:last-of-type': {
@@ -34,14 +28,11 @@ export const Row = styled(ModalFormRow)({
   },
 });
 
-export const Col = styled(ModalFormCol)({
-  width: '50%',
-  flex: '0 0 auto',
-  paddingLeft: '20px',
-  paddingRight: '20px',
+export const Actions = styled(ModalActions)({
+  marginTop: '24px',
+  gap: '18px',
 });
 
-export const Actions = styled(ModalActions)({
-  justifyContent: 'space-between',
-  marginTop: '24px',
+export const DeleteButton = styled(CommonDeleteButton)({
+  marginLeft: 'auto',
 });

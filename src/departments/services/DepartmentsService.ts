@@ -14,12 +14,12 @@ export class DepartmentsService extends BaseService {
   }
 
   async getDepartments(): Promise<Department[]> {
-    const { data } = await this.http.get<DepartmentDto[]>('/departments');
+    const { data } = await this.http.get<DepartmentDto[]>('/v1/departments');
     return data;
   }
 
   async addDepartment(params: AddDepartmentParams): Promise<Department> {
-    const { data } = await this.http.post<DepartmentDto>('/departments', {
+    const { data } = await this.http.post<DepartmentDto>('/v1/departments', {
       data: params,
     });
 
@@ -27,16 +27,21 @@ export class DepartmentsService extends BaseService {
   }
 
   async deleteDepartments(ids: Array<DepartmentId>): Promise<void> {
-    await Promise.all(ids.map((id) => this.http.delete(`/departments/${id}`)));
+    await Promise.all(
+      ids.map((id) => this.http.delete(`/v1/departments/${id}`)),
+    );
   }
 
   async editDepartment(params: EditDepartmentParams): Promise<Department> {
     const { id, name } = params;
-    const { data } = await this.http.put<DepartmentDto>(`/departments/${id}`, {
-      data: {
-        name,
+    const { data } = await this.http.put<DepartmentDto>(
+      `/v1/departments/${id}`,
+      {
+        data: {
+          name,
+        },
       },
-    });
+    );
 
     return data;
   }

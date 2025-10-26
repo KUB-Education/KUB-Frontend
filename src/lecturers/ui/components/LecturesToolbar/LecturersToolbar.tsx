@@ -1,14 +1,16 @@
+import { useMemo } from 'react';
 import { Lecturer } from '@/lecturers/entities';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   ResendButton,
   Toolbar,
   ToolbarAction,
   ToolbarActionsList,
   ToolbarActionsListItem,
 } from '@/common/ui/components';
+import { isUserEmailSendingFailure } from '@/users/entities';
 
 export type LecturesToolbarProps = {
   selectedLecturers: Lecturer[];
@@ -16,7 +18,7 @@ export type LecturesToolbarProps = {
   onAdd: () => void;
   onDelete: () => void;
   onResend: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const LecturersToolbar = ({
@@ -25,21 +27,23 @@ const LecturersToolbar = ({
   onAdd,
   onDelete,
   onResend,
-  onEdit,
+  onDetails,
 }: LecturesToolbarProps) => {
+  const isResendAvailable = useMemo(() => {
+    const lecturerWithoutResend = selectedLecturers.find(
+      (student) => !isUserEmailSendingFailure(student),
+    );
+    return !lecturerWithoutResend;
+  }, [selectedLecturers]);
+
   if (selectedLecturers.length) {
     return (
       <Toolbar className={className}>
         <ToolbarActionsList>
-          <ToolbarActionsListItem>
-            <ToolbarAction>
-              <ResendButton onClick={onResend} />
-            </ToolbarAction>
-          </ToolbarActionsListItem>
-          {selectedLecturers.length === 1 && (
+          {isResendAvailable && (
             <ToolbarActionsListItem>
               <ToolbarAction>
-                <EditButton onClick={onEdit} />
+                <ResendButton onClick={onResend} />
               </ToolbarAction>
             </ToolbarActionsListItem>
           )}
@@ -48,6 +52,13 @@ const LecturersToolbar = ({
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedLecturers.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

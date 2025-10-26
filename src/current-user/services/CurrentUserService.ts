@@ -7,7 +7,7 @@ export class CurrentUserService extends BaseService {
   async getCurrentUser(): Promise<CurrentUser> {
     const dtoMapper = new UserDtoMapper();
 
-    const { data } = await this.http.get<CurrentUserDto>('/account/me');
+    const { data } = await this.http.get<CurrentUserDto>('/v1/account/me');
 
     return dtoMapper.toEntity(data);
   }
