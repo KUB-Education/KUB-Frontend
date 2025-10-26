@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const rolesQueryKey = 'rolesQuery';
 
-export function useGetRoles() {
+export function useRoles() {
   const { userService } = useAppServices();
 
   const { data: roles, ...otherData } = useQuery({

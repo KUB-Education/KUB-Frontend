@@ -40,7 +40,7 @@ import { DepartmentId } from '@/departments/entities';
 import { useMemo, useState } from 'react';
 import AddDepartmentPosition from '../AddDepartmentPosition';
 import DepartmentPositionDetails from '../DepartmentPositionDetails';
-import { useDepartmentsQuery } from '@/departments/hooks';
+import { useDepartments } from '@/departments/hooks';
 
 export type LecturerDetailsModalProps = {
   lecturer: Lecturer;
@@ -63,7 +63,7 @@ const LecturerDetails = ({
   const [departmentPositionIdForDetails, setDepartmentPositionIdForDetails] =
     useState<DepartmentId | null>(null);
 
-  const { departments } = useDepartmentsQuery();
+  const { departments } = useDepartments();
   const { academicTitles } = useAcademicTitles();
   const { positions } = usePositions();
 

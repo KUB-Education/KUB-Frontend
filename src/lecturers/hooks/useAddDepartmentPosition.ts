@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { lecturesQueryKey } from './useLecturersQuery';
+import { lecturesQueryKey } from './useLecturers';
 import { AddDepartmentPositionParams } from '@/lecturers/entities';
 
 type UseAddDepartmentPosition = Partial<{

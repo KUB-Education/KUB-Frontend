@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const epQueryKey = 'educationalProgramsQuery';
 
-export function useEducationalProgramsQuery() {
+export function useEducationalPrograms() {
   const { educationalProgramsService } = useAppServices();
 
   const { data: educationalPrograms, ...otherData } = useQuery({

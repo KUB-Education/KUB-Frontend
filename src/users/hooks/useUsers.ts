@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const usersQueryKey = 'usersQuery';
 
-export function useUsersQuery() {
+export function useUsers() {
   const { userService } = useAppServices();
 
   const { data: users, ...otherData } = useQuery({

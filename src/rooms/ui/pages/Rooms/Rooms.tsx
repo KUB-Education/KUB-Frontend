@@ -1,6 +1,6 @@
 import { Room, RoomId } from '@/rooms/entities';
 import { Root, Toolbar, Table } from './styles';
-import { useDeleteRooms, useRoomsQuery } from '@/rooms/hooks';
+import { useDeleteRooms, useRooms } from '@/rooms/hooks';
 import { useMemo, useState } from 'react';
 import { AddRoomModal, EditRoomModal } from '@/rooms/ui/components';
 import { ErrorModal } from '@/common/ui/components';
@@ -10,7 +10,7 @@ const Rooms = () => {
     setIsDeleteErrorModalVisible(true);
   };
 
-  const { rooms, isFetching, isError } = useRoomsQuery();
+  const { rooms, isFetching, isError } = useRooms();
   const { deleteRooms, error: deleteError } = useDeleteRooms({
     onError: onDeleteError,
   });

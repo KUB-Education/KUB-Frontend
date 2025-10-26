@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { lecturesQueryKey } from './useLecturersQuery';
+import { lecturesQueryKey } from './useLecturers';
 import { AddAcademicTitleParams } from '@/lecturers/entities';
 
 type UseAddAcademicTitle = Partial<{

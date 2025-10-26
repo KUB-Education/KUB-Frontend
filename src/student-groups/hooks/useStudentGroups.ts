@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const studentGroupsQueryKey = 'studentGroupsQuery';
 
-export function useGetStudentGroups() {
+export function useStudentGroups() {
   const { studentGroupsService } = useAppServices();
 
   const { data: studentGroups, ...otherData } = useQuery({

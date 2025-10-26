@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { epQueryKey } from './useEducationalProgramsQuery.ts';
+import { epQueryKey } from './useEducationalPrograms';
 import { AddEducationalProgramParams } from '@/educational-programs/entities';
 
 type UseAddEducationalProgramParams = Partial<{

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { departmentsQueryKey } from './useDepartmentsQuery.ts';
+import { departmentsQueryKey } from './useDepartments';
 import { DepartmentId } from '@/departments/entities';
 
 type UseDeleteDepartmentsParams = Partial<{

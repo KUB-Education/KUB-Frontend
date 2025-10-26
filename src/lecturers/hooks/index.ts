@@ -1,6 +1,6 @@
 export * from './useAcademicTitles';
 export * from './usePositions';
-export * from './useLecturersQuery';
+export * from './useLecturers';
 export * from './useAddLecturer';
 export * from './useEditLecturer';
 export * from './useDeleteLecturers';

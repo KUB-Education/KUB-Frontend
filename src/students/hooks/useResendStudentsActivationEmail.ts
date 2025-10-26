@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { studentsQueryKey } from './useGetStudents';
+import { studentsQueryKey } from './useStudents';
 import { UserId } from '@/users/entities';
 
 type UseResendStudentsActivationEmailParams = Partial<{

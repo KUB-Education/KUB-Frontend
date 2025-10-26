@@ -7,8 +7,8 @@ import {
 import { Student } from '@/students/entities';
 import EditStudentEducationalProgramForm from '../EditStudentEducationalProgramForm';
 import EditStudentGroupForm from '../EditStudentGroupForm';
-import { useGetStudentGroups } from '@/student-groups/hooks';
-import { useEducationalProgramsQuery } from '@/educational-programs/hooks';
+import { useStudentGroups } from '@/student-groups/hooks';
+import { useEducationalPrograms } from '@/educational-programs/hooks';
 import { EducationalProgramId } from '@/educational-programs/entities';
 import { StudentGroupId } from '@/student-groups/entities';
 import { BackButton, DeleteButton, ErrorModal } from '@/common/ui/components';
@@ -31,8 +31,8 @@ const EditStudent = ({
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
-  const { studentGroups } = useGetStudentGroups();
-  const { educationalPrograms } = useEducationalProgramsQuery();
+  const { studentGroups } = useStudentGroups();
+  const { educationalPrograms } = useEducationalPrograms();
   const {
     editStudent,
     isPending: isEditPending,

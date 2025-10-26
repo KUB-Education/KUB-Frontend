@@ -16,7 +16,7 @@ import {
   useAddUserRole,
   useDeleteUserRole,
   useDeleteUsers,
-  useGetRoles,
+  useRoles,
 } from '@/users/hooks';
 
 export type EditUserProps = {
@@ -32,7 +32,7 @@ const EditUser = ({ user, onBack, onDeleted }: EditUserProps) => {
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
-  const { roles } = useGetRoles();
+  const { roles } = useRoles();
   const {
     editUser,
     isPending: isEditPending,

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { studentsQueryKey } from './useGetStudents.ts';
+import { studentsQueryKey } from './useStudents';
 import { AddStudentParams } from '@/students/entities';
 
 type UseAddStudentParams = Partial<{

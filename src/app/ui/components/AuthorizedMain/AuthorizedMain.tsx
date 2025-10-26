@@ -15,12 +15,12 @@ import { Timetables } from '@/timetables/ui/pages';
 import { Help } from '@/help/ui/pages';
 import { ChangePassword } from '@/auth/ui/pages';
 import UnauthorizedLayout from '../UnauthorizedLayout';
-import { useCurrentUserQuery } from '@/current-user/hooks';
+import { useCurrentUser } from '@/current-user/hooks';
 import AppLoader from '../AppLoader';
 import AppError from '../AppError';
 
 const AuthorizedMain = () => {
-  const { currentUser, isPending, isError } = useCurrentUserQuery();
+  const { currentUser, isPending, isError } = useCurrentUser();
 
   if (isError) {
     return <AppError />;

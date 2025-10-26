@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export const isAuthorizedQueryKey = 'isAuthorizedQuery';
 
-export function useIsAuthorizedQuery() {
+export function useIsAuthorized() {
   const { authService } = useAppServices();
   const queryClient = useQueryClient();
 

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { lecturesQueryKey } from './useLecturersQuery.ts';
+import { lecturesQueryKey } from './useLecturers';
 import { LecturerId } from '@/lecturers/entities';
 
 type UseResendLecturersInvitesParams = Partial<{

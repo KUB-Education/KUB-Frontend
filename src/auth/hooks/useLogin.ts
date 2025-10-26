@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LoginParams } from '@/auth/entities';
 import { useAppServices } from '@/app/hooks';
-import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
+import { isAuthorizedQueryKey } from './useIsAuthorized';
 
 type UseLoginParams = Partial<{
   onSuccess: () => void;

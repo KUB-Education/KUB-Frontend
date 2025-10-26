@@ -1,5 +1,4 @@
-export * from './useRoomsQuery.ts';
-export * from './useAddRoom.ts';
-export * from './useEditRoom.ts';
-export * from './useDeleteRooms.ts';
-
+export * from './useRooms';
+export * from './useAddRoom';
+export * from './useEditRoom';
+export * from './useDeleteRooms';

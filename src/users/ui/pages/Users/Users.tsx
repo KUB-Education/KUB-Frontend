@@ -1,7 +1,7 @@
 import { Root, Table, Toolbar } from './styles';
 import {
   useDeleteUsers,
-  useUsersQuery,
+  useUsers,
   useResendUsersActivationEmail,
 } from '@/users/hooks';
 import { getUserId, User, UserId } from '@/users/entities';
@@ -10,7 +10,7 @@ import { AddUser, EditUser } from '@/users/ui/components';
 import { Modal } from '@/common/ui/components';
 
 const Users = () => {
-  const { users, isFetching, isError } = useUsersQuery();
+  const { users, isFetching, isError } = useUsers();
   const { deleteUsers } = useDeleteUsers();
   const { resendUsersActivationEmail } = useResendUsersActivationEmail();
 

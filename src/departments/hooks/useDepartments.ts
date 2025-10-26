@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const departmentsQueryKey = 'departmentsQuery';
 
-export function useDepartmentsQuery() {
+export function useDepartments() {
   const { departmentsService } = useAppServices();
 
   const { data: departments, ...otherData } = useQuery({

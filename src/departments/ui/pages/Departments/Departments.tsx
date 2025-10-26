@@ -1,6 +1,6 @@
 import { Department, DepartmentId } from '@/departments/entities';
 import { Root, Toolbar, Table } from './styles';
-import { useDeleteDepartment, useDepartmentsQuery } from '@/departments/hooks';
+import { useDeleteDepartment, useDepartments } from '@/departments/hooks';
 import { useMemo, useState } from 'react';
 import {
   AddDepartmentModal,
@@ -13,7 +13,7 @@ const Departments = () => {
     setIsDeleteErrorModalVisible(true);
   };
 
-  const { departments, isFetching, isError } = useDepartmentsQuery();
+  const { departments, isFetching, isError } = useDepartments();
   const { deleteDepartments, error: deleteError } = useDeleteDepartment({
     onError: onDeleteError,
   });

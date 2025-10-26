@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const lecturesQueryKey = 'lecturesQuery';
 
-export function useLecturersQuery() {
+export function useLecturers() {
   const { lecturesService } = useAppServices();
 
   const { data: lecturers, ...otherData } = useQuery({

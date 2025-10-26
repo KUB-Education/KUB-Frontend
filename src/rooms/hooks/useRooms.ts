@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const roomsQueryKey = 'roomsQuery';
 
-export function useRoomsQuery() {
+export function useRooms() {
   const { roomsService } = useAppServices();
 
   const { data: rooms, ...otherData } = useQuery({

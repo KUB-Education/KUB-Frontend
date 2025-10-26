@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { DeleteUserRoleParams } from '@/users/entities';
-import { usersQueryKey } from './useUsersQuery.ts';
+import { usersQueryKey } from './useUsers';
 
 type UseDeleteUserRoleParams = Partial<{
   onSuccess: () => void;

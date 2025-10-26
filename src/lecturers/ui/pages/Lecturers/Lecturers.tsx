@@ -2,7 +2,7 @@ import { Lecturer, LecturerId } from '@/lecturers/entities';
 import { Root, Toolbar, Table } from './styles';
 import {
   useDeleteLecturers,
-  useLecturersQuery,
+  useLecturers,
   useResendLecturersInvites,
 } from '@/lecturers/hooks';
 import { useMemo, useState } from 'react';
@@ -10,7 +10,7 @@ import { AddLecturer, LecturerDetails } from '@/lecturers/ui/components';
 import { Modal } from '@/common/ui/components';
 
 const Lecturers = () => {
-  const { lecturers } = useLecturersQuery();
+  const { lecturers } = useLecturers();
   const { deleteLecturers } = useDeleteLecturers();
   const { resendLecturersInvites } = useResendLecturersInvites();
 

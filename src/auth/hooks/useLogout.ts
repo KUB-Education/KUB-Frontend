@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { isAuthorizedQueryKey } from './useIsAuthorizedQuery.ts';
+import { isAuthorizedQueryKey } from './useIsAuthorized';
 
 type UseLogoutParams = Partial<{
   onSuccess: () => void;
