@@ -49,7 +49,7 @@ const EditLecturerAcademicTitle = ({
   }>({ mode: 'onChange' });
 
   const availableNewTitles = useMemo(() => {
-    return getAvailableAcademicTitles(academicTitles, lecturer.academicTitles);
+    return getAvailableAcademicTitles(lecturer, academicTitles);
   }, [academicTitles, lecturer]);
 
   const onSubmit = async (values: { newAcademicTitle: AcademicTitleId }) => {
