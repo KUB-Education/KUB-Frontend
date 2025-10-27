@@ -9,9 +9,9 @@ import {
   NeedHelp,
 } from './styles';
 import { useChangePassword } from '@/auth/hooks';
-import { InputLabel, OutlinedInput } from '@mui/material';
+import { OutlinedInput } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ErrorModal, InfoModal } from '@/common/ui/components';
+import { ErrorModal, FieldLabel, InfoModal } from '@/common/ui/components';
 import { requiredValidator } from '@/common/utils/validators';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -69,9 +69,9 @@ const ChangePassword = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Title>Password change</Title>
           <FormControl>
-            <InputLabel shrink htmlFor="currentPassword">
+            <FieldLabel shrink htmlFor="currentPassword">
               Current password
-            </InputLabel>
+            </FieldLabel>
             <OutlinedInput
               notched
               type="password"
@@ -80,9 +80,9 @@ const ChangePassword = () => {
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="newPassword">
+            <FieldLabel shrink htmlFor="newPassword">
               New password
-            </InputLabel>
+            </FieldLabel>
             <OutlinedInput
               notched
               type="password"
@@ -91,9 +91,9 @@ const ChangePassword = () => {
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="repeatNewPassword">
+            <FieldLabel shrink htmlFor="repeatNewPassword">
               Repeat new password
-            </InputLabel>
+            </FieldLabel>
             <OutlinedInput
               notched
               type="password"

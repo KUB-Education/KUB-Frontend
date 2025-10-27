@@ -4,3 +4,6 @@ export * from './AddLecturerParams.ts';
 export * from './EditLecturerParams.ts';
 export * from './AcademicTitle.ts';
 export * from './LecturerPosition.ts';
+export * from './LecturerDepartment';
+export * from './AddLecturerToDepartmentParams';
+export * from './EditLecturerDepartmentParams';

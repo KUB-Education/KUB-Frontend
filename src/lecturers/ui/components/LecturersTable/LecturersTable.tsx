@@ -4,11 +4,6 @@ import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GetRowIdParams } from 'ag-grid-community';
 import { Lecturer } from '@/lecturers/entities';
 import { Table } from '@/common/ui/components';
-import {
-  AcademicTitle,
-  LecturerPosition,
-  LecturerStatus,
-} from '@/lecturers/ui/components';
 import { UserStatus } from '@/users/ui/components';
 
 export type LecturersTableProps = {
@@ -30,30 +25,7 @@ const LecturersTable = ({ data, onLecturersSelected }: LecturersTableProps) => {
       headerName: 'User Status',
       minWidth: 100,
       cellRenderer: UserStatus,
-    },
-    {
-      field: 'department.name',
-      headerName: 'Department',
-      minWidth: 120,
-    },
-    {
-      field: 'academicTitle',
-      headerName: 'Academic Title',
-      minWidth: 120,
-      cellRenderer: AcademicTitle,
-    },
-    {
-      field: 'position',
-      headerName: 'Position',
-      minWidth: 120,
-      cellRenderer: LecturerPosition,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
       resizable: false,
-      minWidth: 100,
-      cellRenderer: LecturerStatus,
     },
   ]);
 

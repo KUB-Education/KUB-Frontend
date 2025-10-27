@@ -1,4 +1,4 @@
-import { UserId, UserStatus } from '@/users/entities';
+import { UserId, UserRole, UserStatus } from '@/users/entities';
 
 export type UserDto = {
   id: UserId;
@@ -7,5 +7,5 @@ export type UserDto = {
   middle_name: string;
   email: string;
   user_status: UserStatus;
-  roles: Array<{ id: number; name: string }>;
+  roles: Array<{ id: number; type: UserRole }>;
 };

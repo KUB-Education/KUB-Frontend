@@ -1,13 +1,16 @@
+import { useMemo } from 'react';
 import { Lecturer } from '@/lecturers/entities';
 import {
-  Root,
   AddButton,
   DeleteButton,
+  DetailsButton,
   ResendButton,
-  EditButton,
-  ActionsListItem,
-  ActionsList,
-} from './styles.tsx';
+  Toolbar,
+  ToolbarAction,
+  ToolbarActionsList,
+  ToolbarActionsListItem,
+} from '@/common/ui/components';
+import { isUserEmailSendingFailure } from '@/users/entities';
 
 export type LecturesToolbarProps = {
   selectedLecturers: Lecturer[];
@@ -15,7 +18,7 @@ export type LecturesToolbarProps = {
   onAdd: () => void;
   onDelete: () => void;
   onResend: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const LecturersToolbar = ({
@@ -24,36 +27,53 @@ const LecturersToolbar = ({
   onAdd,
   onDelete,
   onResend,
-  onEdit,
+  onDetails,
 }: LecturesToolbarProps) => {
+  const isResendAvailable = useMemo(() => {
+    const lecturerWithoutResend = selectedLecturers.find(
+      (student) => !isUserEmailSendingFailure(student),
+    );
+    return !lecturerWithoutResend;
+  }, [selectedLecturers]);
+
   if (selectedLecturers.length) {
     return (
-      <Root className={className}>
-        <ActionsList>
-          <ActionsListItem>
-            <ResendButton onClick={onResend} />
-          </ActionsListItem>
-          {selectedLecturers.length === 1 && (
-            <ActionsListItem>
-              <EditButton onClick={onEdit} />
-            </ActionsListItem>
+      <Toolbar className={className}>
+        <ToolbarActionsList>
+          {isResendAvailable && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <ResendButton onClick={onResend} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
-          <ActionsListItem>
-            <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
-        </ActionsList>
-      </Root>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDelete} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+          {selectedLecturers.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
+        </ToolbarActionsList>
+      </Toolbar>
     );
   }
 
   return (
-    <Root className={className}>
-      <ActionsList>
-        <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new lecturer</AddButton>
-        </ActionsListItem>
-      </ActionsList>
-    </Root>
+    <Toolbar className={className}>
+      <ToolbarActionsList>
+        <ToolbarActionsListItem>
+          <ToolbarAction>
+            <AddButton onClick={onAdd}>Add new lecturer</AddButton>
+          </ToolbarAction>
+        </ToolbarActionsListItem>
+      </ToolbarActionsList>
+    </Toolbar>
   );
 };
 

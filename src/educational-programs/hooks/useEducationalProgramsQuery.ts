@@ -4,14 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 export const epQueryKey = 'educationalProgramsQuery';
 
 export function useEducationalProgramsQuery() {
-  const { educationalProgramsService: epService } = useAppServices();
+  const { educationalProgramsService } = useAppServices();
 
   const { data: educationalPrograms, ...otherData } = useQuery({
     queryKey: [epQueryKey],
     queryFn: async () => {
-      const result = await epService.getEducationalPrograms();
-
-      return result;
+      return await educationalProgramsService.getEducationalPrograms();
     },
     initialData: [],
   });

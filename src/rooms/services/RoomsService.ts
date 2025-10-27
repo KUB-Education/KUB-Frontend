@@ -9,12 +9,12 @@ export class RoomsService extends BaseService {
   }
 
   async getRooms(): Promise<Room[]> {
-    const { data } = await this.http.get<RoomDto[]>('/rooms');
+    const { data } = await this.http.get<RoomDto[]>('/v1/rooms');
     return data;
   }
 
   async addRoom(params: AddRoomParams): Promise<Room> {
-    const { data } = await this.http.post<RoomDto>('/rooms', {
+    const { data } = await this.http.post<RoomDto>('/v1/rooms', {
       data: params,
     });
 
@@ -23,12 +23,12 @@ export class RoomsService extends BaseService {
 
   async deleteRooms(ids: Array<RoomId>): Promise<void> {
     // TODO: should we delete bulk?
-    await Promise.all(ids.map((id) => this.http.delete(`/rooms/${id}`)));
+    await Promise.all(ids.map((id) => this.http.delete(`/v1/rooms/${id}`)));
   }
 
   async editRoom(params: EditRoomParams) {
     const { location, capacity, id } = params;
-    const { data } = await this.http.put<RoomDto>(`/rooms/${id}`, {
+    const { data } = await this.http.put<RoomDto>(`/v1/rooms/${id}`, {
       data: {
         location,
         capacity,

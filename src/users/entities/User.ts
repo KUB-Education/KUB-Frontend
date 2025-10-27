@@ -1,4 +1,5 @@
-import { UserStatus } from './UserStatus.ts';
+import { UserStatus } from './UserStatus';
+import { UserRole } from '@/users/entities/UserRole';
 
 export type UserId = number;
 
@@ -12,7 +13,7 @@ type UserProfile = {
 export type User = UserProfile & {
   id: UserId;
   userStatus: UserStatus;
-  roles: Array<{ id: number; name: string }>;
+  roles: Array<{ id: number; type: UserRole }>;
 };
 
 export const getUserId = (user: User): UserId => user.id;

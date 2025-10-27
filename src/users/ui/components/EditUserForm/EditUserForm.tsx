@@ -4,8 +4,8 @@ import {
   FormControl,
   UserStatusFormControl,
 } from './styles.tsx';
-import { InputLabel } from '@mui/material';
 import {
+  FieldLabel,
   FormTextField,
   ResendButton,
   SaveButton,
@@ -64,42 +64,42 @@ const EditUserForm = ({
   return (
     <Form className={className} onSubmit={handleSubmit(onSubmit)}>
       <UserStatusFormControl>
-        <InputLabel shrink htmlFor="userStatus">
+        <FieldLabel shrink htmlFor="userStatus">
           User Status
-        </InputLabel>
+        </FieldLabel>
         <FormTextField label="userStatus" readOnly value={userStatusValue} />
       </UserStatusFormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="lastName">
+        <FieldLabel shrink htmlFor="lastName">
           Last Name
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="Last Name"
           {...register('lastName', { ...requiredValidator() })}
         />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="firstName">
+        <FieldLabel shrink htmlFor="firstName">
           First Name
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="First Name"
           {...register('firstName', { ...requiredValidator() })}
         />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="middleName">
+        <FieldLabel shrink htmlFor="middleName">
           Middle Name
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="Middle Name"
           {...register('middleName', { ...requiredValidator() })}
         />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="email">
+        <FieldLabel shrink htmlFor="email">
           Email
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="Email"
           {...register('email', {

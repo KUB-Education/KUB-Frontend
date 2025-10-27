@@ -4,10 +4,10 @@ import {
   BackButton,
   FormTextField,
   ErrorModal,
+  FieldLabel,
 } from '@/common/ui/components';
 import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
-import { InputLabel } from '@mui/material';
 import { useState } from 'react';
 import { useAddUser } from '@/users/hooks';
 import { AddUserParams } from '@/users/entities';
@@ -47,36 +47,36 @@ const AddUserModal = ({ open, onClose }: AddUserModalProps) => {
         <Title>Add new user</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <InputLabel shrink htmlFor="lastName">
+            <FieldLabel shrink htmlFor="lastName">
               Last Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="Last Name"
               {...register('lastName', { ...requiredValidator() })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="firstName">
+            <FieldLabel shrink htmlFor="firstName">
               First Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="First Name"
               {...register('firstName', { ...requiredValidator() })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="middleName">
+            <FieldLabel shrink htmlFor="middleName">
               Middle Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="Middle Name"
               {...register('middleName', { ...requiredValidator() })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="email">
+            <FieldLabel shrink htmlFor="email">
               Email
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="Email"
               {...register('email', {

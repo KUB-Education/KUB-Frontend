@@ -8,12 +8,12 @@ import {
   Button,
   Link,
 } from './styles';
-import { FormHelperText, InputLabel } from '@mui/material';
+import { FormHelperText } from '@mui/material';
 import { APP_ROUTES } from '@/common/routes.ts';
 import { useLogin } from '@/auth/hooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import { FormTextField, ErrorModal } from '@/common/ui/components';
+import { FormTextField, ErrorModal, FieldLabel } from '@/common/ui/components';
 import {
   emailValidator,
   requiredValidator,
@@ -51,9 +51,9 @@ const Login = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Title>Login</Title>
           <FormControl error={!!emailError}>
-            <InputLabel shrink htmlFor="email">
+            <FieldLabel shrink htmlFor="email">
               Email
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="Email"
               type="email"
@@ -65,9 +65,9 @@ const Login = () => {
             {emailError && <FormHelperText>{emailError}</FormHelperText>}
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="password">
+            <FieldLabel shrink htmlFor="password">
               Password
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               id="password"
               label="Password"
