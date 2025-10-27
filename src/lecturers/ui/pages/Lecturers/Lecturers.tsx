@@ -1,18 +1,15 @@
 import { Lecturer, LecturerId } from '@/lecturers/entities';
 import { Root, Toolbar, Table } from './styles';
-import {
-  useDeleteLecturers,
-  useLecturers,
-  useResendLecturersInvites,
-} from '@/lecturers/hooks';
+import { useDeleteLecturers, useLecturers } from '@/lecturers/hooks';
 import { useMemo, useState } from 'react';
 import { AddLecturer, LecturerDetails } from '@/lecturers/ui/components';
 import { Modal } from '@/common/ui/components';
+import { useResendUsersActivationEmail } from '@/users/hooks';
 
 const Lecturers = () => {
   const { lecturers } = useLecturers();
   const { deleteLecturers } = useDeleteLecturers();
-  const { resendLecturersInvites } = useResendLecturersInvites();
+  const { resendUsersActivationEmail } = useResendUsersActivationEmail();
 
   const [selectedLecturersIds, setSelectedLecturersIds] = useState<
     LecturerId[]
@@ -40,9 +37,12 @@ const Lecturers = () => {
   };
 
   const onResend = () => {
-    if (!selectedLecturersIds.length) return;
+    if (!selectedLecturers.length) return;
+    const selectedUserIds = selectedLecturers.map(
+      (lecturer) => lecturer.userId,
+    );
 
-    resendLecturersInvites(selectedLecturersIds);
+    resendUsersActivationEmail(selectedUserIds);
   };
 
   const onDetails = () => {

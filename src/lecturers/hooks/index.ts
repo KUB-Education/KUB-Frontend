@@ -4,7 +4,6 @@ export * from './useLecturers';
 export * from './useAddLecturer';
 export * from './useEditLecturer';
 export * from './useDeleteLecturers';
-export * from './useResendLecturersInvites';
 export * from './useAddDepartmentPosition';
 export * from './useEditDepartmentPosition';
 export * from './useDeleteDepartmentPosition';

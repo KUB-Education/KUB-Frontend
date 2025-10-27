@@ -8,7 +8,6 @@ import {
   UserId,
   UserRole,
 } from '@/users/entities';
-import { delay, SECOND } from '@/common/utils';
 import { UserDto, UserRoleDto } from './dto';
 import { UserDtoMapper } from '@/users/mappers';
 
@@ -59,9 +58,11 @@ export class UserService extends BaseService {
   }
 
   async resendUsersActivationEmail(ids: Array<UserId>) {
-    await delay(2 * SECOND);
-    // TODO add implementation
-    console.log('resendUsersActivationEmail', ids);
+    return Promise.all(
+      ids.map((id) => {
+        return this.http.post(`/v1/users/${id}/resend`);
+      }),
+    );
   }
 
   async getRoles(): Promise<UserRole[]> {

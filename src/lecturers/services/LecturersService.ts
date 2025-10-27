@@ -12,7 +12,6 @@ import {
   DeleteDepartmentPositionParams,
   LecturerPosition,
 } from '@/lecturers/entities';
-import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
 import {
   AcademicTitleDto,
@@ -76,12 +75,6 @@ export class LecturersService extends BaseService {
         return this.http.delete(`/v1/lecturers/${id}`);
       }),
     );
-  }
-
-  async resendInvites(ids: Array<LecturerId>) {
-    await delay(2 * SECOND);
-    // TODO add implementation
-    console.log('resend invites', ids);
   }
 
   async addLecturerDepartmentPosition(params: AddDepartmentPositionParams) {

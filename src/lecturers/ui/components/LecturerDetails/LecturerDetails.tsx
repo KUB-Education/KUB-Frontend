@@ -34,13 +34,13 @@ import {
   useEditLecturer,
   useEditDepartmentPosition,
   usePositions,
-  useResendLecturersInvites,
 } from '@/lecturers/hooks';
 import { DepartmentId } from '@/departments/entities';
 import { useMemo, useState } from 'react';
 import AddDepartmentPosition from '../AddDepartmentPosition';
 import DepartmentPositionDetails from '../DepartmentPositionDetails';
 import { useDepartments } from '@/departments/hooks';
+import { useResendUsersActivationEmail } from '@/users/hooks';
 
 export type LecturerDetailsModalProps = {
   lecturer: Lecturer;
@@ -81,10 +81,10 @@ const LecturerDetails = ({
     onError,
   });
   const {
-    resendLecturersInvites,
+    resendUsersActivationEmail,
     isPending: isResendPending,
-    error: resendInvitesError,
-  } = useResendLecturersInvites({ onError });
+    error: resendEmailError,
+  } = useResendUsersActivationEmail({ onError });
 
   const {
     addDepartmentPosition,
@@ -144,7 +144,7 @@ const LecturerDetails = ({
     const errors = [
       editLecturerError,
       deleteLecturerError,
-      resendInvitesError,
+      resendEmailError,
       addPositionError,
       editPositionError,
       deletePositionError,
@@ -156,7 +156,7 @@ const LecturerDetails = ({
   }, [
     editLecturerError,
     deleteLecturerError,
-    resendInvitesError,
+    resendEmailError,
     addPositionError,
     editPositionError,
     deletePositionError,
@@ -175,7 +175,7 @@ const LecturerDetails = ({
   };
 
   const onResend = () => {
-    resendLecturersInvites([lecturer.id]);
+    resendUsersActivationEmail([lecturer.userId]);
   };
 
   const onAddDepartmentPosition = (params: AddDepartmentPositionParams) => {
