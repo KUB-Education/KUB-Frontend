@@ -9,6 +9,7 @@ export type Room = {
   id: RoomId;
   location: string;
   capacity: number;
+  description: string;
 };
 
 export const roomLocationValidator = {
@@ -20,4 +21,8 @@ export const roomCapacityValidator = {
   ...requiredValidator(),
   validate: (value?: number) =>
     Number(value) >= 1 ? true : 'Capacity must be at least 1',
+};
+
+export const roomDescriptionValidator = {
+  
 };

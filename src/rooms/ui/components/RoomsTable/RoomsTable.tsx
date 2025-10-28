@@ -27,6 +27,11 @@ const RoomsTable = ({
       field: 'capacity',
       headerName: 'Capacity',
       minWidth: 125,
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      minWidth: 125,
       resizable: false,
     },
   ]);

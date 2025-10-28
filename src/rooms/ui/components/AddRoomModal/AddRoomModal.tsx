@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import {
   AddRoomParams,
   roomCapacityValidator,
+  roomDescriptionValidator,
   roomLocationValidator,
 } from '@/rooms/entities';
 import { InputLabel } from '@mui/material';
@@ -65,6 +66,20 @@ const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
               {...register('capacity', {
                 ...roomCapacityValidator,
                 setValueAs: (value) => Number(value),
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel shrink htmlFor="description">
+              Description
+            </InputLabel>
+            <FormTextField
+              label="description"
+              type="string"
+              multiline
+              minRows={8}
+              {...register('description', {
+                ...roomDescriptionValidator,
               })}
             />
           </FormControl>
