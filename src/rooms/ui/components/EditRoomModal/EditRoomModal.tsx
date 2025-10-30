@@ -16,6 +16,7 @@ import {
 } from '@/rooms/entities';
 import { useEditRoom } from '@/rooms/hooks';
 import { useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
 
 export type EditRoomModalProps = {
   open: boolean;

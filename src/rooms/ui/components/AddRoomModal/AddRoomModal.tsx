@@ -15,6 +15,7 @@ import {
 } from '@/rooms/entities';
 import { useAddRoom } from '@/rooms/hooks';
 import { useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
 
 export type AddRoomModalProps = {
   open: boolean;
