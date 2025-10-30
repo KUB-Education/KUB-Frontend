@@ -10,44 +10,46 @@ import {
   Actions,
   Row,
   EditForm,
-  EditDepartments,
-  EditAcademicTitle,
-  EditAcademicTitleCol,
-  EditDepartmentsCol,
+  EditDepartmentPositions,
+  EditAcademicTitles,
+  EditAcademicTitlesCol,
+  EditDepartmentPositionsCol,
   EditFormCol,
 } from './styles.tsx';
 import {
-  AcademicTitle,
   AcademicTitleId,
-  AddLecturerToDepartmentParams,
+  AddDepartmentPositionParams,
+  EditDepartmentPositionParams,
   Lecturer,
-  LecturerDepartment,
+  LecturerDepartmentPosition,
+  LecturerDepartmentPositionId,
 } from '@/lecturers/entities';
 import {
-  useAddLecturerToDepartment,
+  useAcademicTitles,
+  useAddAcademicTitle,
+  useAddDepartmentPosition,
+  useDeleteAcademicTitle,
+  useDeleteDepartmentPosition,
   useDeleteLecturers,
   useEditLecturer,
-  useEditLecturerDepartment,
-  useResendLecturersInvites,
+  useEditDepartmentPosition,
+  usePositions,
 } from '@/lecturers/hooks';
-import { Department, DepartmentId } from '@/departments/entities';
+import { DepartmentId } from '@/departments/entities';
 import { useMemo, useState } from 'react';
-import AddLecturerDepartment from '../AddLecturerDepartment';
-import LecturerDepartmentDetails from '../LecturerDepartmentDetails';
+import AddDepartmentPosition from '../AddDepartmentPosition';
+import DepartmentPositionDetails from '../DepartmentPositionDetails';
+import { useDepartments } from '@/departments/hooks';
+import { useResendUsersActivationEmail } from '@/users/hooks';
 
 export type LecturerDetailsModalProps = {
   lecturer: Lecturer;
-  // TODO wait departments loading
-  departments: Department[];
-  academicTitles: AcademicTitle[];
   onBack: () => void;
   onDeleteSucceed: () => void;
 };
 
 const LecturerDetails = ({
   lecturer,
-  departments,
-  academicTitles,
   onBack,
   onDeleteSucceed,
 }: LecturerDetailsModalProps) => {
@@ -58,100 +60,153 @@ const LecturerDetails = ({
   const [isAddDepartmentModalVisible, setIsAddDepartmentModalVisible] =
     useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const [departmentIdForDetails, setDepartmentIdForDetails] =
+  const [departmentPositionIdForDetails, setDepartmentPositionIdForDetails] =
     useState<DepartmentId | null>(null);
 
-  const { editLecturer, isPending: isEditPending, error } = useEditLecturer();
-  const { deleteLecturers, isPending: isDeletePending } = useDeleteLecturers({
-    onSuccess: onDeleteSucceed,
-  });
-  const { resendLecturersInvites, isPending: isResendPending } =
-    useResendLecturersInvites({ onError });
+  const { departments } = useDepartments();
+  const { academicTitles } = useAcademicTitles();
+  const { positions } = usePositions();
 
-  const { addLecturerToDepartment, isPending: isAddToDepartmentPending } =
-    useAddLecturerToDepartment({
-      onSuccess: () => setIsAddDepartmentModalVisible(false),
-    });
-  const { editLecturerDepartment, isPending: isEditDepartmentPending } =
-    useEditLecturerDepartment({
-      onSuccess: () => setDepartmentIdForDetails(null),
-    });
+  const {
+    editLecturer,
+    isPending: isEditPending,
+    error: editLecturerError,
+  } = useEditLecturer({ onError });
+  const {
+    deleteLecturers,
+    isPending: isDeletePending,
+    error: deleteLecturerError,
+  } = useDeleteLecturers({
+    onSuccess: onDeleteSucceed,
+    onError,
+  });
+  const {
+    resendUsersActivationEmail,
+    isPending: isResendPending,
+    error: resendEmailError,
+  } = useResendUsersActivationEmail({ onError });
+
+  const {
+    addDepartmentPosition,
+    isPending: isAddPositionPending,
+    error: addPositionError,
+  } = useAddDepartmentPosition({
+    onSuccess: () => setIsAddDepartmentModalVisible(false),
+    onError,
+  });
+  const {
+    editDepartmentPosition,
+    isPending: isEditPositionPending,
+    error: editPositionError,
+  } = useEditDepartmentPosition({
+    onSuccess: () => setDepartmentPositionIdForDetails(null),
+    onError,
+  });
+  const {
+    deleteDepartmentPosition,
+    isPending: isDeletePositionPending,
+    error: deletePositionError,
+  } = useDeleteDepartmentPosition({ onError });
+  const {
+    deleteAcademicTitle,
+    isPending: isDeleteTitlePending,
+    error: deleteTitleError,
+  } = useDeleteAcademicTitle({ onError });
+  const {
+    addAcademicTitle,
+    isPending: isAddTitlePending,
+    error: addTitleError,
+  } = useAddAcademicTitle({ onError });
 
   const isEditFormPending = useMemo(() => {
     return [
       isDeletePending,
       isEditPending,
       isResendPending,
-      isAddToDepartmentPending,
-      isEditDepartmentPending,
+      isAddPositionPending,
+      isEditPositionPending,
+      isDeletePositionPending,
+      isDeleteTitlePending,
+      isAddTitlePending,
     ].some(Boolean);
   }, [
+    isDeletePending,
     isEditPending,
     isResendPending,
-    isDeletePending,
-    isAddToDepartmentPending,
-    isEditDepartmentPending,
+    isAddPositionPending,
+    isEditPositionPending,
+    isDeletePositionPending,
+    isDeleteTitlePending,
+    isAddTitlePending,
   ]);
 
-  const departmentForDetails = useMemo(() => {
-    return lecturer.departments.find(
-      (department) => department.id === departmentIdForDetails,
-    );
-  }, [lecturer, departmentIdForDetails]);
+  const error = useMemo(() => {
+    const errors = [
+      editLecturerError,
+      deleteLecturerError,
+      resendEmailError,
+      addPositionError,
+      editPositionError,
+      deletePositionError,
+      addTitleError,
+      deleteTitleError,
+    ].filter(Boolean);
 
-  const onDelete = () => {
+    return errors[0];
+  }, [
+    editLecturerError,
+    deleteLecturerError,
+    resendEmailError,
+    addPositionError,
+    editPositionError,
+    deletePositionError,
+    addTitleError,
+    deleteTitleError,
+  ]);
+
+  const departmentPositionForDetails = useMemo(() => {
+    return lecturer.departmentPositions.find(
+      (department) => department.id === departmentPositionIdForDetails,
+    );
+  }, [lecturer, departmentPositionIdForDetails]);
+
+  const onDeleteLecturer = () => {
     deleteLecturers([lecturer.id]);
   };
 
   const onResend = () => {
-    resendLecturersInvites([lecturer.id]);
+    resendUsersActivationEmail([lecturer.userId]);
   };
 
-  const onAddToDepartment = (params: AddLecturerToDepartmentParams) => {
-    addLecturerToDepartment(params);
+  const onAddDepartmentPosition = (params: AddDepartmentPositionParams) => {
+    addDepartmentPosition(params);
   };
 
-  const onDeleteFromDepartment = (departmentId: DepartmentId) => {
-    const newDepartments = lecturer.departments.filter(
-      (department) => department.id !== departmentId,
-    );
-
-    editLecturer({
-      id: lecturer.id,
-      departments: newDepartments,
-    });
+  const onDeleteDepartmentPosition = (
+    departmentPositionId: LecturerDepartmentPositionId,
+  ) => {
+    deleteDepartmentPosition({ lecturerId: lecturer.id, departmentPositionId });
   };
 
-  const onDepartmentDetails = (departmentId: DepartmentId) => {
-    setDepartmentIdForDetails(departmentId);
+  const onDepartmentPositionDetails = (departmentId: DepartmentId) => {
+    setDepartmentPositionIdForDetails(departmentId);
   };
 
-  const onEditLecturerDepartment = (updatedDepartment: LecturerDepartment) => {
-    editLecturerDepartment({
+  const onEditDepartmentPosition = (
+    data: Omit<EditDepartmentPositionParams, 'lecturerId'>,
+  ) => {
+    editDepartmentPosition({
       lecturerId: lecturer.id,
-      id: updatedDepartment.id,
-      position: updatedDepartment.position,
-      status: updatedDepartment.status,
+      ...data,
     });
   };
 
   const onAddAcademicTitle = (titleId: AcademicTitleId) => {
-    editLecturer({
-      id: lecturer.id,
-      academicTitles: [
-        ...lecturer.academicTitles.map((title) => title.id),
-        titleId,
-      ],
-    });
+    addAcademicTitle({ lecturerId: lecturer.id, academicTitleId: titleId });
   };
 
   const onDeleteAcademicTitle = (titleId: AcademicTitleId) => {
-    editLecturer({
-      id: lecturer.id,
-      academicTitles: lecturer.academicTitles
-        .map((tittle) => tittle.id)
-        .filter((id) => id !== titleId),
-    });
+    deleteAcademicTitle({ lecturerId: lecturer.id, academicTitleId: titleId });
   };
 
   return (
@@ -166,31 +221,31 @@ const LecturerDetails = ({
             onResend={onResend}
           />
         </EditFormCol>
-        <EditDepartmentsCol>
+        <EditDepartmentPositionsCol>
           <Title>Department positions</Title>
-          <EditDepartments
+          <EditDepartmentPositions
             lecturer={lecturer}
             departments={departments}
             isPending={isEditFormPending}
-            onDelete={onDeleteFromDepartment}
+            onDelete={onDeleteDepartmentPosition}
             onAdd={() => setIsAddDepartmentModalVisible(true)}
-            onDetails={onDepartmentDetails}
+            onDetails={onDepartmentPositionDetails}
           />
-        </EditDepartmentsCol>
-        <EditAcademicTitleCol>
+        </EditDepartmentPositionsCol>
+        <EditAcademicTitlesCol>
           <Title>Academic titles</Title>
-          <EditAcademicTitle
+          <EditAcademicTitles
             lecturer={lecturer}
             academicTitles={academicTitles}
             isPending={isEditFormPending}
             onAdd={onAddAcademicTitle}
             onDelete={onDeleteAcademicTitle}
           />
-        </EditAcademicTitleCol>
+        </EditAcademicTitlesCol>
       </Row>
       <Actions>
         <BackButton onClick={onBack} />
-        <DeleteButton disabled={isDeletePending} onClick={onDelete}>
+        <DeleteButton disabled={isDeletePending} onClick={onDeleteLecturer}>
           Delete lecturer
         </DeleteButton>
       </Actions>
@@ -199,24 +254,28 @@ const LecturerDetails = ({
         open={isAddDepartmentModalVisible}
         onClose={() => setIsAddDepartmentModalVisible(false)}
       >
-        <AddLecturerDepartment
+        <AddDepartmentPosition
           lecturer={lecturer}
           departments={departments}
+          positions={positions}
           isPending={isEditFormPending}
-          onAdd={onAddToDepartment}
+          onAdd={onAddDepartmentPosition}
           onBack={() => setIsAddDepartmentModalVisible(false)}
         />
       </Modal>
       <Modal
-        open={!!departmentForDetails}
-        onClose={() => setDepartmentIdForDetails(null)}
+        open={!!departmentPositionForDetails}
+        onClose={() => setDepartmentPositionIdForDetails(null)}
       >
-        <LecturerDepartmentDetails
-          department={departmentForDetails as LecturerDepartment}
+        <DepartmentPositionDetails
+          departmentPosition={
+            departmentPositionForDetails as LecturerDepartmentPosition
+          }
+          positions={positions}
           isPending={isEditFormPending}
-          onEdit={onEditLecturerDepartment}
-          onDelete={onDeleteFromDepartment}
-          onBack={() => setDepartmentIdForDetails(null)}
+          onEdit={onEditDepartmentPosition}
+          onDelete={onDeleteDepartmentPosition}
+          onBack={() => setDepartmentPositionIdForDetails(null)}
         />
       </Modal>
 

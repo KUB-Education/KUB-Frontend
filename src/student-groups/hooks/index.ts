@@ -1,1 +1,1 @@
-export * from './useGetStudentGroups';
+export * from './useStudentGroups';

@@ -1,9 +1,5 @@
-export { default as AcademicTitle } from './AcademicTitle';
-export * from './AcademicTitle';
-export { default as LecturerPosition } from './LecturerPosition';
-export * from './LecturerPosition';
-export { default as LecturerStatus } from './LecturerStatus';
-export * from './LecturerStatus';
+export { default as LecturerPositionStatus } from './LecturerPositionStatus';
+export * from './LecturerPositionStatus';
 export { default as AddLecturer } from './AddLecturer';
 export * from './AddLecturer';
 export { default as LecturerDetails } from './LecturerDetails';

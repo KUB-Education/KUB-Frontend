@@ -30,7 +30,7 @@ const UsersToolbar = ({
 }: UsersToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const userWithoutResend = selectedUsers.find(
-      (user) => !isUserEmailSendingFailure(user),
+      (user) => !isUserEmailSendingFailure(user.status),
     );
     return !userWithoutResend;
   }, [selectedUsers]);

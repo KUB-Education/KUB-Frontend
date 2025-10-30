@@ -5,7 +5,7 @@ import {
 import { Root, Toolbar, Table } from './styles';
 import {
   useDeleteEducationalPrograms,
-  useEducationalProgramsQuery,
+  useEducationalPrograms,
 } from '@/educational-programs/hooks';
 import { useMemo, useState } from 'react';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@/educational-programs/ui/components';
 
 const EducationalPrograms = () => {
-  const { educationalPrograms } = useEducationalProgramsQuery();
+  const { educationalPrograms } = useEducationalPrograms();
   const { deleteEducationalPrograms } = useDeleteEducationalPrograms();
 
   const [selectedEducationalPrograms, setEducationalPrograms] = useState<

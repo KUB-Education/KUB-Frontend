@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { StudentId } from '@/students/entities';
-import { studentsQueryKey } from './useGetStudents';
+import { studentsQueryKey } from './useStudents';
 
 type UseDeleteStudentsParams = Partial<{
   onSuccess: () => void;

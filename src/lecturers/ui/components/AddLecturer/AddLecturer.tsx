@@ -16,11 +16,11 @@ import { AddLecturerParams } from '@/lecturers/entities';
 import { useAddLecturer } from '@/lecturers/hooks';
 
 export type AddLecturerProps = {
-  onSuccess?: () => void;
+  onSucceed?: () => void;
   onBack?: () => void;
 };
 
-const AddLecturer = ({ onSuccess, onBack }: AddLecturerProps) => {
+const AddLecturer = ({ onSucceed, onBack }: AddLecturerProps) => {
   const onError = () => {
     setIsErrorModalVisible(true);
   };
@@ -30,7 +30,7 @@ const AddLecturer = ({ onSuccess, onBack }: AddLecturerProps) => {
     mode: 'onChange',
   });
   const { addLecturer, isPending, error } = useAddLecturer({
-    onSuccess,
+    onSuccess: onSucceed,
     onError,
   });
 

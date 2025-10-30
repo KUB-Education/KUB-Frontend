@@ -10,7 +10,7 @@ export class UserDtoMapper implements ToEntity<User, UserDto> {
       lastName: dto.last_name,
       middleName: dto.middle_name,
       email: dto.email,
-      userStatus: dto.user_status,
+      status: dto.status,
       roles: dto.roles,
     };
   }

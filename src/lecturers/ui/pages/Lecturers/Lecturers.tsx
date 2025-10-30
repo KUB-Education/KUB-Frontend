@@ -1,23 +1,15 @@
 import { Lecturer, LecturerId } from '@/lecturers/entities';
 import { Root, Toolbar, Table } from './styles';
-import {
-  useAcademicTitles,
-  useDeleteLecturers,
-  useLecturersQuery,
-  useResendLecturersInvites,
-} from '@/lecturers/hooks';
+import { useDeleteLecturers, useLecturers } from '@/lecturers/hooks';
 import { useMemo, useState } from 'react';
 import { AddLecturer, LecturerDetails } from '@/lecturers/ui/components';
-import { useDepartmentsQuery } from '@/departments/hooks';
 import { Modal } from '@/common/ui/components';
-import { getUserId } from '@/users/entities';
+import { useResendUsersActivationEmail } from '@/users/hooks';
 
 const Lecturers = () => {
-  const { lecturers } = useLecturersQuery();
-  const { departments } = useDepartmentsQuery();
-  const { academicTitles } = useAcademicTitles();
+  const { lecturers } = useLecturers();
   const { deleteLecturers } = useDeleteLecturers();
-  const { resendLecturersInvites } = useResendLecturersInvites();
+  const { resendUsersActivationEmail } = useResendUsersActivationEmail();
 
   const [selectedLecturersIds, setSelectedLecturersIds] = useState<
     LecturerId[]
@@ -34,7 +26,7 @@ const Lecturers = () => {
   }, [lecturers, selectedLecturersIds]);
 
   const onLecturerSelected = (selectedLecturers: Array<Lecturer>) => {
-    const lecturerIds = selectedLecturers.map(getUserId);
+    const lecturerIds = selectedLecturers.map((lecturer) => lecturer.id);
     setSelectedLecturersIds(lecturerIds);
   };
 
@@ -45,9 +37,12 @@ const Lecturers = () => {
   };
 
   const onResend = () => {
-    if (!selectedLecturersIds.length) return;
+    if (!selectedLecturers.length) return;
+    const selectedUserIds = selectedLecturers.map(
+      (lecturer) => lecturer.userId,
+    );
 
-    resendLecturersInvites(selectedLecturersIds);
+    resendUsersActivationEmail(selectedUserIds);
   };
 
   const onDetails = () => {
@@ -71,7 +66,7 @@ const Lecturers = () => {
       >
         <AddLecturer
           onBack={() => setIsAddModalVisible(false)}
-          onSuccess={() => setIsAddModalVisible(false)}
+          onSucceed={() => setIsAddModalVisible(false)}
         />
       </Modal>
       <Modal
@@ -80,8 +75,6 @@ const Lecturers = () => {
       >
         <LecturerDetails
           lecturer={selectedLecturers[0]}
-          departments={departments}
-          academicTitles={academicTitles}
           onDeleteSucceed={() => setIsDetailsModalVisible(false)}
           onBack={() => setIsDetailsModalVisible(false)}
         />

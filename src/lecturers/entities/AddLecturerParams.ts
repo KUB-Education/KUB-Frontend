@@ -1,6 +1,6 @@
 export type AddLecturerParams = {
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   email: string;
 };

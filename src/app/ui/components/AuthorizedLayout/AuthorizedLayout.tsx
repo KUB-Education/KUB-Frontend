@@ -13,7 +13,7 @@ import {
 import { Outlet, useNavigate } from 'react-router';
 import Breadcrumb from './Breadcrumb/Breadcrumb.tsx';
 import { useLogout } from '@/auth/hooks';
-import { useCurrentUserQuery } from '@/current-user/hooks';
+import { useCurrentUser } from '@/current-user/hooks';
 import { UserProfileSettings } from '@/users/ui/components';
 import { APP_ROUTES } from '@/common/routes.ts';
 
@@ -23,7 +23,7 @@ const AuthorizedLayout = () => {
 
   const navigate = useNavigate();
   const { logout } = useLogout();
-  const { currentUser, isPending } = useCurrentUserQuery();
+  const { currentUser, isPending } = useCurrentUser();
 
   const toggleDrawer = () => {
     setIsDrawerOpen((val) => !val);

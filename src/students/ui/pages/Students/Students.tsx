@@ -1,6 +1,6 @@
 import {
   useDeleteStudents,
-  useGetStudents,
+  useStudents,
   useResendStudentsActivationEmail,
 } from '@/students/hooks';
 import { Root, Table, Toolbar } from './styles.tsx';
@@ -11,7 +11,7 @@ import { Modal } from '@/common/ui/components';
 import { AddStudent, EditStudent } from '@/students/ui/components';
 
 const Students = () => {
-  const { students, isError, isFetching } = useGetStudents();
+  const { students, isError, isFetching } = useStudents();
   const { deleteStudents } = useDeleteStudents();
   const { resendStudentsActivationEmail } = useResendStudentsActivationEmail();
 

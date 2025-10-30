@@ -1,9 +1,9 @@
 import AuthorizedMain from '../AuthorizedMain';
-import { useIsAuthorizedQuery } from '@/auth/hooks';
+import { useIsAuthorized } from '@/auth/hooks';
 import UnauthorizedMain from '../UnauthorizedMain';
 
 const Main = () => {
-  const { isAuthorized } = useIsAuthorizedQuery();
+  const { isAuthorized } = useIsAuthorized();
 
   if (isAuthorized) {
     return <AuthorizedMain />;
