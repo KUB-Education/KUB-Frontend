@@ -4,4 +4,5 @@ export type EditRoomParams = {
   id: RoomId;
   location?: string;
   capacity?: number;
+  description?: string;
 };

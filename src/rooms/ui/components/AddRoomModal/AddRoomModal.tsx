@@ -15,6 +15,7 @@ import {
 } from '@/rooms/entities';
 import { useAddRoom } from '@/rooms/hooks';
 import { useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
 
 export type AddRoomModalProps = {
   open: boolean;
@@ -65,6 +66,19 @@ const AddRoomModal = ({ open, onClose }: AddRoomModalProps) => {
               {...register('capacity', {
                 ...roomCapacityValidator,
                 setValueAs: (value) => Number(value),
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel shrink htmlFor="description">
+              Description
+            </InputLabel>
+            <FormTextField
+              label="description"
+              type="string"
+              multiline
+              minRows={8}
+              {...register('description', {
               })}
             />
           </FormControl>

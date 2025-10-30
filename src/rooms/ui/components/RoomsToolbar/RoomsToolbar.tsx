@@ -2,7 +2,7 @@ import { Room } from '@/rooms/entities';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   Toolbar,
   ToolbarAction,
   ToolbarActionsList,
@@ -28,18 +28,18 @@ const RoomsToolbar = ({
     return (
       <Toolbar className={className}>
         <ToolbarActionsList>
-          {selectedRooms.length === 1 && (
-            <ToolbarActionsListItem>
-              <ToolbarAction>
-                <EditButton onClick={onEdit} />
-              </ToolbarAction>
-            </ToolbarActionsListItem>
-          )}
           <ToolbarActionsListItem>
             <ToolbarAction>
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedRooms.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onEdit} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

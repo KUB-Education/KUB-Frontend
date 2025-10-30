@@ -16,6 +16,7 @@ import {
 } from '@/rooms/entities';
 import { useEditRoom } from '@/rooms/hooks';
 import { useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
 
 export type EditRoomModalProps = {
   open: boolean;
@@ -70,6 +71,19 @@ const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
               {...register('capacity', {
                 ...roomCapacityValidator,
                 setValueAs: (value) => Number(value),
+              })}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel shrink htmlFor="description">
+              Description
+            </InputLabel>
+            <FormTextField
+              label="description"
+              type="string"
+              multiline
+              minRows={8}
+              {...register('description', {
               })}
             />
           </FormControl>

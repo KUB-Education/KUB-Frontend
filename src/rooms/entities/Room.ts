@@ -9,6 +9,7 @@ export type Room = {
   id: RoomId;
   location: string;
   capacity: number;
+  description?: string;
 };
 
 export const roomLocationValidator = {
