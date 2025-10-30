@@ -11,7 +11,6 @@ import {
   EditRoomParams,
   Room,
   roomCapacityValidator,
-  roomDescriptionValidator,
   roomLocationValidator,
 } from '@/rooms/entities';
 import { InputLabel } from '@mui/material';
@@ -84,7 +83,6 @@ const EditRoomModal = ({ open, onClose, room }: EditRoomModalProps) => {
               multiline
               minRows={8}
               {...register('description', {
-                ...roomDescriptionValidator,
               })}
             />
           </FormControl>

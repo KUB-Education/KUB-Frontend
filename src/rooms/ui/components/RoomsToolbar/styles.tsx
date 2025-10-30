@@ -3,6 +3,7 @@ import {
   AddButton as CommonAddButton,
   DeleteButton as CommonDeleteButton,
   EditButton as CommonEditButton,
+  DetailsButton as CommonDetailsButton,
 } from '@/common/ui/components';
 
 export const Root = styled('div')({
@@ -21,6 +22,10 @@ export const DeleteButton = styled(CommonDeleteButton)({
 });
 
 export const EditButton = styled(CommonEditButton)({
+  height: '34px',
+});
+
+export const DetailsButton = styled(CommonDetailsButton)({
   height: '34px',
 });
 

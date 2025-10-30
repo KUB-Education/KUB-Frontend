@@ -3,7 +3,7 @@ import {
   Root,
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   ActionsListItem,
   ActionsList,
 } from './styles.tsx';
@@ -27,14 +27,14 @@ const RoomsToolbar = ({
     return (
       <Root className={className}>
         <ActionsList>
-          {selectedRooms.length === 1 && (
-            <ActionsListItem>
-              <EditButton onClick={onEdit} />
-            </ActionsListItem>
-          )}
           <ActionsListItem>
             <DeleteButton onClick={onDelete} />
           </ActionsListItem>
+          {selectedRooms.length === 1 && (
+            <ActionsListItem>
+              <DetailsButton onClick={onEdit} />
+            </ActionsListItem>
+          )}
         </ActionsList>
       </Root>
     );
