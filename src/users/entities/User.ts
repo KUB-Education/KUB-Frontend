@@ -1,18 +1,19 @@
-import { UserStatus } from './UserStatus.ts';
+import { UserStatus } from './UserStatus';
+import { UserRole } from './UserRole';
 
 export type UserId = number;
 
-type UserProfile = {
+export type UserProfile = {
   lastName: string;
   firstName: string;
-  middleName: string;
+  middleName?: string;
   email: string;
 };
 
 export type User = UserProfile & {
   id: UserId;
-  userStatus: UserStatus;
-  roles: Array<{ id: number; name: string }>;
+  status: UserStatus;
+  roles: Array<UserRole>;
 };
 
 export const getUserId = (user: User): UserId => user.id;

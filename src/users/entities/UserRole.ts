@@ -1,17 +1,13 @@
-export enum UserRole {
-  ADMIN = 'admin',
-  LECTURER = 'lecturer',
-  STUDENT = 'student',
+export enum UserRoleType {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+  LECTURER = 'LECTURER',
+  STUDENT = 'STUDENT',
+  ORGANIZER = 'ORGANIZER',
+  SYSADMIN = 'SYSADMIN',
 }
 
-export const userRoles: UserRole[] = Object.values(UserRole);
-
-const userRoleLabelsMap: Record<UserRole, string> = {
-  [UserRole.ADMIN]: 'Admin',
-  [UserRole.STUDENT]: 'Student',
-  [UserRole.LECTURER]: 'Lecturer',
-};
-
-export const getUserRoleLabel = (status: UserRole) => {
-  return userRoleLabelsMap[status] ? userRoleLabelsMap[status] : 'Unknown';
+export type UserRole = {
+  id: number;
+  type: UserRoleType;
 };

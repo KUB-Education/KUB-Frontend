@@ -1,14 +1,15 @@
-import {
-  ActionsList,
-  ActionsListItem,
-  AddButton,
-  Root,
-  EditButton,
-  DeleteButton,
-  ResendButton,
-} from './styles';
 import { isUserEmailSendingFailure, User } from '@/users/entities';
 import { useMemo } from 'react';
+import {
+  AddButton,
+  DeleteButton,
+  EditButton,
+  ResendButton,
+  Toolbar,
+  ToolbarAction,
+  ToolbarActionsList,
+  ToolbarActionsListItem,
+} from '@/common/ui/components';
 
 export type UsersToolbarProps = {
   selectedUsers?: Array<User>;
@@ -29,41 +30,49 @@ const UsersToolbar = ({
 }: UsersToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const userWithoutResend = selectedUsers.find(
-      (user) => !isUserEmailSendingFailure(user),
+      (user) => !isUserEmailSendingFailure(user.status),
     );
     return !userWithoutResend;
   }, [selectedUsers]);
 
   if (selectedUsers.length) {
     return (
-      <Root className={className}>
-        <ActionsList>
+      <Toolbar className={className}>
+        <ToolbarActionsList>
           {isResendAvailable && (
-            <ActionsListItem>
-              <ResendButton onClick={onResend} />
-            </ActionsListItem>
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <ResendButton onClick={onResend} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
           {selectedUsers.length === 1 && (
-            <ActionsListItem>
-              <EditButton onClick={onEdit} />
-            </ActionsListItem>
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <EditButton onClick={onEdit} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
-          <ActionsListItem>
-            <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
-        </ActionsList>
-      </Root>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDelete} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+        </ToolbarActionsList>
+      </Toolbar>
     );
   }
 
   return (
-    <Root className={className}>
-      <ActionsList>
-        <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new user</AddButton>
-        </ActionsListItem>
-      </ActionsList>
-    </Root>
+    <Toolbar className={className}>
+      <ToolbarActionsList>
+        <ToolbarActionsListItem>
+          <ToolbarAction>
+            <AddButton onClick={onAdd}>Add new user</AddButton>
+          </ToolbarAction>
+        </ToolbarActionsListItem>
+      </ToolbarActionsList>
+    </Toolbar>
   );
 };
 

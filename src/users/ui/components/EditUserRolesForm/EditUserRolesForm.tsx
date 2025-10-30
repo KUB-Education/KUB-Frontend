@@ -9,14 +9,9 @@ import {
   RoleDelete,
   Actions,
 } from './styles.tsx';
-import { InputLabel, MenuItem, Select } from '@mui/material';
-import { FormTextField, SaveButton } from '@/common/ui/components';
-import UserRoleLabel from '../UserRole';
-import {
-  getUserRoleLabel,
-  UserRole,
-  userRoles as allUserRoles,
-} from '@/users/entities';
+import { MenuItem, Select } from '@mui/material';
+import { FieldLabel, FormTextField, SaveButton } from '@/common/ui/components';
+import { UserRole } from '@/users/entities';
 import { Controller, useForm } from 'react-hook-form';
 import { requiredValidator } from '@/common/utils/validators.ts';
 import { useMemo, useState } from 'react';
@@ -24,6 +19,7 @@ import { difference } from '@/common/utils';
 
 export type EditUserRolesFormProps = {
   userRoles: Array<UserRole>;
+  roles: Array<UserRole>;
   isPending: boolean;
   className?: string;
   onAdd: (role: UserRole) => void;
@@ -32,6 +28,7 @@ export type EditUserRolesFormProps = {
 
 const EditUserRolesForm = ({
   userRoles,
+  roles,
   isPending,
   className,
   onAdd,
@@ -40,15 +37,19 @@ const EditUserRolesForm = ({
   const [isNewRoleFormVisible, setIsNewRoleFormVisible] = useState(false);
 
   const { handleSubmit, formState, control, reset } = useForm<{
-    newRole: UserRole;
+    roleId: UserRole['id'];
   }>({ mode: 'onChange' });
 
   const availableNewRoles = useMemo(() => {
-    return difference(allUserRoles, userRoles);
-  }, [userRoles]);
+    return difference(roles, userRoles);
+  }, [roles, userRoles]);
 
-  const onSubmit = async (values: { newRole: UserRole }) => {
-    onAdd(values.newRole);
+  const onSubmit = async (values: { roleId: UserRole['id'] }) => {
+    const newRole = roles.find((role) => role.id === values.roleId);
+
+    if (!newRole) return;
+
+    onAdd(newRole);
     reset();
   };
 
@@ -60,16 +61,16 @@ const EditUserRolesForm = ({
     <Root className={className}>
       <RoleList>
         {userRoles.map((role) => (
-          <RoleListItem key={role}>
+          <RoleListItem key={role.id}>
             <FormControl>
-              <InputLabel shrink htmlFor={role}>
+              <FieldLabel shrink htmlFor={String(role.id)}>
                 Role
-              </InputLabel>
+              </FieldLabel>
               <FormTextField
                 label="Role"
-                id={role}
+                id={String(role.id)}
                 readOnly
-                value={getUserRoleLabel(role).toUpperCase()}
+                value={role.type}
                 endAdornment={
                   <RoleActions position="end">
                     <RoleInfo disabled={isPending}>Role info</RoleInfo>
@@ -101,16 +102,16 @@ const EditUserRolesForm = ({
           ) : (
             <Form onSubmit={handleSubmit(onSubmit)}>
               <FormControl>
-                <InputLabel htmlFor="newRole">New Role</InputLabel>
+                <FieldLabel htmlFor="roleId">New Role</FieldLabel>
                 <Controller
-                  name="newRole"
+                  name="roleId"
                   control={control}
                   rules={{ ...requiredValidator() }}
                   render={({ field }) => (
                     <Select label="New Role" {...field}>
                       {availableNewRoles.map((role) => (
-                        <MenuItem key={role} value={role}>
-                          <UserRoleLabel value={role} />
+                        <MenuItem key={role.id} value={role.id}>
+                          {role.type}
                         </MenuItem>
                       ))}
                     </Select>

@@ -1,12 +1,13 @@
 import { Room } from '@/rooms/entities';
 import {
-  Root,
   AddButton,
   DeleteButton,
   DetailsButton,
-  ActionsListItem,
-  ActionsList,
-} from './styles.tsx';
+  Toolbar,
+  ToolbarAction,
+  ToolbarActionsList,
+  ToolbarActionsListItem,
+} from '@/common/ui/components';
 
 export type RoomsToolbarProps = {
   selectedRooms: Room[];
@@ -25,29 +26,35 @@ const RoomsToolbar = ({
 }: RoomsToolbarProps) => {
   if (selectedRooms.length) {
     return (
-      <Root className={className}>
-        <ActionsList>
-          <ActionsListItem>
-            <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
+      <Toolbar className={className}>
+        <ToolbarActionsList>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDelete} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
           {selectedRooms.length === 1 && (
-            <ActionsListItem>
-              <DetailsButton onClick={onEdit} />
-            </ActionsListItem>
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onEdit} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
-        </ActionsList>
-      </Root>
+        </ToolbarActionsList>
+      </Toolbar>
     );
   }
 
   return (
-    <Root className={className}>
-      <ActionsList>
-        <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new room</AddButton>
-        </ActionsListItem>
-      </ActionsList>
-    </Root>
+    <Toolbar className={className}>
+      <ToolbarActionsList>
+        <ToolbarActionsListItem>
+          <ToolbarAction>
+            <AddButton onClick={onAdd}>Add new room</AddButton>
+          </ToolbarAction>
+        </ToolbarActionsListItem>
+      </ToolbarActionsList>
+    </Toolbar>
   );
 };
 

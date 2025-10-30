@@ -1,14 +1,13 @@
-import { AcademicTitle } from './AcademicTitle.ts';
-import { LecturerPosition } from './LecturerPosition.ts';
-import { Department } from '@/departments/entities';
-import { User } from '@/users/entities';
-import { LecturerStatus } from './LecturerStatus.ts';
+import { AcademicTitle } from './AcademicTitle';
+import { UserProfile, UserId, UserStatus } from '@/users/entities';
+import { LecturerDepartmentPosition } from './LecturerDepartmentPosition';
 
-export type LecturerId = User['id'];
+export type LecturerId = number;
 
-export type Lecturer = User & {
-  department: Department;
-  academicTitle: AcademicTitle;
-  position: LecturerPosition;
-  status: LecturerStatus;
+export type Lecturer = UserProfile & {
+  id: LecturerId;
+  userId: UserId;
+  userStatus: UserStatus;
+  departmentPositions: LecturerDepartmentPosition[];
+  academicTitles: AcademicTitle[];
 };

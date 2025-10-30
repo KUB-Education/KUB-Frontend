@@ -1,103 +1,151 @@
-import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
 import {
-  academicTitles,
+  AcademicTitle,
   AddLecturerParams,
+  AddDepartmentPositionParams,
   EditLecturerParams,
   Lecturer,
   LecturerId,
-  lecturerPositions,
-  lecturerStatuses,
+  EditDepartmentPositionParams,
+  AddAcademicTitleParams,
+  DeleteAcademicTitleParams,
+  DeleteDepartmentPositionParams,
+  LecturerPosition,
 } from '@/lecturers/entities';
-import { delay, SECOND } from '@/common/utils';
-import { UserStatus, userStatuses } from '@/users/entities';
 import { HttpClient } from '@/common/http-client';
+import {
+  AcademicTitleDto,
+  LecturerDto,
+  LecturerPositionDto,
+} from '@/lecturers/services/dto';
+import { LecturerDtoMapper } from '@/lecturers/mappers';
+import { UserService } from '@/users/services';
 
 export class LecturersService extends BaseService {
-  private lecturers: Lecturer[] = [];
-
-  constructor(httpClient: HttpClient) {
+  constructor(
+    httpClient: HttpClient,
+    private readonly userService: UserService,
+  ) {
     super(httpClient);
   }
 
-  async getLecturers(): Promise<Lecturer[]> {
-    const array = new Array(5).fill(null);
+  async getPositions(): Promise<LecturerPosition[]> {
+    const { data } =
+      await this.http.get<LecturerPositionDto[]>('/v1/positions');
 
-    if (this.lecturers.length) return this.lecturers;
-
-    this.lecturers = await Promise.all(
-      array.map(async () => ({
-        id: faker.number.int(),
-        academicTitle: faker.helpers.arrayElement(academicTitles),
-        department: {
-          id: faker.number.int(),
-          name: faker.person.jobArea(),
-        },
-        email: faker.internet.email(),
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        middleName: faker.person.middleName(),
-        position: faker.helpers.arrayElement(lecturerPositions),
-        status: faker.helpers.arrayElement(lecturerStatuses),
-        userStatus: faker.helpers.arrayElement(userStatuses),
-        roles: [],
-      })),
-    );
-
-    return this.lecturers;
-  }
-
-  async addLecturer(params: AddLecturerParams) {
-    await delay(5 * SECOND);
-
-    this.lecturers.push({
-      ...params,
-      department: {
-        id: params.departmentId,
-        name: faker.person.jobArea(),
-      },
-      id: faker.number.int(),
-      userStatus: faker.helpers.arrayElement(userStatuses),
-      roles: [],
-    });
-  }
-
-  async deleteLecturers(ids: Array<LecturerId>) {
-    await delay(2 * SECOND);
-    this.lecturers = this.lecturers.filter(
-      (lecturer) => !ids.includes(lecturer.id),
-    );
-  }
-
-  async resendInvites(ids: Array<LecturerId>) {
-    await delay(2 * SECOND);
-    this.lecturers = this.lecturers.map((lecturer) => {
-      if (ids.includes(lecturer.id)) {
-        return { ...lecturer, userStatus: UserStatus.ACTIVATION_PENDING };
-      }
-
-      return lecturer;
-    });
+    return data;
   }
 
   async editLecturer(params: EditLecturerParams) {
-    await delay(5 * SECOND);
-
-    const updatedDepartment = params.departmentId
-      ? {
-          id: params.departmentId,
-          name: faker.person.jobArea(),
-        }
-      : null;
-
-    this.lecturers = this.lecturers.map((lecturer) => {
-      if (lecturer.id !== params.id) return lecturer;
-
-      return {
-        ...lecturer,
-        ...params,
-        department: updatedDepartment ? updatedDepartment : lecturer.department,
-      };
+    return this.userService.editUser({
+      id: params.userId,
+      email: params.email,
+      firstName: params.firstName,
+      lastName: params.lastName,
+      middleName: params.middleName,
     });
+  }
+
+  async getLecturers(): Promise<Lecturer[]> {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.get<LecturerDto[]>('/v1/lecturers');
+
+    return data.map((dto) => dtoMapper.toEntity.call(dtoMapper, dto));
+  }
+
+  async addLecturer(params: AddLecturerParams): Promise<Lecturer> {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.post<LecturerDto>('/v1/lecturers', {
+      data: {
+        first_name: params.firstName,
+        last_name: params.lastName,
+        middle_name: params.middleName,
+        email: params.email,
+      },
+    });
+
+    return dtoMapper.toEntity(data);
+  }
+
+  async deleteLecturers(ids: Array<LecturerId>) {
+    return Promise.all(
+      ids.map((id) => {
+        return this.http.delete(`/v1/lecturers/${id}`);
+      }),
+    );
+  }
+
+  async addLecturerDepartmentPosition(params: AddDepartmentPositionParams) {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.post<LecturerDto>(
+      `/v1/lecturers/${params.lecturerId}/department-positions`,
+      {
+        data: {
+          department_id: params.departmentId,
+          position_id: params.positionId,
+        },
+      },
+    );
+
+    return dtoMapper.toEntity(data);
+  }
+
+  async editLecturerDepartmentPosition(params: EditDepartmentPositionParams) {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.put<LecturerDto>(
+      `/v1/lecturers/${params.lecturerId}/department-positions/${params.departmentPositionId}`,
+      {
+        data: {
+          position_id: params.positionId,
+          status: params.status,
+        },
+      },
+    );
+
+    return dtoMapper.toEntity(data);
+  }
+
+  async deleteLecturerDepartmentPosition(
+    params: DeleteDepartmentPositionParams,
+  ) {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.delete<LecturerDto>(
+      `/v1/lecturers/${params.lecturerId}/department-positions/${params.departmentPositionId}`,
+    );
+
+    return dtoMapper.toEntity(data);
+  }
+
+  async getAcademicTitles(): Promise<AcademicTitle[]> {
+    const { data } = await this.http.get<AcademicTitleDto[]>(
+      '/v1/academic-titles',
+    );
+
+    return data;
+  }
+
+  async addAcademicTitle(params: AddAcademicTitleParams) {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.put<LecturerDto>(
+      `/v1/lecturers/${params.lecturerId}/academic-titles/${params.academicTitleId}`,
+    );
+
+    return dtoMapper.toEntity(data);
+  }
+
+  async deleteAcademicTitle(params: DeleteAcademicTitleParams) {
+    const dtoMapper = new LecturerDtoMapper();
+
+    const { data } = await this.http.delete(
+      `/v1/lecturers/${params.lecturerId}/academic-titles/${params.academicTitleId}`,
+    );
+
+    return dtoMapper.toEntity(data);
   }
 }

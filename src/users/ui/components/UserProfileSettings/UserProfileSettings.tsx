@@ -1,11 +1,10 @@
-import { CurrentUser, getUserStatusLabel } from '@/users/entities';
+import { getUserStatusLabel } from '@/users/entities';
 import {
   Actions,
   ChangeButton,
   Col,
   Content,
   Field,
-  FieldLabel,
   FieldList,
   FieldListItem,
   FieldText,
@@ -16,7 +15,8 @@ import {
   Loader,
   UserStatusField,
 } from './styles';
-import { BackButton } from '@/common/ui/components';
+import { BackButton, FieldLabel } from '@/common/ui/components';
+import { CurrentUser } from '@/current-user/entities';
 
 export type UserProfileSettingsProps = {
   currentUser?: CurrentUser;
@@ -50,7 +50,7 @@ const UserProfileSettings = ({
                   <FieldText
                     readOnly
                     label="User Status"
-                    value={getUserStatusLabel(currentUser.userStatus)}
+                    value={getUserStatusLabel(currentUser.status)}
                   />
                 </UserStatusField>
               </FieldListItem>
@@ -101,11 +101,7 @@ const UserProfileSettings = ({
                 <FieldListItem key={role.id}>
                   <Field>
                     <FieldLabel shrink>Role</FieldLabel>
-                    <FieldText
-                      label="Role"
-                      readOnly
-                      value={role.name.toUpperCase()}
-                    />
+                    <FieldText label="Role" readOnly value={role.type} />
                   </Field>
                 </FieldListItem>
               ))}

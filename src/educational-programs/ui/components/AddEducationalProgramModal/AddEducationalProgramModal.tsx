@@ -3,14 +3,24 @@ import {
   AddButton,
   BackButton,
   FormTextField,
+  FieldLabel,
 } from '@/common/ui/components';
-import { Content, Title, Actions, Form, FormControl, SubTitle } from './styles.tsx';
-import { Controller, useForm } from 'react-hook-form';
-import { AddEducationalProgramParams, academicDegrees, studyFormats } from '@/educational-programs/entities';
-import { InputLabel, MenuItem, Select } from '@mui/material';
 import {
-  requiredValidator,
-} from '@/common/utils/validators.ts';
+  Content,
+  Title,
+  Actions,
+  Form,
+  FormControl,
+  SubTitle,
+} from './styles.tsx';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  AddEducationalProgramParams,
+  academicDegrees,
+  studyFormats,
+} from '@/educational-programs/entities';
+import { MenuItem, Select } from '@mui/material';
+import { requiredValidator } from '@/common/utils/validators.ts';
 import { useAddEducationalProgram } from '@/educational-programs/hooks';
 import {
   AcademicDegree,
@@ -22,11 +32,17 @@ export type AddEducationalProgramModalProps = {
   onClose: () => void;
 };
 
-const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModalProps) => {
-  const { addEducationalProgram, isPending } = useAddEducationalProgram({ onSuccess: onClose });
-  const { register, handleSubmit, formState, control } = useForm<AddEducationalProgramParams>({
-    mode: 'onChange',
+const AddEducationalProgramModal = ({
+  open,
+  onClose,
+}: AddEducationalProgramModalProps) => {
+  const { addEducationalProgram, isPending } = useAddEducationalProgram({
+    onSuccess: onClose,
   });
+  const { register, handleSubmit, formState, control } =
+    useForm<AddEducationalProgramParams>({
+      mode: 'onChange',
+    });
 
   const onSubmit = async (values: AddEducationalProgramParams) => {
     return addEducationalProgram(values);
@@ -42,18 +58,18 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SubTitle>Study Field</SubTitle>
           <FormControl>
-            <InputLabel shrink htmlFor="study-field-code">
+            <FieldLabel shrink htmlFor="study-field-code">
               Code
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="code"
               {...register('studyField.code', { ...requiredValidator() })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="study-field-name">
+            <FieldLabel shrink htmlFor="study-field-name">
               Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="name"
               {...register('studyField.name', { ...requiredValidator() })}
@@ -62,18 +78,18 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
 
           <SubTitle>Speciality</SubTitle>
           <FormControl>
-            <InputLabel shrink htmlFor="specialty-code">
+            <FieldLabel shrink htmlFor="specialty-code">
               Code
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="code"
               {...register('specialty.code', { ...requiredValidator() })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="specialty-name">
+            <FieldLabel shrink htmlFor="specialty-name">
               Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="name"
               {...register('specialty.name', { ...requiredValidator() })}
@@ -82,18 +98,20 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
 
           <SubTitle>Educational Program</SubTitle>
           <FormControl>
-            <InputLabel shrink htmlFor="educational-program-name">
+            <FieldLabel shrink htmlFor="educational-program-name">
               Name
-            </InputLabel>
+            </FieldLabel>
             <FormTextField
               label="name"
-              {...register('educationalProgram.name', { ...requiredValidator() })}
+              {...register('educationalProgram.name', {
+                ...requiredValidator(),
+              })}
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="educational-program-degree-type">
+            <FieldLabel shrink htmlFor="educational-program-degree-type">
               Degree Type
-            </InputLabel>
+            </FieldLabel>
             <Controller
               name="educationalProgram.degreeType"
               control={control}
@@ -110,9 +128,9 @@ const AddEducationalProgramModal = ({ open, onClose }: AddEducationalProgramModa
             />
           </FormControl>
           <FormControl>
-            <InputLabel shrink htmlFor="educational-program-study-format">
+            <FieldLabel shrink htmlFor="educational-program-study-format">
               Study Format
-            </InputLabel>
+            </FieldLabel>
             <Controller
               name="educationalProgram.studyFormat"
               control={control}

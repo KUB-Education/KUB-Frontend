@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { roomsQueryKey } from './useRoomsQuery.ts';
+import { roomsQueryKey } from './useRooms';
 import { AddRoomParams } from '@/rooms/entities';
 
 type UseAddRoomParams = Partial<{

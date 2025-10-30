@@ -1,17 +1,11 @@
 import { LecturerId } from './Lecturer.ts';
-import { AcademicTitle } from './AcademicTitle.ts';
-import { LecturerPosition } from './LecturerPosition.ts';
-import { DepartmentId } from '@/departments/entities';
-import { LecturerStatus } from './LecturerStatus.ts';
+import { UserId } from '@/users/entities';
 
 export type EditLecturerParams = {
-  id: LecturerId;
+  lecturerId: LecturerId;
+  userId: UserId;
   firstName?: string;
   lastName?: string;
   middleName?: string;
   email?: string;
-  departmentId?: DepartmentId;
-  academicTitle?: AcademicTitle;
-  position?: LecturerPosition;
-  status?: LecturerStatus;
 };

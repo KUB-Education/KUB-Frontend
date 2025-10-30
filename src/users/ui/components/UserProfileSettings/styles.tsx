@@ -1,9 +1,4 @@
-import {
-  FormControl as MuiFormControl,
-  InputLabel,
-  styled,
-  Button as MuiButton,
-} from '@mui/material';
+import { styled, Button as MuiButton } from '@mui/material';
 import RefreshIcon from '@/common/assets/icons/refresh.svg?react';
 import {
   ModalTitle,
@@ -13,6 +8,7 @@ import {
   ModalFormCol,
   FormTextField,
   CircularProgress,
+  FormControl as CommonFormControl,
 } from '@/common/ui/components';
 
 export const Root = styled(ModalBody)({
@@ -63,15 +59,13 @@ export const FieldListItem = styled('li')({
   paddingBottom: '18px',
 });
 
-export const Field = styled(MuiFormControl)({
+export const Field = styled(CommonFormControl)({
   width: '100%',
 });
 
 export const UserStatusField = styled(Field)({
   maxWidth: '240px',
 });
-
-export const FieldLabel = styled(InputLabel)({});
 
 export const FieldText = styled(FormTextField)({});
 

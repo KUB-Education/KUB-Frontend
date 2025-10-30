@@ -1,23 +1,31 @@
-import { EducationalProgram, EducationalProgramId, } from '@/educational-programs/entities';
+import {
+  EducationalProgram,
+  EducationalProgramId,
+} from '@/educational-programs/entities';
 import { Root, Toolbar, Table } from './styles';
 import {
   useDeleteEducationalPrograms,
-  useEducationalProgramsQuery,
+  useEducationalPrograms,
 } from '@/educational-programs/hooks';
 import { useMemo, useState } from 'react';
-import { AddEducationalProgramModal, EditEducationalProgramModal } from '@/educational-programs/ui/components';
+import {
+  AddEducationalProgramModal,
+  EditEducationalProgramModal,
+} from '@/educational-programs/ui/components';
 
 const EducationalPrograms = () => {
-  const { educationalPrograms } = useEducationalProgramsQuery();
+  const { educationalPrograms } = useEducationalPrograms();
   const { deleteEducationalPrograms } = useDeleteEducationalPrograms();
-  
-  const [selectedEducationalPrograms, setEducationalPrograms] = useState<EducationalProgram[]>([]);
+
+  const [selectedEducationalPrograms, setEducationalPrograms] = useState<
+    EducationalProgram[]
+  >([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const selectedEducationalProgramIds = useMemo<EducationalProgramId[]>(() => {
-      return selectedEducationalPrograms.map((ep) => ep.id);
-    }, [selectedEducationalPrograms]);
+    return selectedEducationalPrograms.map((ep) => ep.id);
+  }, [selectedEducationalPrograms]);
 
   const onDelete = () => {
     if (!selectedEducationalProgramIds.length) return;
@@ -29,17 +37,18 @@ const EducationalPrograms = () => {
     setIsEditModalVisible(true);
   };
 
-
   return (
     <Root>
-      <p>Educational Programs</p>
       <Toolbar
         selectedRooms={selectedEducationalPrograms}
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
         onEdit={onEdit}
       />
-      <Table data={educationalPrograms} onEducationalProgramsSelected={setEducationalPrograms} />
+      <Table
+        data={educationalPrograms}
+        onEducationalProgramsSelected={setEducationalPrograms}
+      />
 
       <AddEducationalProgramModal
         open={isAddModalVisible}
@@ -48,7 +57,8 @@ const EducationalPrograms = () => {
       <EditEducationalProgramModal
         open={isEditModalVisible}
         educationalProgram={selectedEducationalPrograms[0]}
-        onClose={() => setIsEditModalVisible(false)}/>
+        onClose={() => setIsEditModalVisible(false)}
+      />
     </Root>
   );
 };

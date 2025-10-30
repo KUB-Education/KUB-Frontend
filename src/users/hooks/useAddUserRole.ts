@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { userRolesQueryKey } from './useGetUserRoles';
 import { AddUserRoleParams } from '@/users/entities';
+import { usersQueryKey } from './useUsers';
 
 type UseAddUserRoleParams = Partial<{
   onSuccess: () => void;
@@ -25,7 +25,7 @@ export function useAddUserRole({
       await userService.addUserRole(params);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [userRolesQueryKey] });
+      await queryClient.invalidateQueries({ queryKey: [usersQueryKey] });
 
       if (onSuccess) onSuccess();
     },

@@ -1,8 +1,5 @@
-import {
-  FormControl as MuiFormControl,
-  Button as MuiButton,
-  styled,
-} from '@mui/material';
+import { Button as MuiButton, styled } from '@mui/material';
+import { FormControl as CommonFormControl } from '@/common/ui/components';
 
 export const Root = styled('div')({
   flexGrow: 1,
@@ -30,7 +27,7 @@ export const Title = styled('h1')({
   marginBottom: '18px',
 });
 
-export const FormControl = styled(MuiFormControl)({
+export const FormControl = styled(CommonFormControl)({
   width: '100%',
   marginBottom: '18px',
 });

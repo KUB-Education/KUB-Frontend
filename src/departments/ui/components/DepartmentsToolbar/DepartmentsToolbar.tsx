@@ -1,12 +1,13 @@
 import { Department } from '@/departments/entities';
 import {
-  Root,
   AddButton,
   DeleteButton,
   EditButton,
-  ActionsListItem,
-  ActionsList,
-} from './styles.tsx';
+  Toolbar,
+  ToolbarAction,
+  ToolbarActionsList,
+  ToolbarActionsListItem,
+} from '@/common/ui/components';
 
 export type DepartmentsToolbarProps = {
   selectedDepartments: Department[];
@@ -25,29 +26,35 @@ const DepartmentsToolbar = ({
 }: DepartmentsToolbarProps) => {
   if (selectedDepartments.length) {
     return (
-      <Root className={className}>
-        <ActionsList>
+      <Toolbar className={className}>
+        <ToolbarActionsList>
           {selectedDepartments.length === 1 && (
-            <ActionsListItem>
-              <EditButton onClick={onEdit} />
-            </ActionsListItem>
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <EditButton onClick={onEdit} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
           )}
-          <ActionsListItem>
-            <DeleteButton onClick={onDelete} />
-          </ActionsListItem>
-        </ActionsList>
-      </Root>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDelete} />
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+        </ToolbarActionsList>
+      </Toolbar>
     );
   }
 
   return (
-    <Root className={className}>
-      <ActionsList>
-        <ActionsListItem>
-          <AddButton onClick={onAdd}>Add new department</AddButton>
-        </ActionsListItem>
-      </ActionsList>
-    </Root>
+    <Toolbar className={className}>
+      <ToolbarActionsList>
+        <ToolbarActionsListItem>
+          <ToolbarAction>
+            <AddButton onClick={onAdd}>Add new department</AddButton>
+          </ToolbarAction>
+        </ToolbarActionsListItem>
+      </ToolbarActionsList>
+    </Toolbar>
   );
 };
 

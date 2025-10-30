@@ -1,13 +1,10 @@
-import {
-  FormControl as MuiFormControl,
-  InputAdornment,
-  styled,
-} from '@mui/material';
+import { InputAdornment, styled } from '@mui/material';
 import {
   DeleteButton,
   InfoButton,
   ModalActions,
   ModalForm,
+  FormControl as CommonFormControl,
 } from '@/common/ui/components';
 
 export const Root = styled('div')({
@@ -22,7 +19,7 @@ export const Form = styled(ModalForm)({
   marginTop: '20px',
 });
 
-export const FormControl = styled(MuiFormControl)({
+export const FormControl = styled(CommonFormControl)({
   width: '100%',
 });
 

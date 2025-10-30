@@ -11,7 +11,7 @@ import {
 import SettingsIcon from '@/common/assets/icons/settings.svg?react';
 import ProfileIcon from '@/common/assets/icons/profile.svg?react';
 import { useState, MouseEvent, useMemo } from 'react';
-import { CurrentUser } from '@/users/entities';
+import { CurrentUser } from '@/current-user/entities';
 
 export type HeaderToolbarProps = {
   currentUser?: CurrentUser;

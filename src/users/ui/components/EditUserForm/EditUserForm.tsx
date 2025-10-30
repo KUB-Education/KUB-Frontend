@@ -4,8 +4,8 @@ import {
   FormControl,
   UserStatusFormControl,
 } from './styles.tsx';
-import { InputLabel } from '@mui/material';
 import {
+  FieldLabel,
   FormTextField,
   ResendButton,
   SaveButton,
@@ -22,16 +22,22 @@ import {
   User,
 } from '@/users/entities';
 import { useForm } from 'react-hook-form';
+import { getFormDirtyValues } from '@/common/utils';
 
 export type EditUserFormProps = {
   user: User;
   isPending: boolean;
   className?: string;
   onResend: () => void;
-  onEdit: (params: EditUserParams) => void;
+  onEdit: (data: EditUserParams) => void;
 };
 
-type Inputs = Omit<EditUserParams, 'id'>;
+type Inputs = {
+  lastName: string;
+  firstName: string;
+  middleName?: string;
+  email: string;
+};
 
 const EditUserForm = ({
   user,
@@ -44,62 +50,60 @@ const EditUserForm = ({
     mode: 'onChange',
     values: { ...user },
   });
+  const { isValid, isDirty, dirtyFields } = formState;
 
   const userStatusValue = useMemo(() => {
-    return user && getUserStatusLabel(user.userStatus);
+    return user && getUserStatusLabel(user.status);
   }, [user]);
 
   const isResendAvailable = useMemo(() => {
-    return isUserEmailSendingFailure(user);
+    return isUserEmailSendingFailure(user.status);
   }, [user]);
 
   const onSubmit = async (values: Inputs) => {
-    return onEdit({ ...values, id: user.id });
+    const updatedValues = getFormDirtyValues(values, dirtyFields);
+
+    return onEdit({ ...updatedValues, id: user.id });
   };
 
-  const { isValid } = formState;
-
-  const isSubmitDisabled = isPending || !isValid;
+  const isSubmitDisabled = isPending || !isValid || !isDirty;
 
   return (
     <Form className={className} onSubmit={handleSubmit(onSubmit)}>
       <UserStatusFormControl>
-        <InputLabel shrink htmlFor="userStatus">
+        <FieldLabel shrink htmlFor="userStatus">
           User Status
-        </InputLabel>
+        </FieldLabel>
         <FormTextField label="userStatus" readOnly value={userStatusValue} />
       </UserStatusFormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="lastName">
+        <FieldLabel shrink htmlFor="lastName">
           Last Name
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="Last Name"
           {...register('lastName', { ...requiredValidator() })}
         />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="firstName">
+        <FieldLabel shrink htmlFor="firstName">
           First Name
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="First Name"
           {...register('firstName', { ...requiredValidator() })}
         />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="middleName">
+        <FieldLabel shrink htmlFor="middleName">
           Middle Name
-        </InputLabel>
-        <FormTextField
-          label="Middle Name"
-          {...register('middleName', { ...requiredValidator() })}
-        />
+        </FieldLabel>
+        <FormTextField label="Middle Name" {...register('middleName')} />
       </FormControl>
       <FormControl>
-        <InputLabel shrink htmlFor="email">
+        <FieldLabel shrink htmlFor="email">
           Email
-        </InputLabel>
+        </FieldLabel>
         <FormTextField
           label="Email"
           {...register('email', {

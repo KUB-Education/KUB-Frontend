@@ -1,6 +1,8 @@
 import { styled } from '@mui/material';
-import DepartmentsToolbar from '@/departments/ui/components/DepartmentsToolbar';
-import DepartmentsTable from '@/departments/ui/components/DepartmentsTable';
+import {
+  DepartmentsToolbar,
+  DepartmentsTable,
+} from '@/departments/ui/components';
 
 export const Root = styled('div')({
   flexGrow: 1,
