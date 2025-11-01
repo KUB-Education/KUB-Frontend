@@ -27,11 +27,12 @@ export class RoomsService extends BaseService {
   }
 
   async editRoom(params: EditRoomParams) {
-    const { location, capacity, id } = params;
+    const { location, capacity, description, id } = params;
     const { data } = await this.http.put<RoomDto>(`/v1/rooms/${id}`, {
       data: {
         location,
         capacity,
+        description
       },
     });
 
