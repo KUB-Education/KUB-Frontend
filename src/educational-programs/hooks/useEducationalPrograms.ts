@@ -1,13 +1,13 @@
 import { useAppServices } from '@/app/hooks';
 import { useQuery } from '@tanstack/react-query';
 
-export const epQueryKey = 'educationalProgramsQuery';
+export const educationalProgramsQueryKey = 'educationalProgramsQuery';
 
 export function useEducationalPrograms() {
   const { educationalProgramsService } = useAppServices();
 
   const { data: educationalPrograms, ...otherData } = useQuery({
-    queryKey: [epQueryKey],
+    queryKey: [educationalProgramsQueryKey],
     queryFn: async () => {
       return await educationalProgramsService.getEducationalPrograms();
     },

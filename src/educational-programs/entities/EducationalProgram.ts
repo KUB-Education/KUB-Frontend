@@ -1,40 +1,25 @@
+import { SpecialityId } from '@/specialities/entities';
+import { DegreeType } from './DegreeType';
+import { StudyForm } from './StudyForm';
+import {
+  maxValueValidator,
+  minValueValidator,
+  requiredValidator,
+} from '@/common/utils/validators.ts';
+
 export type EducationalProgramId = number;
-export type SubjectId = number;
 
 export type EducationalProgram = {
   id: EducationalProgramId;
-  studyField: {
-    id: number;
-    code: string;
-    name: string;
-  };
-  specialty: {
-    id: number;
-    code: string;
-    name: string;
-  };
-  educationalProgram: {
-    id: number;
-    name: string;
-    degreeType: string;
-    studyFormat: string;
-  };
+  specialityId: SpecialityId;
+  name: string;
+  degreeType: DegreeType;
+  studyForm: StudyForm;
+  duration: number;
 };
 
-export type Subject = {
-  id: SubjectId;
-  term: {
-    id: number;
-    number: string;
-  };
-  subject: {
-    id: number;
-    name: string;
-    type: 'Обов’язкова' | 'Вибіркова';
-  };
-  subjectActivity: {
-    id: number;
-    type: 'Лекція' | 'Лабораторна' | 'Семінар' | 'Залік';
-    academicHours: number;
-  }
-}
+export const educationalProgramDurationValidator = {
+  ...requiredValidator(),
+  ...minValueValidator(1),
+  ...maxValueValidator(10000),
+};

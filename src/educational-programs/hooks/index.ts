@@ -1,4 +1,5 @@
 export * from './useEducationalPrograms';
-export * from './useAddEducationalProgram';
+export * from './useAddSpecialityEducationalProgram';
+export * from './useSpecialityEducationalPrograms';
 export * from './useEditEducationalProgram';
 export * from './useDeleteEducationalPrograms';

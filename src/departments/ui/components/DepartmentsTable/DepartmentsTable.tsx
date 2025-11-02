@@ -7,14 +7,16 @@ import { Table } from '@/common/ui/components';
 
 export type DepartmentsTableProps = {
   data: Array<Department>;
-  onDepartmentsSelected: (data: Array<Department>) => void;
   isLoading?: boolean;
   isError?: boolean;
+  onDepartmentsSelected: (data: Array<Department>) => void;
 };
 
 const DepartmentsTable = ({
   data,
-  onDepartmentsSelected, isLoading, isError,
+  isLoading,
+  isError,
+  onDepartmentsSelected,
 }: DepartmentsTableProps) => {
   const gridRef = useRef<AgGridReact<Department>>(null);
 

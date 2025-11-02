@@ -1,6 +1,5 @@
 import { styled } from '@mui/material';
-import EducationalProgramToolbar from '@/educational-programs/ui/components/EducationalProgramToolbar';
-import EducationalProgramTable from '@/educational-programs/ui/components/EducationalProgramTable';
+import { EducationalProgramToolbar } from '@/educational-programs/ui/components';
 
 export const Root = styled('div')({
   flexGrow: 1,
@@ -12,5 +11,3 @@ export const Root = styled('div')({
 export const Toolbar = styled(EducationalProgramToolbar)({
   marginBottom: '10px',
 });
-
-export const Table = styled(EducationalProgramTable)({});

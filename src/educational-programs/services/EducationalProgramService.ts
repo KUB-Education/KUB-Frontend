@@ -1,119 +1,102 @@
 import { faker } from '@faker-js/faker';
 import { BaseService } from '@/common/services';
-import {
-  EducationalProgram,
-  AddEducationalProgramParams,
-  EditEducationalProgramParams,
-  EducationalProgramId,
-  academicDegrees,
-  studyFormats,
-} from '@/educational-programs/entities';
 import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
+import {
+  AddSpecialityEducationalProgram,
+  DegreeType,
+  EducationalProgram,
+  EducationalProgramId,
+  StudyForm,
+  EditEducationalProgramParams,
+} from '@/educational-programs/entities';
+import { SpecialitiesService } from '@/specialities/services';
+import { SpecialityId } from '@/specialities/entities';
 
 export class EducationalProgramsService extends BaseService {
-  private educationalPrograms: EducationalProgram[] = [];
+  private educationalPrograms: Record<
+    EducationalProgramId,
+    EducationalProgram
+  > = {};
 
-  constructor(http: HttpClient) {
-    super(http);
-
-    for (let i = 0; i < 1; i++) {
-      const studyField = {
-        id: faker.number.int({ min: 1, max: 50 }),
-        code: `SF${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-        name: faker.word.words({ count: 2 }),
-      };
-
-      for (let j = 0; j < 2; j++) {
-        const specialty = {
-          id: faker.number.int({ min: 1, max: 50 }),
-          code: `SP${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-          name: faker.word.words({ count: 2 }),
-        };
-
-        for (let k = 0; k < 2; k++) {
-          const educationalProgram = {
-            id: faker.number.int({ min: 1, max: 100 }),
-            name: faker.word.words({ count: 3 }),
-            degreeType: faker.helpers.arrayElement(academicDegrees),
-            studyFormat: faker.helpers.arrayElement(studyFormats),
-          };
-
-          this.educationalPrograms.push({
-            id: faker.number.int({ min: 1, max: 100 }),
-            studyField: studyField,
-            specialty: specialty,
-            educationalProgram: educationalProgram,
-          });
-        }
-      }
-    }
+  constructor(
+    httpClient: HttpClient,
+    private readonly specialitiesService: SpecialitiesService,
+  ) {
+    super(httpClient);
   }
 
   async getEducationalPrograms(): Promise<EducationalProgram[]> {
-    return this.educationalPrograms;
+    const specialities = await this.specialitiesService.getSpecialities();
+
+    const specialityIds = specialities.map((s) => s.id);
+
+    if (Object.keys(this.educationalPrograms).length) {
+      return Object.values(this.educationalPrograms);
+    }
+
+    const arr = new Array(200).fill(null);
+
+    this.educationalPrograms = arr.reduce((acc) => {
+      const id = faker.number.int();
+      const educationalProgram: EducationalProgram = {
+        id,
+        specialityId: faker.helpers.arrayElement(specialityIds),
+        name: faker.string.sample(),
+        degreeType: faker.helpers.arrayElement(Object.values(DegreeType)),
+        studyForm: faker.helpers.arrayElement(Object.values(StudyForm)),
+        duration: faker.number.int({ min: 1, max: 100 }),
+      };
+
+      return { ...acc, [id]: educationalProgram };
+    }, {});
+
+    return Object.values(this.educationalPrograms);
   }
 
-  async addEducationalProgram(params: AddEducationalProgramParams) {
-    await delay(1 * SECOND);
-    this.educationalPrograms.push({
-      id: faker.number.int(),
-      studyField: {
-        ...params.studyField,
-        id:
-          this.educationalPrograms.find(
-            (ep) => ep.studyField.code == params.studyField.code,
-          )?.studyField.id ?? faker.number.int(),
-      },
-      specialty: {
-        ...params.specialty,
-        id:
-          this.educationalPrograms.find(
-            (ep) => ep.specialty.code == params.specialty.code,
-          )?.specialty.id ?? faker.number.int(),
-      },
-      educationalProgram: {
-        ...params.educationalProgram,
-        id: faker.number.int(),
-      },
-    });
-  }
+  async getSpecialityEducationalPrograms(specialityId: SpecialityId) {
+    const educationalPrograms = await this.getEducationalPrograms();
 
-  async deleteEducationalPrograms(ids: Array<EducationalProgramId>) {
-    await delay(1 * SECOND);
-    this.educationalPrograms = this.educationalPrograms.filter(
-      (ep) => !ids.includes(ep.id),
+    return educationalPrograms.filter(
+      (educationalProgram) => educationalProgram.specialityId === specialityId,
     );
   }
 
-  async editEducationalProgram(params: EditEducationalProgramParams) {
-    await delay(1 * SECOND);
-    this.educationalPrograms = this.educationalPrograms.map((ep) => {
-      if (ep.id !== params.id) return ep;
+  async addSpecialityEducationalProgram(
+    params: AddSpecialityEducationalProgram,
+  ): Promise<EducationalProgram> {
+    await delay(2 * SECOND);
 
-      return {
-        id: ep.id,
-        studyField: {
-          ...ep.studyField,
-          ...params.studyField,
-          id:
-            this.educationalPrograms.find(
-              (ep) => ep.studyField.code == params.studyField.code,
-            )?.studyField.id ?? faker.number.int(),
-        },
-        specialty: {
-          ...ep.specialty,
-          ...params.specialty,
-          id:
-            this.educationalPrograms.find(
-              (ep) => ep.specialty.code == params.specialty.code,
-            )?.specialty.id ?? faker.number.int(),
-        },
-        educationalProgram: {
-          ...ep.educationalProgram,
-          ...params.educationalProgram,
-        },
-      };
+    const educationalProgram: EducationalProgram = {
+      id: faker.number.int(),
+      ...params,
+    };
+
+    this.educationalPrograms[educationalProgram.id] = educationalProgram;
+
+    return this.educationalPrograms[educationalProgram.id];
+  }
+
+  async editEducationalProgram(
+    params: EditEducationalProgramParams,
+  ): Promise<EducationalProgram> {
+    await delay(2 * SECOND);
+
+    this.educationalPrograms[params.id] = {
+      ...this.educationalPrograms[params.id],
+      ...params,
+    };
+
+    return this.educationalPrograms[params.id];
+  }
+
+  async deleteEducationalPrograms(
+    ids: Array<EducationalProgramId>,
+  ): Promise<void> {
+    await delay(2 * SECOND);
+
+    ids.forEach((id) => {
+      delete this.educationalPrograms[id];
     });
   }
 }
