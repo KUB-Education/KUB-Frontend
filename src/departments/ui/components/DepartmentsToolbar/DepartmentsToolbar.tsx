@@ -2,7 +2,7 @@ import { Department } from '@/departments/entities';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   Toolbar,
   ToolbarAction,
   ToolbarActionsList,
@@ -14,7 +14,7 @@ export type DepartmentsToolbarProps = {
   className?: string;
   onAdd: () => void;
   onDelete: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const DepartmentsToolbar = ({
@@ -22,24 +22,24 @@ const DepartmentsToolbar = ({
   className,
   onAdd,
   onDelete,
-  onEdit,
+  onDetails,
 }: DepartmentsToolbarProps) => {
   if (selectedDepartments.length) {
     return (
       <Toolbar className={className}>
         <ToolbarActionsList>
-          {selectedDepartments.length === 1 && (
-            <ToolbarActionsListItem>
-              <ToolbarAction>
-                <EditButton onClick={onEdit} />
-              </ToolbarAction>
-            </ToolbarActionsListItem>
-          )}
           <ToolbarActionsListItem>
             <ToolbarAction>
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedDepartments.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

@@ -19,13 +19,13 @@ import {
   useRoles,
 } from '@/users/hooks';
 
-export type EditUserProps = {
+export type UserDetailsProps = {
   user: User;
   onDeleted: () => void;
   onBack: () => void;
 };
 
-const EditUser = ({ user, onBack, onDeleted }: EditUserProps) => {
+const UserDetails = ({ user, onBack, onDeleted }: UserDetailsProps) => {
   const onError = () => {
     setIsErrorModalVisible(true);
   };
@@ -146,4 +146,4 @@ const EditUser = ({ user, onBack, onDeleted }: EditUserProps) => {
   );
 };
 
-export default EditUser;
+export default UserDetails;

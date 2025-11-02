@@ -14,17 +14,17 @@ import { StudentGroupId } from '@/student-groups/entities';
 import { BackButton, DeleteButton, ErrorModal } from '@/common/ui/components';
 import { useMemo, useState } from 'react';
 
-export type EditStudentProps = {
+export type StudentDetailsProps = {
   student: Student;
   onBack: () => void;
   onDeleteSucceed: () => void;
 };
 
-const EditStudent = ({
+const StudentDetails = ({
   student,
   onBack,
   onDeleteSucceed,
-}: EditStudentProps) => {
+}: StudentDetailsProps) => {
   const onError = () => {
     setIsErrorModalVisible(true);
   };
@@ -142,4 +142,4 @@ const EditStudent = ({
   );
 };
 
-export default EditStudent;
+export default StudentDetails;

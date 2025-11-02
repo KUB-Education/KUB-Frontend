@@ -2,11 +2,8 @@ import { Department, DepartmentId } from '@/departments/entities';
 import { Root, Toolbar, Table } from './styles';
 import { useDeleteDepartment, useDepartments } from '@/departments/hooks';
 import { useMemo, useState } from 'react';
-import {
-  AddDepartmentModal,
-  EditDepartmentModal,
-} from '@/departments/ui/components';
-import { ErrorModal } from '@/common/ui/components';
+import { AddDepartment, DepartmentDetails } from '@/departments/ui/components';
+import { ErrorModal, Modal } from '@/common/ui/components';
 
 const Departments = () => {
   const onDeleteError = () => {
@@ -18,51 +15,71 @@ const Departments = () => {
     onError: onDeleteError,
   });
 
-  const [selectedDepartments, setSelectedDepartments] = useState<Department[]>(
-    [],
-  );
+  const [selectedDepartmentIds, setSelectedDepartmentIds] = useState<
+    DepartmentId[]
+  >([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
   const [isDeleteErrorModalVisible, setIsDeleteErrorModalVisible] =
     useState(false);
 
-  const selectedDepartmentsIds = useMemo<DepartmentId[]>(() => {
-    return selectedDepartments.map((department) => department.id);
-  }, [selectedDepartments]);
+  const selectedDepartments = useMemo<Department[]>(() => {
+    return departments.reduce((acc: Array<Department>, department) => {
+      return selectedDepartmentIds.includes(department.id)
+        ? [...acc, department]
+        : acc;
+    }, []);
+  }, [departments, selectedDepartmentIds]);
+
+  const onDepartmentSelected = (departments: Array<Department>) => {
+    const departmentIds = departments.map((department) => department.id);
+    setSelectedDepartmentIds(departmentIds);
+  };
 
   const onDelete = () => {
-    if (!selectedDepartmentsIds.length) return;
+    if (!selectedDepartmentIds.length) return;
 
-    deleteDepartments(selectedDepartmentsIds);
+    deleteDepartments(selectedDepartmentIds);
   };
 
-  const onEdit = () => {
-    setIsEditModalVisible(true);
+  const onDetails = () => {
+    setIsDetailsModalVisible(true);
   };
+
   return (
     <Root>
       <Toolbar
         selectedDepartments={selectedDepartments}
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
-        onEdit={onEdit}
+        onDetails={onDetails}
       />
       <Table
         data={departments}
         isLoading={isFetching}
         isError={isError}
-        onDepartmentsSelected={setSelectedDepartments}
+        onDepartmentsSelected={onDepartmentSelected}
       />
 
-      <AddDepartmentModal
+      <Modal
         open={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
-      />
-      <EditDepartmentModal
-        open={isEditModalVisible}
-        department={selectedDepartments[0]}
-        onClose={() => setIsEditModalVisible(false)}
-      />
+      >
+        <AddDepartment
+          onBack={() => setIsAddModalVisible(false)}
+          onSucceed={() => setIsAddModalVisible(false)}
+        />
+      </Modal>
+      <Modal
+        open={isDetailsModalVisible}
+        onClose={() => setIsDetailsModalVisible(false)}
+      >
+        <DepartmentDetails
+          department={selectedDepartments[0]}
+          onBack={() => setIsDetailsModalVisible(false)}
+          onSucceed={() => setIsDetailsModalVisible(false)}
+        />
+      </Modal>
 
       <ErrorModal
         open={isDeleteErrorModalVisible}

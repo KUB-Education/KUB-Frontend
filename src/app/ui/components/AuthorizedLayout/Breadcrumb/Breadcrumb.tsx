@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { BreadcrumbWrapper, Separator } from './styles';
+import { BreadcrumbWrapper } from './styles';
 import { APP_ROUTES } from '@/common/routes';
 
 const Breadcrumb = () => {
@@ -33,13 +33,7 @@ const Breadcrumb = () => {
     }
   }, [location.pathname, pathToKeyMap]);
 
-  return (
-    <BreadcrumbWrapper>
-      Admin
-      <Separator>{' > '}</Separator>
-      {breadcrumbKey}
-    </BreadcrumbWrapper>
-  );
+  return <BreadcrumbWrapper>{breadcrumbKey}</BreadcrumbWrapper>;
 };
 
 export default Breadcrumb;

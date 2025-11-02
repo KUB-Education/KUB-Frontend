@@ -2,8 +2,8 @@ import { Room, RoomId } from '@/rooms/entities';
 import { Root, Toolbar, Table } from './styles';
 import { useDeleteRooms, useRooms } from '@/rooms/hooks';
 import { useMemo, useState } from 'react';
-import { AddRoomModal, EditRoomModal } from '@/rooms/ui/components';
-import { ErrorModal } from '@/common/ui/components';
+import { AddRoom, RoomDetails } from '@/rooms/ui/components';
+import { ErrorModal, Modal } from '@/common/ui/components';
 
 const Rooms = () => {
   const onDeleteError = () => {
@@ -15,24 +15,31 @@ const Rooms = () => {
     onError: onDeleteError,
   });
 
-  const [selectedRooms, setSelectedRooms] = useState<Room[]>([]);
+  const [selectedRoomIds, setSelectedRoomIds] = useState<RoomId[]>([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
   const [isDeleteErrorModalVisible, setIsDeleteErrorModalVisible] =
     useState(false);
 
-  const selectedRoomsIds = useMemo<RoomId[]>(() => {
-    return selectedRooms.map((room) => room.id);
-  }, [selectedRooms]);
+  const selectedRooms = useMemo<Room[]>(() => {
+    return rooms.reduce((acc: Array<Room>, room) => {
+      return selectedRoomIds.includes(room.id) ? [...acc, room] : acc;
+    }, []);
+  }, [rooms, selectedRoomIds]);
 
-  const onDelete = () => {
-    if (!selectedRoomsIds.length) return;
-
-    deleteRooms(selectedRoomsIds);
+  const onRoomsSelected = (rooms: Array<Room>) => {
+    const roomIds = rooms.map((room) => room.id);
+    setSelectedRoomIds(roomIds);
   };
 
-  const onEdit = () => {
-    setIsEditModalVisible(true);
+  const onDelete = () => {
+    if (!selectedRoomIds.length) return;
+
+    deleteRooms(selectedRoomIds);
+  };
+
+  const onDetails = () => {
+    setIsDetailsModalVisible(true);
   };
 
   return (
@@ -41,24 +48,34 @@ const Rooms = () => {
         selectedRooms={selectedRooms}
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
-        onEdit={onEdit}
+        onEdit={onDetails}
       />
       <Table
         data={rooms}
         isLoading={isFetching}
         isError={isError}
-        onRoomsSelected={setSelectedRooms}
+        onRoomsSelected={onRoomsSelected}
       />
 
-      <AddRoomModal
+      <Modal
         open={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
-      />
-      <EditRoomModal
-        open={isEditModalVisible}
-        room={selectedRooms[0]}
-        onClose={() => setIsEditModalVisible(false)}
-      />
+      >
+        <AddRoom
+          onBack={() => setIsAddModalVisible(false)}
+          onSucceed={() => setIsAddModalVisible(false)}
+        />
+      </Modal>
+      <Modal
+        open={isDetailsModalVisible}
+        onClose={() => setIsDetailsModalVisible(false)}
+      >
+        <RoomDetails
+          room={selectedRooms[0]}
+          onBack={() => setIsDetailsModalVisible(false)}
+          onSucceed={() => setIsDetailsModalVisible(false)}
+        />
+      </Modal>
 
       <ErrorModal
         open={isDeleteErrorModalVisible}

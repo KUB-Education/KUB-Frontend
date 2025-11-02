@@ -4,5 +4,5 @@ export { default as StudentsTable } from './StudentsTable';
 export * from './StudentsTable';
 export { default as AddStudent } from './AddStudent';
 export * from './AddStudent';
-export { default as EditStudent } from './EditStudent';
-export * from './EditStudent';
+export { default as StudentDetails } from './StudentDetails';
+export * from './StudentDetails';

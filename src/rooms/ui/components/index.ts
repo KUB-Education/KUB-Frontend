@@ -1,7 +1,7 @@
-export { default as AddRoomModal } from './AddRoomModal';
-export * from './AddRoomModal';
-export { default as EditRoomModal } from './EditRoomModal';
-export * from './EditRoomModal';
+export { default as AddRoom } from './AddRoom';
+export * from './AddRoom';
+export { default as RoomDetails } from './RoomDetails';
+export * from './RoomDetails';
 export { default as RoomsTable } from './RoomsTable';
 export * from './RoomsTable';
 export { default as RoomsToolbar } from './RoomsToolbar';
