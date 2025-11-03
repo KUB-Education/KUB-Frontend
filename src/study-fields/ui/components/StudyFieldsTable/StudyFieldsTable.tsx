@@ -1,8 +1,8 @@
-import { Root } from './styles.tsx';
+import { Root, TableContainer } from './styles.tsx';
 import { useCallback, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GetRowIdParams } from 'ag-grid-community';
-import { Table } from '@/common/ui/components';
+import { Table, TableTitle } from '@/common/ui/components';
 import { StudyField } from '@/study-fields/entities';
 
 export type StudyFieldsTableProps = {
@@ -51,17 +51,20 @@ const StudyFieldsTable = ({
 
   return (
     <Root className={className}>
-      <Table
-        ref={gridRef}
-        rowData={data}
-        columnDefs={colDefs}
-        onSelectionChanged={onSelectionChanged}
-        getRowId={getRowId}
-        loading={isLoading}
-        error={isError}
-        rowSelection="single"
-        suppressRowClickSelection
-      />
+      <TableTitle>Study Field</TableTitle>
+      <TableContainer>
+        <Table
+          ref={gridRef}
+          rowData={data}
+          columnDefs={colDefs}
+          onSelectionChanged={onSelectionChanged}
+          getRowId={getRowId}
+          loading={isLoading}
+          error={isError}
+          rowSelection="single"
+          suppressRowClickSelection
+        />
+      </TableContainer>
     </Root>
   );
 };

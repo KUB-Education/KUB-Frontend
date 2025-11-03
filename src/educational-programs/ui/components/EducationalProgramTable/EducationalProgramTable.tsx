@@ -1,8 +1,8 @@
-import { Root } from './styles.tsx';
+import { Root, TableContainer } from './styles.tsx';
 import { useCallback, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GetRowIdParams } from 'ag-grid-community';
-import { Table } from '@/common/ui/components';
+import { Table, TableTitle } from '@/common/ui/components';
 import { EducationalProgram } from '@/educational-programs/entities';
 import { DegreeType, StudyForm } from '@/educational-programs/ui/components';
 
@@ -61,17 +61,20 @@ const EducationalProgramTable = ({
 
   return (
     <Root className={className}>
-      <Table
-        ref={gridRef}
-        rowData={data}
-        columnDefs={colDefs}
-        onSelectionChanged={onSelectionChanged}
-        getRowId={getRowId}
-        loading={isLoading}
-        error={isError}
-        rowSelection="multiple"
-        suppressRowClickSelection
-      />
+      <TableTitle>Educational Program</TableTitle>
+      <TableContainer>
+        <Table
+          ref={gridRef}
+          rowData={data}
+          columnDefs={colDefs}
+          onSelectionChanged={onSelectionChanged}
+          getRowId={getRowId}
+          loading={isLoading}
+          error={isError}
+          rowSelection="multiple"
+          suppressRowClickSelection
+        />
+      </TableContainer>
     </Root>
   );
 };
