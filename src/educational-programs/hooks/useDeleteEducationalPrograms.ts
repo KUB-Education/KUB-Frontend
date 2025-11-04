@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { epQueryKey } from './useEducationalPrograms';
+import { educationalProgramsQueryKey } from './useEducationalPrograms';
 import { EducationalProgramId } from '@/educational-programs/entities';
 
 type UseDeleteEducationalProgramParams = Partial<{
@@ -25,7 +25,9 @@ export function useDeleteEducationalPrograms({
       await educationalProgramsService.deleteEducationalPrograms(params);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [epQueryKey] });
+      await queryClient.invalidateQueries({
+        queryKey: [educationalProgramsQueryKey],
+      });
 
       if (onSuccess) onSuccess();
     },

@@ -1,21 +1,13 @@
-import { EducationalProgramId } from './EducationalProgram.ts';
+import { DegreeType } from './DegreeType';
+import { StudyForm } from './StudyForm';
+import { SpecialityId } from '@/specialities/entities';
+import { EducationalProgramId } from './EducationalProgram';
 
 export type EditEducationalProgramParams = {
   id: EducationalProgramId;
-  studyField: {
-    id: number;
-    code?: string;
-    name?: string;
-  },
-  specialty: {
-    id: number;
-    code?: string;
-    name?: string;
-  },
-  educationalProgram: {
-    id: number;
-    name?: string;
-    degreeType?: string;
-    studyFormat?: string;
-  },
+  specialityId?: SpecialityId;
+  name?: string;
+  degreeType?: DegreeType;
+  studyForm?: StudyForm;
+  duration?: number;
 };

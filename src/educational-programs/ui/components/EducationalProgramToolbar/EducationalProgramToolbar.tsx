@@ -1,45 +1,45 @@
-import { EducationalProgram } from '@/educational-programs/entities';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   Toolbar,
   ToolbarAction,
   ToolbarActionsList,
   ToolbarActionsListItem,
 } from '@/common/ui/components';
+import { EducationalProgram } from '@/educational-programs/entities';
 
 export type EducationalProgramToolbarProps = {
-  selectedRooms: EducationalProgram[];
+  selectedEducationalPrograms: EducationalProgram[];
   className?: string;
   onAdd: () => void;
   onDelete: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const EducationalProgramToolbar = ({
-  selectedRooms,
+  selectedEducationalPrograms,
   className,
   onAdd,
+  onDetails,
   onDelete,
-  onEdit,
 }: EducationalProgramToolbarProps) => {
-  if (selectedRooms.length) {
+  if (selectedEducationalPrograms.length) {
     return (
       <Toolbar className={className}>
         <ToolbarActionsList>
-          {selectedRooms.length === 1 && (
-            <ToolbarActionsListItem>
-              <ToolbarAction>
-                <EditButton onClick={onEdit} />
-              </ToolbarAction>
-            </ToolbarActionsListItem>
-          )}
           <ToolbarActionsListItem>
             <ToolbarAction>
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedEducationalPrograms.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

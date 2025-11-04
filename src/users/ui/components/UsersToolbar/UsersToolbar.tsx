@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   ResendButton,
   Toolbar,
   ToolbarAction,
@@ -17,7 +17,7 @@ export type UsersToolbarProps = {
   onAdd: () => void;
   onDelete: () => void;
   onResend: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const UsersToolbar = ({
@@ -26,7 +26,7 @@ const UsersToolbar = ({
   onAdd,
   onDelete,
   onResend,
-  onEdit,
+  onDetails,
 }: UsersToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const userWithoutResend = selectedUsers.find(
@@ -46,18 +46,18 @@ const UsersToolbar = ({
               </ToolbarAction>
             </ToolbarActionsListItem>
           )}
-          {selectedUsers.length === 1 && (
-            <ToolbarActionsListItem>
-              <ToolbarAction>
-                <EditButton onClick={onEdit} />
-              </ToolbarAction>
-            </ToolbarActionsListItem>
-          )}
           <ToolbarActionsListItem>
             <ToolbarAction>
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedUsers.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

@@ -8,16 +8,41 @@ import {
   EditStudentParams,
   StudentId,
 } from '@/students/entities';
-import { academicDegrees, studyFormats } from '@/educational-programs/entities';
+import { degreeTypes, studyForms } from '@/educational-programs/entities';
+import { HttpClient } from '@/common/http-client';
+import { EducationalProgramsService } from '@/educational-programs/services';
+import { SpecialitiesService } from '@/specialities/services';
 
 export class StudentsService extends BaseService {
   private students: Student[] = [];
+
+  constructor(
+    http: HttpClient,
+    private readonly specialitiesService: SpecialitiesService,
+    private readonly educationalProgramsService: EducationalProgramsService,
+  ) {
+    super(http);
+  }
 
   async getStudents(): Promise<Student[]> {
     await delay(2 * SECOND);
     const array = new Array(5).fill(null);
 
     if (this.students.length) return this.students;
+
+    const specialities = await this.specialitiesService.getSpecialities();
+
+    const specialityIds = specialities.map((speciality) => speciality.id);
+    const specialityId = faker.helpers.arrayElement(specialityIds);
+
+    const educationalPrograms =
+      await this.educationalProgramsService.getSpecialityEducationalPrograms(
+        specialityId,
+      );
+
+    const educationalProgramIds = educationalPrograms.map(
+      (educationalProgram) => educationalProgram.id,
+    );
 
     this.students = array.map(() => ({
       id: faker.number.int(),
@@ -34,23 +59,12 @@ export class StudentsService extends BaseService {
       ],
       educationalPrograms: [
         {
-          id: faker.number.int(),
-          studyField: {
-            id: faker.number.int({ min: 1, max: 50 }),
-            code: `SF${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-            name: faker.word.words({ count: 2 }),
-          },
-          specialty: {
-            id: faker.number.int({ min: 1, max: 50 }),
-            code: `SP${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-            name: faker.word.words({ count: 2 }),
-          },
-          educationalProgram: {
-            id: faker.number.int({ min: 1, max: 100 }),
-            name: faker.word.words({ count: 3 }),
-            degreeType: faker.helpers.arrayElement(academicDegrees),
-            studyFormat: faker.helpers.arrayElement(studyFormats),
-          },
+          id: faker.helpers.arrayElement(educationalProgramIds),
+          studyForm: faker.helpers.arrayElement(studyForms),
+          name: faker.word.noun(),
+          degreeType: faker.helpers.arrayElement(degreeTypes),
+          specialityId,
+          duration: faker.number.int({ min: 1, max: 100 }),
         },
       ],
       groups: [
@@ -86,8 +100,12 @@ export class StudentsService extends BaseService {
   async editStudent(params: EditStudentParams) {
     await delay(2 * SECOND);
 
+    const educationalPrograms =
+      await this.educationalProgramsService.getEducationalPrograms();
+
     this.students = this.students.map((student) => {
       if (student.id !== student.id) return student;
+
       const updatedStudent = {
         ...student,
         lastName: params.lastName ? params.lastName : student.lastName,
@@ -105,25 +123,9 @@ export class StudentsService extends BaseService {
         : student.groups;
 
       updatedStudent.educationalPrograms = params.educationalPrograms
-        ? params.educationalPrograms.map((educationalProgramId) => ({
-            id: educationalProgramId,
-            studyField: {
-              id: faker.number.int({ min: 1, max: 50 }),
-              code: `SF${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-              name: faker.word.words({ count: 2 }),
-            },
-            specialty: {
-              id: faker.number.int({ min: 1, max: 50 }),
-              code: `SP${faker.string.alphanumeric({ length: 3 }).toUpperCase()}`,
-              name: faker.word.words({ count: 2 }),
-            },
-            educationalProgram: {
-              id: faker.number.int({ min: 1, max: 100 }),
-              name: faker.word.words({ count: 3 }),
-              degreeType: faker.helpers.arrayElement(academicDegrees),
-              studyFormat: faker.helpers.arrayElement(studyFormats),
-            },
-          }))
+        ? educationalPrograms.filter((educationalProgram) => {
+            return params.educationalPrograms?.includes(educationalProgram.id);
+          })
         : student.educationalPrograms;
 
       return updatedStudent;

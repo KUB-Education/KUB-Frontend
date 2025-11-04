@@ -7,6 +7,8 @@ import { UserService } from '@/users/services';
 import { StudentsService } from '@/students/services';
 import { StudentGroupsService } from '@/student-groups/services';
 import { CurrentUserService } from '@/current-user/services';
+import { StudyFieldsService } from '@/study-fields/services';
+import { SpecialitiesService } from '@/specialities/services';
 
 export type AppServices = {
   authService: AuthService;
@@ -18,4 +20,6 @@ export type AppServices = {
   lecturesService: LecturersService;
   roomsService: RoomsService;
   educationalProgramsService: EducationalProgramsService;
+  studyFieldsService: StudyFieldsService;
+  specialitiesService: SpecialitiesService;
 };

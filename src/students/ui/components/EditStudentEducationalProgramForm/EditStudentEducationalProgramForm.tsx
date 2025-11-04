@@ -58,11 +58,11 @@ const EditStudentEducationalProgramForm = ({
   };
 
   const getProgramId = (educationalProgram: EducationalProgram) => {
-    return String(educationalProgram.educationalProgram.id);
+    return String(educationalProgram.id);
   };
 
   const getProgramName = (educationalProgram: EducationalProgram) => {
-    return educationalProgram.educationalProgram.name.toUpperCase();
+    return educationalProgram.name.toUpperCase();
   };
 
   const onDeleteProgram = (educationalProgram: EducationalProgram) => {

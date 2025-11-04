@@ -4,7 +4,7 @@ import { Student } from '@/students/entities';
 import {
   AddButton,
   DeleteButton,
-  EditButton,
+  DetailsButton,
   ResendButton,
   Toolbar,
   ToolbarAction,
@@ -18,7 +18,7 @@ export type StudentsToolbarProps = {
   onAdd: () => void;
   onDelete: () => void;
   onResend: () => void;
-  onEdit: () => void;
+  onDetails: () => void;
 };
 
 const StudentsToolbar = ({
@@ -27,7 +27,7 @@ const StudentsToolbar = ({
   onAdd,
   onDelete,
   onResend,
-  onEdit,
+  onDetails,
 }: StudentsToolbarProps) => {
   const isResendAvailable = useMemo(() => {
     const studentWithoutResend = selectedStudents.find(
@@ -47,18 +47,18 @@ const StudentsToolbar = ({
               </ToolbarAction>
             </ToolbarActionsListItem>
           )}
-          {selectedStudents.length === 1 && (
-            <ToolbarActionsListItem>
-              <ToolbarAction>
-                <EditButton onClick={onEdit} />
-              </ToolbarAction>
-            </ToolbarActionsListItem>
-          )}
           <ToolbarActionsListItem>
             <ToolbarAction>
               <DeleteButton onClick={onDelete} />
             </ToolbarAction>
           </ToolbarActionsListItem>
+          {selectedStudents.length === 1 && (
+            <ToolbarActionsListItem>
+              <ToolbarAction>
+                <DetailsButton onClick={onDetails} />
+              </ToolbarAction>
+            </ToolbarActionsListItem>
+          )}
         </ToolbarActionsList>
       </Toolbar>
     );

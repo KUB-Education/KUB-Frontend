@@ -15,6 +15,8 @@ import { UserService } from '@/users/services';
 import { StudentsService } from '@/students/services';
 import { StudentGroupsService } from '@/student-groups/services';
 import { CurrentUserService } from '@/current-user/services';
+import { StudyFieldsService } from '@/study-fields/services';
+import { SpecialitiesService } from '@/specialities/services';
 
 function initServices(): AppServices {
   const persistentStorage = new PersistentStorage();
@@ -29,12 +31,24 @@ function initServices(): AppServices {
   const authService = new AuthService(httpClient, authTokensStorage);
   const userService = new UserService(httpClient);
   const currentUserService = new CurrentUserService(httpClient);
-  const studentsService = new StudentsService(httpClient);
   const studentGroupsService = new StudentGroupsService(httpClient);
   const departmentsService = new DepartmentsService(httpClient);
   const lecturesService = new LecturersService(httpClient, userService);
   const roomsService = new RoomsService(httpClient);
-  const educationalProgramsService = new EducationalProgramsService(httpClient);
+  const studyFieldsService = new StudyFieldsService(httpClient);
+  const specialitiesService = new SpecialitiesService(
+    httpClient,
+    studyFieldsService,
+  );
+  const educationalProgramsService = new EducationalProgramsService(
+    httpClient,
+    specialitiesService,
+  );
+  const studentsService = new StudentsService(
+    httpClient,
+    specialitiesService,
+    educationalProgramsService,
+  );
 
   return {
     authService,
@@ -46,6 +60,8 @@ function initServices(): AppServices {
     lecturesService,
     roomsService,
     educationalProgramsService,
+    studyFieldsService,
+    specialitiesService,
   };
 }
 

@@ -32,3 +32,17 @@ export const maxLengthValidator = ((value: number) => ({
     message: `Use at most ${value} characters`,
   },
 })) satisfies ValidatorCreator;
+
+export const minValueValidator = (value: number) => ({
+  min: {
+    value: value,
+    message: `Min value is ${value}`,
+  },
+});
+
+export const maxValueValidator = (value: number) => ({
+  max: {
+    value: value,
+    message: `Max value is ${value}`,
+  },
+});

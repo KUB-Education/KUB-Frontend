@@ -1,64 +1,94 @@
+import { Root, Toolbar } from './styles';
+import { useMemo, useState } from 'react';
+import { Modal } from '@/common/ui/components';
 import {
-  EducationalProgram,
-  EducationalProgramId,
-} from '@/educational-programs/entities';
-import { Root, Toolbar, Table } from './styles';
+  AddEducationalProgram,
+  EducationalProgramDetails,
+  EducationalProgramTable,
+} from '@/educational-programs/ui/components';
 import {
   useDeleteEducationalPrograms,
   useEducationalPrograms,
 } from '@/educational-programs/hooks';
-import { useMemo, useState } from 'react';
 import {
-  AddEducationalProgramModal,
-  EditEducationalProgramModal,
-} from '@/educational-programs/ui/components';
+  EducationalProgram,
+  EducationalProgramId,
+} from '@/educational-programs/entities';
+import { useSpecialities } from '@/specialities/hooks';
 
 const EducationalPrograms = () => {
-  const { educationalPrograms } = useEducationalPrograms();
+  const { educationalPrograms, isFetching, isError } = useEducationalPrograms();
+  const { specialities } = useSpecialities();
   const { deleteEducationalPrograms } = useDeleteEducationalPrograms();
 
-  const [selectedEducationalPrograms, setEducationalPrograms] = useState<
-    EducationalProgram[]
-  >([]);
+  const [selectedEducationalProgramIds, setSelectedEducationalProgramIds] =
+    useState<EducationalProgramId[]>([]);
+  const selectedEducationalPrograms = useMemo<EducationalProgram[]>(() => {
+    return educationalPrograms.reduce(
+      (acc: Array<EducationalProgram>, educationalProgram) => {
+        return selectedEducationalProgramIds.includes(educationalProgram.id)
+          ? [...acc, educationalProgram]
+          : acc;
+      },
+      [],
+    );
+  }, [educationalPrograms, selectedEducationalProgramIds]);
+
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
 
-  const selectedEducationalProgramIds = useMemo<EducationalProgramId[]>(() => {
-    return selectedEducationalPrograms.map((ep) => ep.id);
-  }, [selectedEducationalPrograms]);
+  const onEducationalProgramSelected = (
+    educationalPrograms: Array<EducationalProgram>,
+  ) => {
+    const educationalProgramIds = educationalPrograms.map(
+      (educationalProgram) => educationalProgram.id,
+    );
+    setSelectedEducationalProgramIds(educationalProgramIds);
+  };
 
-  const onDelete = () => {
+  const onDeleteEducationPrograms = () => {
     if (!selectedEducationalProgramIds.length) return;
 
     deleteEducationalPrograms(selectedEducationalProgramIds);
   };
 
-  const onEdit = () => {
-    setIsEditModalVisible(true);
-  };
-
   return (
     <Root>
       <Toolbar
-        selectedRooms={selectedEducationalPrograms}
+        selectedEducationalPrograms={selectedEducationalPrograms}
         onAdd={() => setIsAddModalVisible(true)}
-        onDelete={onDelete}
-        onEdit={onEdit}
+        onDelete={onDeleteEducationPrograms}
+        onDetails={() => setIsDetailsModalVisible(true)}
       />
-      <Table
+      <EducationalProgramTable
         data={educationalPrograms}
-        onEducationalProgramsSelected={setEducationalPrograms}
+        onEducationalProgramSelected={onEducationalProgramSelected}
+        isLoading={isFetching}
+        isError={isError}
       />
 
-      <AddEducationalProgramModal
+      <Modal
         open={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
-      />
-      <EditEducationalProgramModal
-        open={isEditModalVisible}
-        educationalProgram={selectedEducationalPrograms[0]}
-        onClose={() => setIsEditModalVisible(false)}
-      />
+      >
+        <AddEducationalProgram
+          specialities={specialities}
+          onBack={() => setIsAddModalVisible(false)}
+          onSucceed={() => setIsAddModalVisible(false)}
+        />
+      </Modal>
+      <Modal
+        open={isDetailsModalVisible}
+        onClose={() => setIsDetailsModalVisible(false)}
+      >
+        <EducationalProgramDetails
+          educationalProgram={selectedEducationalPrograms[0]}
+          specialities={specialities}
+          onBack={() => setIsDetailsModalVisible(false)}
+          onSucceed={() => setIsDetailsModalVisible(false)}
+          onDeleteSucceed={() => setIsDetailsModalVisible(false)}
+        />
+      </Modal>
     </Root>
   );
 };

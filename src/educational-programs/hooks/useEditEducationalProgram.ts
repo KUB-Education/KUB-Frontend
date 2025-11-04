@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
-import { epQueryKey } from './useEducationalPrograms';
-import { EditEducationalProgramParams } from '@/educational-programs/entities';
+import { educationalProgramsQueryKey } from './useEducationalPrograms';
+import {
+  EditEducationalProgramParams,
+  EducationalProgram,
+} from '@/educational-programs/entities';
 
 type UseEditEducationalProgramParams = Partial<{
   onSuccess: () => void;
@@ -17,15 +20,17 @@ export function useEditEducationalProgram({
   const queryClient = useQueryClient();
 
   const { mutate: editEducationalProgram, ...otherProps } = useMutation<
-    void,
+    EducationalProgram,
     Error,
     EditEducationalProgramParams
   >({
     mutationFn: async (params) => {
-      await educationalProgramsService.editEducationalProgram(params);
+      return educationalProgramsService.editEducationalProgram(params);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: [epQueryKey] });
+      await queryClient.invalidateQueries({
+        queryKey: [educationalProgramsQueryKey],
+      });
 
       if (onSuccess) onSuccess();
     },

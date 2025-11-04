@@ -6,7 +6,7 @@ import {
 } from '@/users/hooks';
 import { getUserId, User, UserId } from '@/users/entities';
 import { useMemo, useState } from 'react';
-import { AddUser, EditUser } from '@/users/ui/components';
+import { AddUser, UserDetails } from '@/users/ui/components';
 import { Modal } from '@/common/ui/components';
 
 const Users = () => {
@@ -16,7 +16,7 @@ const Users = () => {
 
   const [selectedUserIds, setSelectedUserIds] = useState<Array<UserId>>([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
 
   const selectedUsers = useMemo<User[]>(() => {
     return users.reduce((acc: Array<User>, user) => {
@@ -46,7 +46,7 @@ const Users = () => {
       <Toolbar
         selectedUsers={selectedUsers}
         onAdd={() => setIsAddModalVisible(true)}
-        onEdit={() => setIsEditModalVisible(true)}
+        onDetails={() => setIsDetailsModalVisible(true)}
         onDelete={onDelete}
         onResend={onResend}
       />
@@ -67,13 +67,13 @@ const Users = () => {
         />
       </Modal>
       <Modal
-        open={isEditModalVisible}
-        onClose={() => setIsEditModalVisible(false)}
+        open={isDetailsModalVisible}
+        onClose={() => setIsDetailsModalVisible(false)}
       >
-        <EditUser
+        <UserDetails
           user={selectedUsers[0]}
-          onDeleted={() => setIsEditModalVisible(false)}
-          onBack={() => setIsEditModalVisible(false)}
+          onDeleted={() => setIsDetailsModalVisible(false)}
+          onBack={() => setIsDetailsModalVisible(false)}
         />
       </Modal>
     </Root>

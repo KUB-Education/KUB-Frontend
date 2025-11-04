@@ -3,12 +3,12 @@ import {
   useStudents,
   useResendStudentsActivationEmail,
 } from '@/students/hooks';
-import { Root, Table, Toolbar } from './styles.tsx';
+import { Root, Table, Toolbar } from './styles';
 import { useMemo, useState } from 'react';
 import { getUserId } from '@/users/entities';
 import { Student, StudentId } from '@/students/entities';
 import { Modal } from '@/common/ui/components';
-import { AddStudent, EditStudent } from '@/students/ui/components';
+import { AddStudent, StudentDetails } from '@/students/ui/components';
 
 const Students = () => {
   const { students, isError, isFetching } = useStudents();
@@ -19,7 +19,7 @@ const Students = () => {
     Array<StudentId>
   >([]);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
 
   const selectedStudents = useMemo<Student[]>(() => {
     return students.reduce((acc: Array<Student>, user) => {
@@ -51,7 +51,7 @@ const Students = () => {
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDelete}
         onResend={onResend}
-        onEdit={() => setIsEditModalVisible(true)}
+        onDetails={() => setIsDetailsModalVisible(true)}
       />
       <Table
         data={students}
@@ -67,13 +67,13 @@ const Students = () => {
         <AddStudent onSuccess={() => setIsAddModalVisible(false)} />
       </Modal>
       <Modal
-        open={isEditModalVisible}
-        onClose={() => setIsEditModalVisible(false)}
+        open={isDetailsModalVisible}
+        onClose={() => setIsDetailsModalVisible(false)}
       >
-        <EditStudent
+        <StudentDetails
           student={selectedStudents[0]}
-          onBack={() => setIsEditModalVisible(false)}
-          onDeleteSucceed={() => setIsEditModalVisible(false)}
+          onBack={() => setIsDetailsModalVisible(false)}
+          onDeleteSucceed={() => setIsDetailsModalVisible(false)}
         />
       </Modal>
     </Root>
