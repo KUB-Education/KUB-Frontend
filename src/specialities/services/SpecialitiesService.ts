@@ -1,6 +1,6 @@
 import { BaseService } from '@/common/services';
 import {
-  AddStudyFieldSpecialityParams,
+  AddSpecialityParams,
   EditSpecialityParams,
   Speciality,
   SpecialityId,
@@ -9,7 +9,6 @@ import { delay, SECOND } from '@/common/utils';
 import { faker } from '@faker-js/faker';
 import { StudyFieldsService } from '@/study-fields/services';
 import { HttpClient } from '@/common/http-client';
-import { StudyFieldId } from '@/study-fields/entities';
 
 export class SpecialitiesService extends BaseService {
   private specialities: Record<SpecialityId, Speciality> = {};
@@ -33,7 +32,7 @@ export class SpecialitiesService extends BaseService {
     const arr = new Array(25).fill(null);
 
     this.specialities = arr.reduce((acc) => {
-      const id = faker.number.int();
+      const id = faker.number.int({ min: 0, max: 10000 });
 
       return {
         ...acc,
@@ -49,17 +48,7 @@ export class SpecialitiesService extends BaseService {
     return Object.values(this.specialities);
   }
 
-  async getStudyFieldSpecialities(studyFieldId: StudyFieldId) {
-    const specialities = await this.getSpecialities();
-
-    return specialities.filter(
-      (speciality) => speciality.studyFieldId === studyFieldId,
-    );
-  }
-
-  async addStudyFieldSpeciality(
-    params: AddStudyFieldSpecialityParams,
-  ): Promise<Speciality> {
+  async addSpeciality(params: AddSpecialityParams): Promise<Speciality> {
     await delay(2 * SECOND);
 
     const speciality = {

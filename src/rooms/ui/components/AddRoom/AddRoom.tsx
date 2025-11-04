@@ -76,7 +76,7 @@ const AddRoom = ({ onBack, onSucceed }: AddRoomProps) => {
             type="string"
             multiline
             minRows={8}
-            {...register('description', {})}
+            {...register('description')}
           />
         </FormControl>
         <Actions>

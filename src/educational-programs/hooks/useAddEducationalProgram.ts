@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { educationalProgramsQueryKey } from './useEducationalPrograms';
-import { getSpecialityEducationalProgramQueryKey } from './useSpecialityEducationalPrograms';
 import {
-  AddSpecialityEducationalProgram,
+  AddEducationalProgramParams,
   EducationalProgram,
 } from '@/educational-programs/entities';
 
@@ -12,7 +11,7 @@ type UseAddEducationalProgramParams = Partial<{
   onError: () => void;
 }>;
 
-export function useAddSpecialityEducationalProgram({
+export function useAddEducationalProgram({
   onSuccess,
   onError,
 }: UseAddEducationalProgramParams = {}) {
@@ -23,20 +22,15 @@ export function useAddSpecialityEducationalProgram({
   const { mutate: addEducationalProgram, ...otherProps } = useMutation<
     EducationalProgram,
     Error,
-    AddSpecialityEducationalProgram
+    AddEducationalProgramParams
   >({
     mutationFn: async (params) => {
-      return educationalProgramsService.addSpecialityEducationalProgram(params);
+      return educationalProgramsService.addEducationalProgram(params);
     },
-    onSuccess: async (data) => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: [educationalProgramsQueryKey],
-        }),
-        queryClient.invalidateQueries({
-          queryKey: getSpecialityEducationalProgramQueryKey(data.specialityId),
-        }),
-      ]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [educationalProgramsQueryKey],
+      });
 
       if (onSuccess) onSuccess();
     },

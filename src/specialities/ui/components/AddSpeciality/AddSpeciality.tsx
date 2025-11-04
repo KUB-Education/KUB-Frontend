@@ -9,8 +9,8 @@ import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { requiredValidator } from '@/common/utils/validators';
-import { useAddStudyFieldSpeciality } from '@/specialities/hooks';
-import { AddStudyFieldSpecialityParams } from '@/specialities/entities';
+import { useAddSpeciality } from '@/specialities/hooks';
+import { AddSpecialityParams } from '@/specialities/entities';
 import { StudyField } from '@/study-fields/entities';
 
 export type AddSpecialityProps = {
@@ -19,7 +19,7 @@ export type AddSpecialityProps = {
   onSucceed: () => void;
 };
 
-type FormValues = Omit<AddStudyFieldSpecialityParams, 'studyFieldId'>;
+type FormValues = Omit<AddSpecialityParams, 'studyFieldId'>;
 
 const AddSpeciality = ({
   studyField,
@@ -34,7 +34,7 @@ const AddSpeciality = ({
   const { register, handleSubmit, formState } = useForm<FormValues>({
     mode: 'onChange',
   });
-  const { addSpeciality, isPending, error } = useAddStudyFieldSpeciality({
+  const { addSpeciality, isPending, error } = useAddSpeciality({
     onSuccess: onSucceed,
     onError,
   });

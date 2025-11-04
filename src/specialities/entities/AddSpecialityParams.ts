@@ -1,6 +1,6 @@
 import { StudyFieldId } from '@/study-fields/entities';
 
-export type AddStudyFieldSpecialityParams = {
+export type AddSpecialityParams = {
   studyFieldId: StudyFieldId;
   code: string;
   name: string;

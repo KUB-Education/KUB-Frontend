@@ -29,18 +29,22 @@ import {
 } from '@/educational-programs/entities';
 import { MenuItem, Select } from '@mui/material';
 import { DegreeType, StudyForm } from '@/educational-programs/ui/components';
+import { Speciality } from '@/specialities/entities';
+import { getFormDirtyValues } from '@/common/utils';
 
 export type EducationalProgramDetailsProps = {
   educationalProgram: EducationalProgram;
+  specialities: Speciality[];
   onBack: () => void;
   onSucceed: () => void;
   onDeleteSucceed: () => void;
 };
 
-type FormValues = Omit<EditEducationalProgramParams, 'specialityId' | 'id'>;
+type FormValues = Omit<EditEducationalProgramParams, 'id'>;
 
 const EducationalProgramDetails = ({
   educationalProgram,
+  specialities = [],
   onBack,
   onSucceed,
   onDeleteSucceed,
@@ -54,6 +58,8 @@ const EducationalProgramDetails = ({
     mode: 'onChange',
     values: { ...educationalProgram },
   });
+  const { isValid, isDirty, dirtyFields } = formState;
+
   const {
     editEducationalProgram,
     isPending: isEditPending,
@@ -79,18 +85,17 @@ const EducationalProgramDetails = ({
   }, [editError, deleteError]);
 
   const onSubmit = async (values: FormValues) => {
+    const updatedValues = getFormDirtyValues(values, dirtyFields);
+
     return editEducationalProgram({
       id: educationalProgram.id,
-      specialityId: educationalProgram.specialityId,
-      ...values,
+      ...updatedValues,
     });
   };
 
   const onDelete = () => {
     deleteEducationalPrograms([educationalProgram.id]);
   };
-
-  const { isValid, isDirty } = formState;
 
   const isConfirmDisabled = !isValid || isPending || !isDirty;
 
@@ -108,15 +113,22 @@ const EducationalProgramDetails = ({
           />
         </FormControl>
         <FormControl>
-          <FieldLabel shrink htmlFor="duration">
-            Duration
+          <FieldLabel shrink htmlFor="degreeType">
+            Speciality
           </FieldLabel>
-          <FormTextField
-            label="Duration"
-            type="number"
-            {...register('duration', {
-              ...educationalProgramDurationValidator,
-            })}
+          <Controller
+            name="specialityId"
+            control={control}
+            rules={{ ...requiredValidator() }}
+            render={({ field }) => (
+              <Select notched label="Speciality" {...field}>
+                {specialities.map((speciality) => (
+                  <MenuItem key={speciality.id} value={speciality.id}>
+                    {speciality.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
           />
         </FormControl>
         <FormControl>
@@ -155,6 +167,18 @@ const EducationalProgramDetails = ({
                 ))}
               </Select>
             )}
+          />
+        </FormControl>
+        <FormControl>
+          <FieldLabel shrink htmlFor="duration">
+            Duration
+          </FieldLabel>
+          <FormTextField
+            label="Duration"
+            type="number"
+            {...register('duration', {
+              ...educationalProgramDurationValidator,
+            })}
           />
         </FormControl>
         <Actions>

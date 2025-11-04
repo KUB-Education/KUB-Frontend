@@ -1,8 +1,8 @@
-import { Root, TableContainer } from './styles.tsx';
+import { Root } from './styles';
 import { useCallback, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, GetRowIdParams } from 'ag-grid-community';
-import { Table, TableTitle } from '@/common/ui/components';
+import { Table } from '@/common/ui/components';
 import { EducationalProgram } from '@/educational-programs/entities';
 import { DegreeType, StudyForm } from '@/educational-programs/ui/components';
 
@@ -46,6 +46,7 @@ const EducationalProgramTable = ({
       headerName: 'Study Format',
       cellRenderer: StudyForm,
     },
+    { field: 'duration', headerName: 'Duration' },
   ]);
 
   const onSelectionChanged = useCallback(() => {
@@ -61,20 +62,17 @@ const EducationalProgramTable = ({
 
   return (
     <Root className={className}>
-      <TableTitle>Educational Program</TableTitle>
-      <TableContainer>
-        <Table
-          ref={gridRef}
-          rowData={data}
-          columnDefs={colDefs}
-          onSelectionChanged={onSelectionChanged}
-          getRowId={getRowId}
-          loading={isLoading}
-          error={isError}
-          rowSelection="multiple"
-          suppressRowClickSelection
-        />
-      </TableContainer>
+      <Table
+        ref={gridRef}
+        rowData={data}
+        columnDefs={colDefs}
+        onSelectionChanged={onSelectionChanged}
+        getRowId={getRowId}
+        loading={isLoading}
+        error={isError}
+        rowSelection="multiple"
+        suppressRowClickSelection
+      />
     </Root>
   );
 };

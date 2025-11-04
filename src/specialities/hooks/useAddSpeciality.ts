@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { specialitiesQueryKey } from './useSpecialities';
-import { SpecialityId } from '@/specialities/entities';
+import { AddSpecialityParams, Speciality } from '@/specialities/entities';
 
-type UseDeleteSpecialitiesParams = Partial<{
+type UseAddSpecialityParams = Partial<{
   onSuccess: () => void;
   onError: () => void;
 }>;
 
-export function useDeleteSpecialities({
+export function useAddSpeciality({
   onSuccess,
   onError,
-}: UseDeleteSpecialitiesParams = {}) {
+}: UseAddSpecialityParams = {}) {
   const { specialitiesService } = useAppServices();
 
   const queryClient = useQueryClient();
 
-  const { mutate: deleteSpecialities, ...otherProps } = useMutation<
-    void,
+  const { mutate: addSpeciality, ...otherProps } = useMutation<
+    Speciality,
     Error,
-    Array<SpecialityId>
+    AddSpecialityParams
   >({
     mutationFn: async (params) => {
-      await specialitiesService.deleteSpecialities(params);
+      return specialitiesService.addSpeciality(params);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [specialitiesQueryKey] });
@@ -35,7 +35,7 @@ export function useDeleteSpecialities({
   });
 
   return {
-    deleteSpecialities,
+    addSpeciality,
     ...otherProps,
   };
 }

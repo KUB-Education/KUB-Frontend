@@ -83,7 +83,7 @@ const RoomDetails = ({ room, onBack, onSucceed }: RoomDetailsProps) => {
             type="string"
             multiline
             minRows={8}
-            {...register('description', {})}
+            {...register('description')}
           />
         </FormControl>
         <Actions>

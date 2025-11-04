@@ -37,10 +37,7 @@ const DepartmentDetails = ({
     editDepartment,
     isPending,
     error: editError,
-  } = useEditDepartment({
-    onSuccess: onSucceed,
-    onError: onError,
-  });
+  } = useEditDepartment({ onSuccess: onSucceed, onError });
 
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',

@@ -3,11 +3,11 @@ import { BaseService } from '@/common/services';
 import { delay, SECOND } from '@/common/utils';
 import { HttpClient } from '@/common/http-client';
 import {
-  AddSpecialityEducationalProgram,
   DegreeType,
   EducationalProgram,
   EducationalProgramId,
   StudyForm,
+  AddEducationalProgramParams,
   EditEducationalProgramParams,
 } from '@/educational-programs/entities';
 import { SpecialitiesService } from '@/specialities/services';
@@ -42,7 +42,7 @@ export class EducationalProgramsService extends BaseService {
       const educationalProgram: EducationalProgram = {
         id,
         specialityId: faker.helpers.arrayElement(specialityIds),
-        name: faker.string.sample(),
+        name: faker.company.name(),
         degreeType: faker.helpers.arrayElement(Object.values(DegreeType)),
         studyForm: faker.helpers.arrayElement(Object.values(StudyForm)),
         duration: faker.number.int({ min: 1, max: 100 }),
@@ -62,8 +62,8 @@ export class EducationalProgramsService extends BaseService {
     );
   }
 
-  async addSpecialityEducationalProgram(
-    params: AddSpecialityEducationalProgram,
+  async addEducationalProgram(
+    params: AddEducationalProgramParams,
   ): Promise<EducationalProgram> {
     await delay(2 * SECOND);
 

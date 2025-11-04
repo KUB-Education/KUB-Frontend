@@ -9,9 +9,9 @@ import { Content, Title, Actions, Form, FormControl } from './styles.tsx';
 import { Controller, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { requiredValidator } from '@/common/utils/validators';
-import { useAddSpecialityEducationalProgram } from '@/educational-programs/hooks';
+import { useAddEducationalProgram } from '@/educational-programs/hooks';
 import {
-  AddSpecialityEducationalProgram,
+  AddEducationalProgramParams,
   degreeTypes,
   educationalProgramDurationValidator,
   studyForms,
@@ -21,15 +21,13 @@ import { MenuItem, Select } from '@mui/material';
 import { DegreeType, StudyForm } from '@/educational-programs/ui/components';
 
 export type AddEducationalProgramProps = {
-  speciality: Speciality;
+  specialities: Speciality[];
   onBack: () => void;
   onSucceed: () => void;
 };
 
-type FormValues = Omit<AddSpecialityEducationalProgram, 'specialityId'>;
-
 const AddEducationalProgram = ({
-  speciality,
+  specialities,
   onBack,
   onSucceed,
 }: AddEducationalProgramProps) => {
@@ -38,20 +36,17 @@ const AddEducationalProgram = ({
   };
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const { register, handleSubmit, formState, control } = useForm<FormValues>({
-    mode: 'onChange',
+  const { register, handleSubmit, formState, control } =
+    useForm<AddEducationalProgramParams>({
+      mode: 'onChange',
+    });
+  const { addEducationalProgram, isPending, error } = useAddEducationalProgram({
+    onSuccess: onSucceed,
+    onError,
   });
-  const { addEducationalProgram, isPending, error } =
-    useAddSpecialityEducationalProgram({
-      onSuccess: onSucceed,
-      onError,
-    });
 
-  const onSubmit = async (values: FormValues) => {
-    return addEducationalProgram({
-      specialityId: speciality.id,
-      ...values,
-    });
+  const onSubmit = async (values: AddEducationalProgramParams) => {
+    return addEducationalProgram(values);
   };
 
   const { isValid } = formState;
@@ -70,15 +65,22 @@ const AddEducationalProgram = ({
           />
         </FormControl>
         <FormControl>
-          <FieldLabel shrink htmlFor="duration">
-            Duration
+          <FieldLabel shrink htmlFor="studyForm">
+            Speciality
           </FieldLabel>
-          <FormTextField
-            label="Duration"
-            type="number"
-            {...register('duration', {
-              ...educationalProgramDurationValidator,
-            })}
+          <Controller
+            name="specialityId"
+            control={control}
+            rules={{ ...requiredValidator() }}
+            render={({ field }) => (
+              <Select notched label="Speciality" {...field}>
+                {specialities.map((speciality) => (
+                  <MenuItem key={speciality.id} value={speciality.id}>
+                    {speciality.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
           />
         </FormControl>
         <FormControl>
@@ -117,6 +119,18 @@ const AddEducationalProgram = ({
                 ))}
               </Select>
             )}
+          />
+        </FormControl>
+        <FormControl>
+          <FieldLabel shrink htmlFor="duration">
+            Duration
+          </FieldLabel>
+          <FormTextField
+            label="Duration"
+            type="number"
+            {...register('duration', {
+              ...educationalProgramDurationValidator,
+            })}
           />
         </FormControl>
         <Actions>

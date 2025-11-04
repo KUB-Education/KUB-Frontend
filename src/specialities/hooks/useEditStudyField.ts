@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAppServices } from '@/app/hooks';
 import { specialitiesQueryKey } from './useSpecialities';
 import { EditSpecialityParams, Speciality } from '@/specialities/entities';
-import { getStudyFieldSpecialitiesQueryKey } from './useStudyFieldSpecialities';
 
 type UseEditSpecialityParams = Partial<{
   onSuccess: () => void;
@@ -23,15 +22,10 @@ export function useEditSpeciality({
     EditSpecialityParams
   >({
     mutationFn: async (params) => {
-      return await specialitiesService.editSpeciality(params);
+      return specialitiesService.editSpeciality(params);
     },
-    onSuccess: async (data) => {
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: [specialitiesQueryKey] }),
-        queryClient.invalidateQueries({
-          queryKey: getStudyFieldSpecialitiesQueryKey(data.studyFieldId),
-        }),
-      ]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [specialitiesQueryKey] });
 
       if (onSuccess) onSuccess();
     },

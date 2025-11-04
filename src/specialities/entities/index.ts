@@ -1,3 +1,3 @@
 export * from './Speciality';
-export * from './AddStudyFieldSpecialityParams';
+export * from './AddSpecialityParams';
 export * from './EditSpecialityParams';

@@ -10,5 +10,3 @@ export { default as AddEducationalProgram } from './AddEducationalProgram';
 export * from './AddEducationalProgram';
 export { default as EducationalProgramDetails } from './EducationalProgramDetails';
 export * from './EducationalProgramDetails';
-export { default as EducationalProgramCombinedTable } from './EducationalProgramCombinedTable';
-export * from './EducationalProgramCombinedTable';
