@@ -9,9 +9,13 @@ import { getUserId } from '@/users/entities';
 import { Student, StudentId } from '@/students/entities';
 import { Modal } from '@/common/ui/components';
 import { AddStudent, StudentDetails } from '@/students/ui/components';
+import { useStudentGroups } from '@/student-groups/hooks';
+import { useEducationalPrograms } from '@/educational-programs/hooks';
 
 const Students = () => {
   const { students, isError, isFetching } = useStudents();
+  const { studentGroups } = useStudentGroups();
+  const { educationalPrograms } = useEducationalPrograms();
   const { deleteStudents } = useDeleteStudents();
   const { resendStudentsActivationEmail } = useResendStudentsActivationEmail();
 
@@ -72,6 +76,8 @@ const Students = () => {
       >
         <StudentDetails
           student={selectedStudents[0]}
+          studentGroups={studentGroups}
+          educationalPrograms={educationalPrograms}
           onBack={() => setIsDetailsModalVisible(false)}
           onDeleteSucceed={() => setIsDetailsModalVisible(false)}
         />

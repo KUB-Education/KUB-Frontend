@@ -1,5 +1,6 @@
 import React from 'react';
 import HomeIcon from '@/common/assets/icons/home.svg?react';
+import UserIcon from '@/common/assets/icons/user.svg?react';
 import StudentIcon from '@/common/assets/icons/student.svg?react';
 import StudentGroupIcon from '@/common/assets/icons/student_group.svg?react';
 import LecturesIcon from '@/common/assets/icons/lecturer.svg?react';
@@ -31,7 +32,7 @@ const links = [
   },
   {
     to: APP_ROUTES.USERS,
-    icon: HomeIcon,
+    icon: UserIcon,
     text: 'Users',
   },
   {

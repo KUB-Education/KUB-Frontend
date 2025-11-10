@@ -56,7 +56,7 @@ const EducationalProgramDetails = ({
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { register, handleSubmit, formState, control } = useForm<FormValues>({
     mode: 'onChange',
-    values: { ...educationalProgram },
+    defaultValues: { ...educationalProgram },
   });
   const { isValid, isDirty, dirtyFields } = formState;
 
@@ -104,15 +104,6 @@ const EducationalProgramDetails = ({
       <Title>Educational program information</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <FieldLabel shrink htmlFor="name">
-            Name
-          </FieldLabel>
-          <FormTextField
-            label="Name"
-            {...register('name', { ...requiredValidator() })}
-          />
-        </FormControl>
-        <FormControl>
           <FieldLabel shrink htmlFor="degreeType">
             Speciality
           </FieldLabel>
@@ -129,6 +120,16 @@ const EducationalProgramDetails = ({
                 ))}
               </Select>
             )}
+          />
+        </FormControl>
+
+        <FormControl>
+          <FieldLabel shrink htmlFor="name">
+            Name
+          </FieldLabel>
+          <FormTextField
+            label="Name"
+            {...register('name', { ...requiredValidator() })}
           />
         </FormControl>
         <FormControl>

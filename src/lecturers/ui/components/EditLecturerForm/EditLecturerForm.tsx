@@ -37,7 +37,7 @@ const EditLecturerForm = ({
 }: EditLecturerFormProps) => {
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
-    values: { ...lecturer },
+    defaultValues: { ...lecturer },
   });
 
   const { isValid, isDirty, dirtyFields } = formState;

@@ -1,5 +1,4 @@
 import {
-  Form,
   FormControl,
   Root,
   ProgramActions,
@@ -9,29 +8,28 @@ import {
   ProgramListItem,
   Actions,
 } from './styles.tsx';
-import { MenuItem, Select } from '@mui/material';
 import {
   FieldLabel,
   FormTextField,
   SaveButton,
   Condition,
 } from '@/common/ui/components';
-import { Controller, useForm } from 'react-hook-form';
-import { requiredValidator } from '@/common/utils/validators.ts';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { difference } from '@/common/utils';
+import { EducationalProgram } from '@/educational-programs/entities';
 import {
-  EducationalProgram,
-  EducationalProgramId,
-} from '@/educational-programs/entities';
+  StudentEducationalProgram,
+  StudentEducationalProgramId,
+} from '@/students/entities';
 
 export type EditStudentEducationalProgramFormProps = {
-  studentEducationalPrograms: Array<EducationalProgram>;
+  studentEducationalPrograms: Array<StudentEducationalProgram>;
   educationalPrograms: Array<EducationalProgram>;
   isPending: boolean;
   className?: string;
-  onAdd: (id: EducationalProgramId) => void;
-  onDelete: (id: EducationalProgramId) => void;
+  onAdd: () => void;
+  onDetails: (id: StudentEducationalProgramId) => void;
+  onDelete: (id: StudentEducationalProgramId) => void;
 };
 
 const EditStudentEducationalProgramForm = ({
@@ -41,37 +39,27 @@ const EditStudentEducationalProgramForm = ({
   className,
   onAdd,
   onDelete,
+  onDetails,
 }: EditStudentEducationalProgramFormProps) => {
-  const [isNewProgramFormVisible, setIsNewProgramFormVisible] = useState(false);
-
-  const { handleSubmit, formState, control, reset } = useForm<{
-    newProgram: EducationalProgramId;
-  }>({ mode: 'onChange' });
-
   const availableNewPrograms = useMemo(() => {
     return difference(educationalPrograms, studentEducationalPrograms);
   }, [educationalPrograms, studentEducationalPrograms]);
 
-  const onSubmit = async (values: { newProgram: EducationalProgramId }) => {
-    onAdd(values.newProgram);
-    reset();
+  const getProgramId = (studentProgram: StudentEducationalProgram) => {
+    return String(studentProgram.id);
   };
 
-  const getProgramId = (educationalProgram: EducationalProgram) => {
-    return String(educationalProgram.id);
+  const getProgramName = (studentProgram: StudentEducationalProgram) => {
+    return studentProgram.educationalProgram.name;
   };
 
-  const getProgramName = (educationalProgram: EducationalProgram) => {
-    return educationalProgram.name.toUpperCase();
+  const onDeleteProgram = (studentProgram: StudentEducationalProgram) => {
+    onDelete(studentProgram.id);
   };
 
-  const onDeleteProgram = (educationalProgram: EducationalProgram) => {
-    onDelete(educationalProgram.id);
+  const onProgramDetails = (studentProgram: StudentEducationalProgram) => {
+    onDetails(studentProgram.id);
   };
-
-  const { isValid } = formState;
-
-  const isConfirmProgramDisabled = !isValid || isPending;
 
   return (
     <Root className={className}>
@@ -89,7 +77,12 @@ const EditStudentEducationalProgramForm = ({
                 value={getProgramName(program)}
                 endAdornment={
                   <ProgramActions position="end">
-                    <ProgramInfo disabled={isPending}>Program info</ProgramInfo>
+                    <ProgramInfo
+                      disabled={isPending}
+                      onClick={() => onProgramDetails(program)}
+                    >
+                      Program info
+                    </ProgramInfo>
                     <ProgramDelete
                       disabled={isPending}
                       onClick={() => onDeleteProgram(program)}
@@ -104,49 +97,11 @@ const EditStudentEducationalProgramForm = ({
         ))}
       </ProgramList>
       <Condition.When condition={!!availableNewPrograms.length}>
-        <Condition.If condition={!isNewProgramFormVisible}>
-          <Condition.Then>
-            <Actions>
-              <SaveButton
-                type="button"
-                onClick={() => setIsNewProgramFormVisible(true)}
-              >
-                Add educational program
-              </SaveButton>
-            </Actions>
-          </Condition.Then>
-          <Condition.Else>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
-                <FieldLabel htmlFor="newProgram">
-                  New Educational Program
-                </FieldLabel>
-                <Controller
-                  name="newProgram"
-                  control={control}
-                  rules={{ ...requiredValidator() }}
-                  render={({ field }) => (
-                    <Select label="New Educational Program" {...field}>
-                      {availableNewPrograms.map((program) => (
-                        <MenuItem
-                          key={getProgramId(program)}
-                          value={program.id}
-                        >
-                          {getProgramName(program)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FormControl>
-              <Actions>
-                <SaveButton type="submit" disabled={isConfirmProgramDisabled}>
-                  Confirm
-                </SaveButton>
-              </Actions>
-            </Form>
-          </Condition.Else>
-        </Condition.If>
+        <Actions>
+          <SaveButton type="button" onClick={onAdd}>
+            Add educational program
+          </SaveButton>
+        </Actions>
       </Condition.When>
     </Root>
   );

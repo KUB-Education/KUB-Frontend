@@ -41,7 +41,7 @@ const SpecialityDetails = ({
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { register, handleSubmit, formState } = useForm<FormValues>({
     mode: 'onChange',
-    values: { ...speciality },
+    defaultValues: { ...speciality },
   });
   const {
     editSpeciality,

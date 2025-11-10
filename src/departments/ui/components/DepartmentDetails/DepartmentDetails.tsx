@@ -41,7 +41,7 @@ const DepartmentDetails = ({
 
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
-    values: { ...department },
+    defaultValues: { ...department },
   });
 
   const onSubmit = async (values: Inputs) => {
