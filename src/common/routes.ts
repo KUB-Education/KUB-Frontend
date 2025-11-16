@@ -1,12 +1,16 @@
+import { EducationalProgramId } from '@/educational-programs/entities';
+
 export const APP_ROUTES = Object.freeze({
   HOME: '/home',
   USERS: '/users',
   STUDENTS: '/students',
   STUDENT_GROUPS: '/student-groups',
   LECTURERS: '/lecturers',
-  SUBJECTS: '/subjects',
   ROOMS: '/rooms',
   EDUCATIONAL_PROGRAMS: '/educational-programs',
+  EDUCATIONAL_PROGRAM: '/educational-programs/:educationalProgramId',
+  getEducationalProgramPath: (id: EducationalProgramId) =>
+    `/educational-programs/${id}`,
   DEPARTMENTS: '/departments',
   EDUCATIONAL_COURSES: '/educational-courses',
   TIMETABLES: '/timetables',

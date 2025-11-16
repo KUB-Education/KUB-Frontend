@@ -7,38 +7,124 @@ import {
   ToolbarActionsList,
   ToolbarActionsListItem,
 } from '@/common/ui/components';
-import { EducationalProgram } from '@/educational-programs/entities';
+import { Term } from '@/terms/entities';
+import { Subject } from '@/subjects/entities';
+import { SubjectActivity } from '@/subject-activities/entities';
 
 export type EducationalProgramToolbarProps = {
-  selectedEducationalPrograms: EducationalProgram[];
+  selectedTerms: Term[];
+  selectedSubjects: Subject[];
+  selectedSubjectActivities: SubjectActivity[];
   className?: string;
-  onAdd: () => void;
-  onDelete: () => void;
-  onDetails: () => void;
+  onAddTerm: () => void;
+  onDeleteTerm: () => void;
+  onTermDetails: () => void;
+  onAddSubject: () => void;
+  onDeleteSubject: () => void;
+  onSubjectDetails: () => void;
+  onAddSubjectActivity: () => void;
+  onDeleteSubjectActivity: () => void;
+  onSubjectActivityDetails: () => void;
 };
 
 const EducationalProgramToolbar = ({
-  selectedEducationalPrograms,
+  selectedTerms,
+  selectedSubjects,
+  selectedSubjectActivities,
   className,
-  onAdd,
-  onDetails,
-  onDelete,
+  onAddTerm,
+  onTermDetails,
+  onDeleteTerm,
+  onAddSubject,
+  onSubjectDetails,
+  onDeleteSubject,
+  onAddSubjectActivity,
+  onSubjectActivityDetails,
+  onDeleteSubjectActivity,
 }: EducationalProgramToolbarProps) => {
-  if (selectedEducationalPrograms.length) {
+  if (selectedSubjectActivities.length) {
     return (
       <Toolbar className={className}>
         <ToolbarActionsList>
           <ToolbarActionsListItem>
             <ToolbarAction>
-              <DeleteButton onClick={onDelete} />
+              <DeleteButton onClick={onDeleteSubjectActivity}>
+                Delete subject activity
+              </DeleteButton>
             </ToolbarAction>
           </ToolbarActionsListItem>
-          {selectedEducationalPrograms.length === 1 && (
+          {selectedSubjectActivities.length === 1 && (
             <ToolbarActionsListItem>
               <ToolbarAction>
-                <DetailsButton onClick={onDetails} />
+                <DetailsButton onClick={onSubjectActivityDetails}>
+                  Subject activity details
+                </DetailsButton>
               </ToolbarAction>
             </ToolbarActionsListItem>
+          )}
+        </ToolbarActionsList>
+      </Toolbar>
+    );
+  }
+
+  if (selectedSubjects.length) {
+    return (
+      <Toolbar className={className}>
+        <ToolbarActionsList>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDeleteSubject}>
+                Delete subject
+              </DeleteButton>
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+          {selectedSubjects.length === 1 && (
+            <>
+              <ToolbarActionsListItem>
+                <ToolbarAction>
+                  <AddButton onClick={onAddSubjectActivity}>
+                    Add new subject activity
+                  </AddButton>
+                </ToolbarAction>
+              </ToolbarActionsListItem>
+              <ToolbarActionsListItem>
+                <ToolbarAction>
+                  <DetailsButton onClick={onSubjectDetails}>
+                    Subject details
+                  </DetailsButton>
+                </ToolbarAction>
+              </ToolbarActionsListItem>
+            </>
+          )}
+        </ToolbarActionsList>
+      </Toolbar>
+    );
+  }
+
+  if (selectedTerms.length) {
+    return (
+      <Toolbar className={className}>
+        <ToolbarActionsList>
+          <ToolbarActionsListItem>
+            <ToolbarAction>
+              <DeleteButton onClick={onDeleteTerm}>Delete term</DeleteButton>
+            </ToolbarAction>
+          </ToolbarActionsListItem>
+          {selectedTerms.length === 1 && (
+            <>
+              <ToolbarActionsListItem>
+                <ToolbarAction>
+                  <AddButton onClick={onAddSubject}>Add new subject</AddButton>
+                </ToolbarAction>
+              </ToolbarActionsListItem>
+              <ToolbarActionsListItem>
+                <ToolbarAction>
+                  <DetailsButton onClick={onTermDetails}>
+                    Term details
+                  </DetailsButton>
+                </ToolbarAction>
+              </ToolbarActionsListItem>
+            </>
           )}
         </ToolbarActionsList>
       </Toolbar>
@@ -50,7 +136,7 @@ const EducationalProgramToolbar = ({
       <ToolbarActionsList>
         <ToolbarActionsListItem>
           <ToolbarAction>
-            <AddButton onClick={onAdd}>Add new educational program</AddButton>
+            <AddButton onClick={onAddTerm}>Add new term</AddButton>
           </ToolbarAction>
         </ToolbarActionsListItem>
       </ToolbarActionsList>

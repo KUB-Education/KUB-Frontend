@@ -6,9 +6,11 @@ import { APP_ROUTES } from '@/common/routes.ts';
 import { Students } from '@/students/ui/pages';
 import { StudentGroups } from '@/student-groups/ui/pages';
 import { Lecturers } from '@/lecturers/ui/pages';
-import { Subjects } from '@/subjects/ui/pages';
 import { Rooms } from '@/rooms/ui/pages';
-import { EducationalPrograms } from '@/educational-programs/ui/pages';
+import {
+  EducationalProgram,
+  EducationalPrograms,
+} from '@/educational-programs/ui/pages';
 import { Departments } from '@/departments/ui/pages';
 import { EducationalCourses } from '@/educational-courses/ui/pages';
 import { Timetables } from '@/timetables/ui/pages';
@@ -38,7 +40,10 @@ const AuthorizedMain = () => {
         <Route path={APP_ROUTES.STUDENTS} element={<Students />} />
         <Route path={APP_ROUTES.STUDENT_GROUPS} element={<StudentGroups />} />
         <Route path={APP_ROUTES.LECTURERS} element={<Lecturers />} />
-        <Route path={APP_ROUTES.SUBJECTS} element={<Subjects />} />
+        <Route
+          path={APP_ROUTES.EDUCATIONAL_PROGRAM}
+          element={<EducationalProgram />}
+        />
         <Route
           path={APP_ROUTES.EDUCATIONAL_PROGRAMS}
           element={<EducationalPrograms />}
