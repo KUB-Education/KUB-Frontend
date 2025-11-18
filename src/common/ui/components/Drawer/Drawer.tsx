@@ -4,7 +4,6 @@ import UserIcon from '@/common/assets/icons/user.svg?react';
 import StudentIcon from '@/common/assets/icons/student.svg?react';
 import StudentGroupIcon from '@/common/assets/icons/student_group.svg?react';
 import LecturesIcon from '@/common/assets/icons/lecturer.svg?react';
-import SubjectsIcon from '@/common/assets/icons/subject.svg?react';
 import AudiencesIcon from '@/common/assets/icons/audience.svg?react';
 import BooksIcon from '@/common/assets/icons/books.svg?react';
 import DepartmentsIcon from '@/common/assets/icons/department.svg?react';
@@ -49,11 +48,6 @@ const links = [
     to: APP_ROUTES.LECTURERS,
     icon: LecturesIcon,
     text: 'Lecturers',
-  },
-  {
-    to: APP_ROUTES.SUBJECTS,
-    icon: SubjectsIcon,
-    text: 'Subjects',
   },
   {
     to: APP_ROUTES.ROOMS,

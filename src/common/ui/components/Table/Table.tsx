@@ -24,7 +24,7 @@ export const tableTheme = themeQuartz.withPart(iconSetMaterial).withParams({
   footerRowBorder: false,
   foregroundColor: '#050315',
   headerBackgroundColor: '#E9E9ED',
-  headerFontSize: '0.9rem',
+  headerFontSize: '0.8rem',
   headerRowBorder: true,
   oddRowBackgroundColor: '#D1E8FF',
   rowBorder: true,
