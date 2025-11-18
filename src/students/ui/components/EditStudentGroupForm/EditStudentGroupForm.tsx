@@ -101,19 +101,19 @@ const EditStudentGroupForm = ({
         ))}
       </GroupList>
       <Condition.When condition={!!availableNewGroups.length}>
-        <Condition.If condition={!isNewGroupFormVisible}>
-          <Condition.Then>
-            <Actions>
-              <SaveButton
-                type="button"
-                onClick={() => setIsNewGroupFormVisible(true)}
-              >
-                Add to group
-              </SaveButton>
-            </Actions>
-          </Condition.Then>
-          <Condition.Else>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Condition.If condition={!isNewGroupFormVisible}>
+            <Condition.Then>
+              <Actions>
+                <SaveButton
+                  type="button"
+                  onClick={() => setIsNewGroupFormVisible(true)}
+                >
+                  Add to group
+                </SaveButton>
+              </Actions>
+            </Condition.Then>
+            <Condition.Else>
               <FormControl>
                 <FieldLabel htmlFor="newGroup">New Group</FieldLabel>
                 <Controller
@@ -139,9 +139,9 @@ const EditStudentGroupForm = ({
                   Confirm
                 </SaveButton>
               </Actions>
-            </Form>
-          </Condition.Else>
-        </Condition.If>
+            </Condition.Else>
+          </Condition.If>
+        </Form>
       </Condition.When>
     </Root>
   );

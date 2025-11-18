@@ -53,17 +53,8 @@ const AddEducationalProgram = ({
 
   return (
     <Content>
-      <Title>Add new study field</Title>
+      <Title>Add new educational program</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <FieldLabel shrink htmlFor="name">
-            Name
-          </FieldLabel>
-          <FormTextField
-            label="Name"
-            {...register('name', { ...requiredValidator() })}
-          />
-        </FormControl>
         <FormControl>
           <FieldLabel shrink htmlFor="studyForm">
             Speciality
@@ -81,6 +72,16 @@ const AddEducationalProgram = ({
                 ))}
               </Select>
             )}
+          />
+        </FormControl>
+
+        <FormControl>
+          <FieldLabel shrink htmlFor="name">
+            Name
+          </FieldLabel>
+          <FormTextField
+            label="Name"
+            {...register('name', { ...requiredValidator() })}
           />
         </FormControl>
         <FormControl>

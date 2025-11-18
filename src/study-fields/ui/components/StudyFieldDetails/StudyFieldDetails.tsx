@@ -41,7 +41,7 @@ const StudyFieldDetails = ({
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { register, handleSubmit, formState } = useForm<FormValues>({
     mode: 'onChange',
-    values: { name: studyField.name, code: studyField.code },
+    defaultValues: { name: studyField.name, code: studyField.code },
   });
   const {
     editStudyField,

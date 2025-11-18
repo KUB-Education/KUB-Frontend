@@ -7,6 +7,8 @@ import {
   ModalFormCol,
 } from '@/common/ui/components';
 import EditStudentForm from '../EditStudentForm';
+import EditStudentEducationalProgramForm from '../EditStudentEducationalProgramForm';
+import EditStudentGroupForm from '../EditStudentGroupForm';
 
 export const Content = styled(ModalBody)({
   width: '1640px',
@@ -32,6 +34,16 @@ export const Col = styled(ModalFormCol)({
 });
 
 export const EditForm = styled(EditStudentForm)({
+  flexGrow: 1,
+});
+
+export const EditStudentEducationalProgram = styled(
+  EditStudentEducationalProgramForm,
+)({
+  flexGrow: 1,
+});
+
+export const EditStudentGroup = styled(EditStudentGroupForm)({
   flexGrow: 1,
 });
 

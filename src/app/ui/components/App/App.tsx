@@ -6,7 +6,7 @@ import {
   QueryProvider,
   ServicesProvider,
 } from '@/common/contexts';
-import { ThemeProvider } from '@/app/contexts';
+import { LocalizationProvider, ThemeProvider } from '@/app/contexts';
 
 function App() {
   const { appServices, config } = useApp();
@@ -16,9 +16,11 @@ function App() {
       <ServicesProvider services={appServices}>
         <QueryProvider>
           <ThemeProvider>
-            <BrowserRouter>
-              <Main />
-            </BrowserRouter>
+            <LocalizationProvider>
+              <BrowserRouter>
+                <Main />
+              </BrowserRouter>
+            </LocalizationProvider>
           </ThemeProvider>
         </QueryProvider>
       </ServicesProvider>

@@ -48,7 +48,7 @@ const EditUserForm = ({
 }: EditUserFormProps) => {
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
-    values: { ...user },
+    defaultValues: { ...user },
   });
   const { isValid, isDirty, dirtyFields } = formState;
 

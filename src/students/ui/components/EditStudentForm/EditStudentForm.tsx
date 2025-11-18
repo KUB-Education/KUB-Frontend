@@ -44,7 +44,7 @@ const EditStudentForm = ({
 }: EditStudentFormProps) => {
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
-    values: { ...student },
+    defaultValues: { ...student },
   });
 
   const userStatusValue = useMemo(() => {

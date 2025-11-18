@@ -16,16 +16,14 @@ export const Root = styled('div')({
 });
 
 export const Form = styled(ModalForm)({
-  marginTop: '20px',
+  marginTop: 'auto',
 });
 
 export const FormControl = styled(CommonFormControl)({
   width: '100%',
 });
 
-export const GroupList = styled('ul')({
-  marginBottom: '-18px',
-});
+export const GroupList = styled('ul')({});
 
 export const GroupListItem = styled('li')({
   paddingBottom: '18px',

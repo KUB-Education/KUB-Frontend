@@ -3,7 +3,6 @@ import {
   DeleteButton,
   InfoButton,
   ModalActions,
-  ModalForm,
   FormControl as CommonFormControl,
 } from '@/common/ui/components';
 
@@ -15,17 +14,11 @@ export const Root = styled('div')({
   border: '1px solid #79747E',
 });
 
-export const Form = styled(ModalForm)({
-  marginTop: '20px',
-});
-
 export const FormControl = styled(CommonFormControl)({
   width: '100%',
 });
 
-export const ProgramList = styled('ul')({
-  marginBottom: '-18px',
-});
+export const ProgramList = styled('ul')({});
 
 export const ProgramListItem = styled('li')({
   paddingBottom: '18px',
@@ -52,5 +45,5 @@ export const ProgramDelete = styled(DeleteButton)({
 
 export const Actions = styled(ModalActions)({
   justifyContent: 'flex-end',
-  marginTop: '20px',
+  marginTop: 'auto',
 });

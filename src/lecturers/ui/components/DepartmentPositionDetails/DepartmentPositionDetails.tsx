@@ -50,7 +50,7 @@ const DepartmentPositionDetails = ({
     positionId: LecturerPositionId;
   }>({
     mode: 'onChange',
-    values: { positionId: position.id, status },
+    defaultValues: { positionId: position.id, status },
   });
 
   const onSubmit = async (values: {

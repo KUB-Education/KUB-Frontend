@@ -6,3 +6,7 @@ export { default as AddStudent } from './AddStudent';
 export * from './AddStudent';
 export { default as StudentDetails } from './StudentDetails';
 export * from './StudentDetails';
+export { default as AddStudentEducationalProgram } from './AddStudentEducationalProgram';
+export * from './AddStudentEducationalProgram';
+export { default as StudentEducationalProgramDetails } from './StudentEducationalProgramDetails';
+export * from './StudentEducationalProgramDetails';

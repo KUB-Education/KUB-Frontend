@@ -1,27 +1,50 @@
-import { Content, Title, Col, Row, EditForm, Actions } from './styles.tsx';
 import {
+  Content,
+  Title,
+  Col,
+  Row,
+  EditForm,
+  Actions,
+  EditStudentGroup,
+  EditStudentEducationalProgram,
+} from './styles';
+import {
+  useAddStudentEducationalProgram,
+  useDeleteStudentEducationalProgram,
   useDeleteStudents,
   useEditStudent,
+  useEditStudentEducationalProgram,
   useResendStudentsActivationEmail,
 } from '@/students/hooks';
-import { Student } from '@/students/entities';
-import EditStudentEducationalProgramForm from '../EditStudentEducationalProgramForm';
-import EditStudentGroupForm from '../EditStudentGroupForm';
-import { useStudentGroups } from '@/student-groups/hooks';
-import { useEducationalPrograms } from '@/educational-programs/hooks';
-import { EducationalProgramId } from '@/educational-programs/entities';
-import { StudentGroupId } from '@/student-groups/entities';
-import { BackButton, DeleteButton, ErrorModal } from '@/common/ui/components';
+import {
+  Student,
+  StudentEducationalProgram,
+  StudentEducationalProgramId,
+} from '@/students/entities';
+import { StudentGroup, StudentGroupId } from '@/student-groups/entities';
+import {
+  BackButton,
+  DeleteButton,
+  ErrorModal,
+  Modal,
+} from '@/common/ui/components';
 import { useMemo, useState } from 'react';
+import AddStudentEducationalProgram from '../AddStudentEducationalProgram';
+import { StudentEducationalProgramDetails } from '@/students/ui/components';
+import { EducationalProgram } from '@/educational-programs/entities';
 
 export type StudentDetailsProps = {
   student: Student;
+  studentGroups: Array<StudentGroup>;
+  educationalPrograms: Array<EducationalProgram>;
   onBack: () => void;
   onDeleteSucceed: () => void;
 };
 
 const StudentDetails = ({
   student,
+  studentGroups,
+  educationalPrograms,
   onBack,
   onDeleteSucceed,
 }: StudentDetailsProps) => {
@@ -30,23 +53,96 @@ const StudentDetails = ({
   };
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isAddProgramModalVisible, setIsAddProgramModalVisible] =
+    useState(false);
+  const [studentProgramIdForDetails, setStudentProgramIdForDetails] =
+    useState<StudentEducationalProgramId | null>(null);
 
-  const { studentGroups } = useStudentGroups();
-  const { educationalPrograms } = useEducationalPrograms();
   const {
     editStudent,
     isPending: isEditPending,
-    error,
+    error: editStudentError,
   } = useEditStudent({ onError });
-  const { deleteStudents, isPending: isDeletePending } = useDeleteStudents({
+  const {
+    deleteStudents,
+    isPending: isDeletePending,
+    error: deleteStudentError,
+  } = useDeleteStudents({
     onSuccess: onDeleteSucceed,
   });
-  const { resendStudentsActivationEmail, isPending: isResendPending } =
-    useResendStudentsActivationEmail({ onError });
+  const {
+    resendStudentsActivationEmail,
+    isPending: isResendPending,
+    error: resendEmailError,
+  } = useResendStudentsActivationEmail({ onError });
 
-  const isEditFormPending = useMemo(() => {
-    return isDeletePending || isEditPending || isResendPending;
-  }, [isEditPending, isResendPending, isDeletePending]);
+  const {
+    addStudentEducationalProgram,
+    isPending: isAddStudentProgramPending,
+    error: addStudentProgramError,
+  } = useAddStudentEducationalProgram({
+    onSuccess: () => setIsAddProgramModalVisible(false),
+    onError,
+  });
+  const {
+    editStudentEducationalProgram,
+    isPending: isEditStudentProgramPending,
+    error: editStudentProgramError,
+  } = useEditStudentEducationalProgram({
+    onSuccess: () => setStudentProgramIdForDetails(null),
+    onError,
+  });
+  const {
+    deleteStudentEducationalProgram,
+    isPending: isDeleteStudentProgramPending,
+    error: deleteStudentProgramError,
+  } = useDeleteStudentEducationalProgram({
+    onError,
+  });
+
+  const isPending = useMemo(() => {
+    return [
+      isDeletePending,
+      isEditPending,
+      isResendPending,
+      isAddStudentProgramPending,
+      isEditStudentProgramPending,
+      isDeleteStudentProgramPending,
+    ].some(Boolean);
+  }, [
+    isDeletePending,
+    isEditPending,
+    isResendPending,
+    isAddStudentProgramPending,
+    isEditStudentProgramPending,
+    isDeleteStudentProgramPending,
+  ]);
+
+  const error = useMemo(() => {
+    const errors = [
+      editStudentError,
+      deleteStudentError,
+      resendEmailError,
+      addStudentProgramError,
+      editStudentProgramError,
+      deleteStudentProgramError,
+    ].filter(Boolean);
+
+    return errors[0];
+  }, [
+    editStudentError,
+    deleteStudentError,
+    resendEmailError,
+    addStudentProgramError,
+    editStudentProgramError,
+    deleteStudentProgramError,
+  ]);
+
+  const studentProgramForDetails = useMemo(() => {
+    return student.educationalPrograms.find(
+      (studentProgram) => studentProgram.id === studentProgramIdForDetails,
+    );
+  }, [student, studentProgramIdForDetails]);
 
   const onDelete = () => {
     deleteStudents([student.id]);
@@ -56,22 +152,12 @@ const StudentDetails = ({
     resendStudentsActivationEmail([student.id]);
   };
 
-  const onAddEducationalProgram = (programId: EducationalProgramId) => {
-    editStudent({
-      id: student.id,
-      educationalPrograms: [
-        ...student.educationalPrograms.map((program) => program.id),
-        programId,
-      ],
-    });
-  };
-
-  const onDeleteEducationalProgram = (programId: EducationalProgramId) => {
-    editStudent({
-      id: student.id,
-      educationalPrograms: student.educationalPrograms
-        .map((program) => program.id)
-        .filter((id) => id !== programId),
+  const onDeleteEducationalProgram = (
+    programId: StudentEducationalProgramId,
+  ) => {
+    deleteStudentEducationalProgram({
+      studentId: student.id,
+      studentEducationalProgramId: programId,
     });
   };
 
@@ -91,34 +177,41 @@ const StudentDetails = ({
     });
   };
 
+  const onStudentProgramDetails = (
+    studentProgramId: StudentEducationalProgramId,
+  ) => {
+    setStudentProgramIdForDetails(studentProgramId);
+  };
+
   return (
     <Content>
       <Row>
         <Col>
-          <Title>User information</Title>
+          <Title>Student information</Title>
           <EditForm
             student={student}
-            isPending={isEditFormPending}
+            isPending={isPending}
             onEdit={editStudent}
             onResend={onResend}
           />
         </Col>
         <Col>
           <Title>Educational programs</Title>
-          <EditStudentEducationalProgramForm
+          <EditStudentEducationalProgram
             educationalPrograms={educationalPrograms}
             studentEducationalPrograms={student.educationalPrograms}
-            isPending={isEditFormPending}
-            onAdd={onAddEducationalProgram}
+            isPending={isPending}
+            onAdd={() => setIsAddProgramModalVisible(true)}
             onDelete={onDeleteEducationalProgram}
+            onDetails={onStudentProgramDetails}
           />
         </Col>
         <Col>
           <Title>Groups</Title>
-          <EditStudentGroupForm
+          <EditStudentGroup
             groups={studentGroups}
             studentGroups={student.groups}
-            isPending={isEditFormPending}
+            isPending={isPending}
             onAdd={onAddGroup}
             onDelete={onDeleteGroup}
           />
@@ -126,10 +219,37 @@ const StudentDetails = ({
       </Row>
       <Actions>
         <BackButton onClick={onBack} />
-        <DeleteButton disabled={isDeletePending} onClick={onDelete}>
+        <DeleteButton disabled={isPending} onClick={onDelete}>
           Delete user
         </DeleteButton>
       </Actions>
+
+      <Modal
+        open={isAddProgramModalVisible}
+        onClose={() => setIsAddProgramModalVisible(false)}
+      >
+        <AddStudentEducationalProgram
+          student={student}
+          educationalPrograms={educationalPrograms}
+          isPending={isPending}
+          onBack={() => setIsAddProgramModalVisible(false)}
+          onAdd={addStudentEducationalProgram}
+        />
+      </Modal>
+      <Modal
+        open={!!studentProgramForDetails}
+        onClose={() => setStudentProgramIdForDetails(null)}
+      >
+        <StudentEducationalProgramDetails
+          student={student}
+          studentEducationalProgram={
+            studentProgramForDetails as StudentEducationalProgram
+          }
+          isPending={isPending}
+          onBack={() => setStudentProgramIdForDetails(null)}
+          onEdit={editStudentEducationalProgram}
+        />
+      </Modal>
 
       <ErrorModal
         open={isErrorModalVisible}

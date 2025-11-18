@@ -37,7 +37,7 @@ const RoomDetails = ({ room, onBack, onSucceed }: RoomDetailsProps) => {
   });
   const { register, handleSubmit, formState } = useForm<Inputs>({
     mode: 'onChange',
-    values: { ...room },
+    defaultValues: { ...room },
   });
 
   const onSubmit = async (values: Inputs) => {
