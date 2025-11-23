@@ -1,8 +1,8 @@
 FROM node:24 AS build
 WORKDIR /app
-COPY KUB-Frontend/package*.json ./
+COPY package*.json ./
 RUN npm ci
-COPY KUB-Frontend/ . .
+COPY . .
 
 
 RUN npm run build
