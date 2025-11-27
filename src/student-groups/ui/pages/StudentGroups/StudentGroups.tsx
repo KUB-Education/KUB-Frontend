@@ -7,8 +7,14 @@ import Modal from '@/common/ui/components/Modal';
 import ErrorModal from '@/common/ui/components/ErrorModal/ErrorModal';
 
 const StudentGroups = () => {
+  const onDeleteError = () => {
+    setIsDeleteErrorModalVisible(true);
+  };
+
   const { studentGroups, isError, isFetching } = useStudentGroups();
-  const { deleteStudentGroups, error: deleteError } = useDeleteStudentGroups();
+  const { deleteStudentGroups, error: deleteError } = useDeleteStudentGroups({
+    onError: onDeleteError,
+  });
 
   const [selectedStudentGroupsIds, setSelectedStudentGroupsIds] = useState<
     Array<StudentGroupId>
