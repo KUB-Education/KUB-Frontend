@@ -12,7 +12,6 @@ const Breadcrumb = () => {
     [APP_ROUTES.STUDENTS]: 'Students',
     [APP_ROUTES.STUDENT_GROUPS]: 'Student Groups',
     [APP_ROUTES.LECTURERS]: 'Lecturers',
-    [APP_ROUTES.SUBJECTS]: 'Subjects',
     [APP_ROUTES.ROOMS]: 'Rooms',
     [APP_ROUTES.EDUCATIONAL_PROGRAMS]: 'Educational Programs',
     [`${APP_ROUTES.EDUCATIONAL_PROGRAMS}/subjects`]:
