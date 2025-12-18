@@ -54,6 +54,22 @@ export class EducationalProgramsService extends BaseService {
     return Object.values(this.educationalPrograms);
   }
 
+  async getEducationalProgram(
+    id: EducationalProgramId,
+  ): Promise<EducationalProgram> {
+    const educationalPrograms = await this.getEducationalPrograms();
+
+    const educationalProgram = educationalPrograms.find(
+      (program) => program.id === id,
+    );
+
+    if (!educationalProgram) {
+      throw Error(`EducationalProgram ${id} not found`);
+    }
+
+    return educationalProgram;
+  }
+
   async getSpecialityEducationalPrograms(specialityId: SpecialityId) {
     const educationalPrograms = await this.getEducationalPrograms();
 

@@ -5,6 +5,7 @@ import {
   EditEducationalProgramParams,
   EducationalProgram,
 } from '@/educational-programs/entities';
+import { getEducationalProgramQueryKey } from './useEducationalProgram';
 
 type UseEditEducationalProgramParams = Partial<{
   onSuccess: () => void;
@@ -27,10 +28,15 @@ export function useEditEducationalProgram({
     mutationFn: async (params) => {
       return educationalProgramsService.editEducationalProgram(params);
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [educationalProgramsQueryKey],
-      });
+    onSuccess: async (data) => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: [educationalProgramsQueryKey],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: getEducationalProgramQueryKey(data.id),
+        }),
+      ]);
 
       if (onSuccess) onSuccess();
     },

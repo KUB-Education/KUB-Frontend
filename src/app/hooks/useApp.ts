@@ -17,6 +17,9 @@ import { StudentGroupsService } from '@/student-groups/services';
 import { CurrentUserService } from '@/current-user/services';
 import { StudyFieldsService } from '@/study-fields/services';
 import { SpecialitiesService } from '@/specialities/services';
+import { TermsService } from '@/terms/services';
+import { SubjectService } from '@/subjects/services';
+import { SubjectActivitiesService } from '@/subject-activities/services';
 
 function initServices(): AppServices {
   const persistentStorage = new PersistentStorage();
@@ -49,6 +52,9 @@ function initServices(): AppServices {
     specialitiesService,
     educationalProgramsService,
   );
+  const termsService = new TermsService(httpClient);
+  const subjectsService = new SubjectService(httpClient);
+  const subjectActivitiesService = new SubjectActivitiesService(httpClient);
 
   return {
     authService,
@@ -62,6 +68,9 @@ function initServices(): AppServices {
     educationalProgramsService,
     studyFieldsService,
     specialitiesService,
+    termsService,
+    subjectsService,
+    subjectActivitiesService,
   };
 }
 

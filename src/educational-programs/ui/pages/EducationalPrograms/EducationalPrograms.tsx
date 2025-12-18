@@ -4,7 +4,7 @@ import { Modal } from '@/common/ui/components';
 import {
   AddEducationalProgram,
   EducationalProgramDetails,
-  EducationalProgramTable,
+  EducationalProgramsTable,
 } from '@/educational-programs/ui/components';
 import {
   useDeleteEducationalPrograms,
@@ -15,8 +15,11 @@ import {
   EducationalProgramId,
 } from '@/educational-programs/entities';
 import { useSpecialities } from '@/specialities/hooks';
+import { useNavigate } from 'react-router';
+import { APP_ROUTES } from '@/common/routes.ts';
 
 const EducationalPrograms = () => {
+  const navigate = useNavigate();
   const { educationalPrograms, isFetching, isError } = useEducationalPrograms();
   const { specialities } = useSpecialities();
   const { deleteEducationalPrograms } = useDeleteEducationalPrograms();
@@ -52,6 +55,14 @@ const EducationalPrograms = () => {
     deleteEducationalPrograms(selectedEducationalProgramIds);
   };
 
+  const onViewTerms = () => {
+    if (!selectedEducationalProgramIds[0]) return;
+
+    navigate(
+      APP_ROUTES.getEducationalProgramPath(selectedEducationalProgramIds[0]),
+    );
+  };
+
   return (
     <Root>
       <Toolbar
@@ -59,8 +70,9 @@ const EducationalPrograms = () => {
         onAdd={() => setIsAddModalVisible(true)}
         onDelete={onDeleteEducationPrograms}
         onDetails={() => setIsDetailsModalVisible(true)}
+        onViewTerms={onViewTerms}
       />
-      <EducationalProgramTable
+      <EducationalProgramsTable
         data={educationalPrograms}
         onEducationalProgramSelected={onEducationalProgramSelected}
         isLoading={isFetching}

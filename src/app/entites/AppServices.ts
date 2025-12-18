@@ -9,6 +9,9 @@ import { StudentGroupsService } from '@/student-groups/services';
 import { CurrentUserService } from '@/current-user/services';
 import { StudyFieldsService } from '@/study-fields/services';
 import { SpecialitiesService } from '@/specialities/services';
+import { TermsService } from '@/terms/services';
+import { SubjectService } from '@/subjects/services';
+import { SubjectActivitiesService } from '@/subject-activities/services';
 
 export type AppServices = {
   authService: AuthService;
@@ -22,4 +25,7 @@ export type AppServices = {
   educationalProgramsService: EducationalProgramsService;
   studyFieldsService: StudyFieldsService;
   specialitiesService: SpecialitiesService;
+  termsService: TermsService;
+  subjectsService: SubjectService;
+  subjectActivitiesService: SubjectActivitiesService;
 };

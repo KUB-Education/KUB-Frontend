@@ -1,1 +1,1 @@
-export { default } from './EducationalProgramToolbar.tsx';
+export { default } from './EducationalProgramToolbar';
